@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="zh-CN en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="google-site-verification" content="oBDuH0uFwsCklfLVrv3YP51al4TQiIuRQLW6p8VIz88" />
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jal285.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="gef使用转载自Saoohire’s Blog 本人比较懒，作者记载的又比较好，所以直接拿来用。 附上版权声明">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gef">
+<meta property="og:url" content="jal285.github.io/pwn/gef/gef/index.html">
+<meta property="og:site_name" content="pOne&#39;s blog">
+<meta property="og:description" content="gef使用转载自Saoohire’s Blog 本人比较懒，作者记载的又比较好，所以直接拿来用。 附上版权声明">
+<meta property="og:image" content="../../program/writing/images/gef/DH1b1t0vx5Nw.png">
+<meta property="og:image" content="../../program/writing/images/gef/ygmPdwO0SpPI.png">
+<meta property="og:image" content="../../program/writing/images/gef/UDHcCOlht3hN.png">
+<meta property="og:image" content="../../program/writing/images/gef/seTAmkzMJO99.png">
+<meta property="og:image" content="../../program/writing/images/gef/ng9ucXcTKJDJ.png">
+<meta property="og:image" content="../../program/writing/images/gef/91PFcIyCbRdo.png">
+<meta property="og:image" content="../../program/writing/images/gef/SLRFj2IWzVzx.png">
+<meta property="og:image" content="../../program/writing/images/gef/iXEEe59flVGb.png">
+<meta property="og:image" content="../../program/writing/images/gef/d9Niw46L8MkV.png">
+<meta property="og:image" content="../../program/writing/images/gef/t05eFPr522sI.png">
+<meta property="og:image" content="../../program/writing/images/gef/h64lqkdzYbXq.png">
+<meta property="og:image" content="../../program/writing/images/gef/Cs1C5IVOF5OC.png">
+<meta property="og:image" content="../../program/writing/images/gef/6eHfdOMRR4F1.png">
+<meta property="og:image" content="../../program/writing/images/gef/F5pqpSDoeWLP.png">
+<meta property="og:image" content="../../program/writing/images/gef/UsKFmCOSR198.png">
+<meta property="article:published_time" content="2020-07-16T13:18:11.000Z">
+<meta property="article:modified_time" content="2020-07-16T13:18:11.000Z">
+<meta property="article:author" content="pOne">
+<meta property="article:tag" content="pwn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="../../program/writing/images/gef/DH1b1t0vx5Nw.png">
+
+<link rel="canonical" href="jal285.github.io/pwn/gef/gef/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>gef | pOne's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">pOne's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">pOne's website</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-favourite">
+
+    <a href="/favourite/" rel="section"><i class="fa fa-fw fa-fa-star"></i>favourite</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN en">
+    <link itemprop="mainEntityOfPage" href="jal285.github.io/pwn/gef/gef/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.jpg">
+      <meta itemprop="name" content="pOne">
+      <meta itemprop="description" content="to lean your likes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pOne's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          gef
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-16 21:18:11" itemprop="dateCreated datePublished" datetime="2020-07-16T21:18:11+08:00">2020-07-16</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="gef使用"><a href="#gef使用" class="headerlink" title="gef使用"></a>gef使用</h1><p>转载自<a href="[https://www.lhyerror404.cn/2019/05/29/gef-%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C](https://www.lhyerror404.cn/2019/05/29/gef-使用手册)">Saoohire’s Blog</a></p>
+<p>本人比较懒，作者记载的又比较好，所以直接拿来用。 附上版权声明</p>
+<a id="more"></a>
+
+<h2 id="aliases-命令"><a href="#aliases-命令" class="headerlink" title="aliases 命令"></a>aliases 命令</h2><p>列举出所有的简写命令(别名)</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">gef➤  aliases</span><br><span class="line">[+] Aliases defined:</span><br><span class="line">fmtstr-helper                   →  <span class="keyword">format</span>-string-helper</span><br><span class="line">telescope                       →  dereference</span><br><span class="line">dps                             →  dereference</span><br><span class="line">dq                              →  <span class="keyword">hexdump</span> qword</span><br><span class="line">dd                              →  <span class="keyword">hexdump</span> dword</span><br><span class="line">dw                              →  <span class="keyword">hexdump</span> word</span><br><span class="line">dc                              →  <span class="keyword">hexdump</span> byte</span><br><span class="line"><span class="keyword">cs</span>-<span class="keyword">dis</span>                          →  capstone-disassemble</span><br><span class="line">ctx                             →  context</span><br><span class="line">start-<span class="keyword">break</span>                     →  entry-<span class="keyword">break</span></span><br><span class="line">ps                              →  process-<span class="keyword">search</span></span><br><span class="line">[...]</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建-删除-简写命令-别名"><a href="#创建-删除-简写命令-别名" class="headerlink" title="创建/删除 简写命令(别名)"></a>创建/删除 简写命令(别名)</h3><p>GEF定义了自己的别名机制，该机制覆盖了GDB提供的传统别名。</p>
+<p>用户可以通过编辑位于<code>~/.gef.rc</code>的GEF配置文件来创建/修改/删除别名。</p>
+<p>别名必须位于配置文件的“aliases”部分中。</p>
+<p>创建新别名就像在本节中创建新条目一样简单：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ nano ~/.gef.rc</span><br><span class="line">[...]</span><br><span class="line">[aliases]</span><br><span class="line">my-new-alias = gdb-or-gef-command &lt;arg1&gt; &lt;arg2&gt; &lt;etc...&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="加入-PEDA-或-WinDBG的喜好设定"><a href="#加入-PEDA-或-WinDBG的喜好设定" class="headerlink" title="加入 PEDA 或 WinDBG的喜好设定"></a>加入 PEDA 或 WinDBG的喜好设定</h3><p>例如对于那些使用WinDBG并喜欢其命令的人（比如我），可以通过GEF别名将它们集成到GDB中，如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$ nano ~/.gef.rc</span><br><span class="line">[...]</span><br><span class="line">[aliases]</span><br><span class="line"><span class="comment"># some windbg aliases</span></span><br><span class="line">dps = dereference</span><br><span class="line">dq = hexdump qword</span><br><span class="line">dd = hexdump dword</span><br><span class="line">dw = hexdump word</span><br><span class="line">dc = hexdump byte</span><br><span class="line">dt = pcustom</span><br><span class="line">bl = info breakpoints</span><br><span class="line">bp = <span class="built_in">break</span></span><br><span class="line">be = <span class="built_in">enable</span> breakpoints</span><br><span class="line">bd = <span class="built_in">disable</span> breakpoints</span><br><span class="line">bc = delete breakpoints</span><br><span class="line">tbp = tbreak</span><br><span class="line">tba = thbreak</span><br><span class="line">pa = advance</span><br><span class="line">ptc = finish</span><br><span class="line">t = stepi</span><br><span class="line">p = nexti</span><br><span class="line">g = gef run</span><br><span class="line">uf = disassemble</span><br></pre></td></tr></table></figure>
+
+<p>注意：Gef本身就已经支持了这里面的许多别名 (例如<code>eb</code>命令)。</p>
+<p>这里有一些PEDA别名用于过去使用PEDA的人。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># some peda aliases</span></span><br><span class="line">telescope = dereference</span><br><span class="line">start = entry-break</span><br><span class="line">stack = dereference <span class="variable">$sp</span> 10</span><br><span class="line">argv = show args</span><br><span class="line">kp = info stack</span><br><span class="line">findmem = search-pattern</span><br></pre></td></tr></table></figure>
+
+<p>下次加载GDB（和GEF）时将加载这些新增的别名。 或者您可以使用以下命令强制GEF重新加载设置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤  gef restore</span><br></pre></td></tr></table></figure>
+
+<h2 id="aslr-命令"><a href="#aslr-命令" class="headerlink" title="aslr 命令"></a>aslr 命令</h2><p>轻松的在被调试的二进制文件上检查，启用或禁用ASLR。</p>
+<p>检查ASLR启用状态:</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gef➤  aslr</span><br><span class="line">ASLR <span class="keyword">is</span> currently disabled</span><br></pre></td></tr></table></figure>
+
+<p>启用ASLR:</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gef➤  aslr <span class="keyword">on</span></span><br><span class="line">[+] Enabling ASLR</span><br><span class="line">gef➤  aslr</span><br><span class="line">ASLR <span class="keyword">is</span> currently enabled</span><br></pre></td></tr></table></figure>
+
+<p>禁用ASLR:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">gef</span>➤  aslr <span class="literal">off</span></span><br><span class="line">[+] Disabling ASLR</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>: 此命令不能影响已加载的进程，以后GDB将附加到该进程。 禁用随机化的唯一方法是设置内核设置<code>/proc/sys/kernel/randomize_va_space</code> 为0。</p>
+<h2 id="assemble-命令"><a href="#assemble-命令" class="headerlink" title="assemble 命令"></a>assemble 命令</h2><p>如果您已经安装了keystone，那么gef将提供一个方便的命令来将本机指令直接组装到您当前正在调试的体系结构的操作码上。</p>
+<p>通过 <code>assemble</code> 或它的别名来调用该命令 <code>asm</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ asm [INSTRUCTION [; INSTRUCTION ...]]</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../../../program/writing/images/gef/DH1b1t0vx5Nw.png" alt="mark"></p>
+<p>使用<code>-l LOCATION</code>选项，<code>gef</code>会将<code>keystone</code>生成的汇编代码直接写入指定的内存位置。 这使得简单地覆盖操作码非常方便。</p>
+<p><img src="../../../../../../program/writing/images/gef/ygmPdwO0SpPI.png" alt="mark"></p>
+<h2 id="canary-命令"><a href="#canary-命令" class="headerlink" title="canary 命令"></a>canary 命令</h2><p>如果使用Smash Stack Protector（SSP）编译当前调试的进程即<code>-fstack-protector</code>标志已传递给编译器，则此命令将显示该<code>canary</code>的值。 这样可以方便地避免在内存中手动搜索此值。</p>
+<p>命令<code>canary</code>不接受任何参数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ canary</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../../../program/writing/images/gef/UDHcCOlht3hN.png" alt="mark"></p>
+<h2 id="capstone-disassemble-命令"><a href="#capstone-disassemble-命令" class="headerlink" title="capstone-disassemble 命令"></a>capstone-disassemble 命令</h2><p>如果已安装 <a href="http://capstone-engine.org/" target="_blank" rel="noopener"><code>capstone</code></a> 库及其Python绑定，则可以使用它来反汇编调试会话中的任何内存。 这个插件的创建是为了提供“GDB”的反汇编功能的替代方案，它有时会让事情变得混乱。</p>
+<p>您可以使用其别名<code>cs-disassemble</code>或<code>cs</code>加要反汇编的位置。 如果没有指定位置，它将使用<code>$pc</code>。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ <span class="keyword">cs</span> main</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../../../program/writing/images/gef/seTAmkzMJO99.png" alt="mark"></p>
+<h2 id="checksec-命令"><a href="#checksec-命令" class="headerlink" title="checksec 命令"></a>checksec 命令</h2><p><code>checksec</code> 命令来源于 <a href="https://gef.readthedocs.io/en/latest/commands/www.trapkit.de/tools/checksec.html" target="_blank" rel="noopener"><code>checksec.sh</code></a>。 它提供了一种方便的方法来确定在二进制文件中启用了哪些安全保护。</p>
+<p>您可以在当前调试的进程上使用该命令：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">gef➤</span>  <span class="string">checksec</span></span><br><span class="line"><span class="string">[+]</span> <span class="string">checksec</span> <span class="string">for</span> <span class="string">'/vagrant/test-bin'</span></span><br><span class="line"><span class="attr">Canary:</span>                                           <span class="literal">No</span></span><br><span class="line"><span class="attr">NX Support:</span>                                       <span class="literal">Yes</span></span><br><span class="line"><span class="attr">PIE Support:</span>                                      <span class="literal">No</span></span><br><span class="line"><span class="attr">No RPATH:</span>                                         <span class="literal">Yes</span></span><br><span class="line"><span class="attr">No RUNPATH:</span>                                       <span class="literal">Yes</span></span><br><span class="line"><span class="attr">Partial RelRO:</span>                                    <span class="literal">Yes</span></span><br><span class="line"><span class="attr">Full RelRO:</span>                                       <span class="literal">No</span></span><br></pre></td></tr></table></figure>
+
+<p>或者直接指定要检查的二进制文件，例如：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>gdb -ex <span class="string">"checksec ./tests/test-x86"</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="config-命令"><a href="#config-命令" class="headerlink" title="config 命令"></a>config 命令</h2><p>除了可以从<code>_~/.gef.rc~</code>读取配置外, 还可以在运行时使用<code>gef config</code>命令配置<code>gef</code>。</p>
+<p>要查看加载的所有命令的所有设置：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤  gef <span class="built_in">config</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../../../program/writing/images/gef/ng9ucXcTKJDJ.png" alt="mark"></p>
+<p>或者获取某一个设置项的值:</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤  gef<span class="built_in"> config </span>pcustom.struct_path</span><br></pre></td></tr></table></figure>
+
+<p>当然，您可以编辑这些设置的值。 例如，如果要在抵达断点显示当前上下文之前清除屏幕：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤  gef<span class="built_in"> config </span>context.clear_screen 1</span><br></pre></td></tr></table></figure>
+
+<p>要将<code>GEF</code>的当前设置保存到系统，以使这些选项在所有未来的<code>GEF</code>会话中保持不变，只需运行：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gef➤  gef save</span><br><span class="line">[+] <span class="keyword">Configuration</span> saved <span class="keyword">to</span> <span class="string">'/home/vagrant/.gef.rc'</span></span><br></pre></td></tr></table></figure>
+
+<p>启动时，如果<code>gef</code>找到文件<code>${HOME}/.gef.rc</code>，它将自动加载其值。</p>
+<p>要在会话期间重新加载设置，只需运行：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gef➤  gef restore</span><br><span class="line">[<span class="meta">+</span>] Configuration <span class="keyword">from</span> <span class="string">'/home/hugsy/.gef.rc'</span> restored</span><br></pre></td></tr></table></figure>
+
+<p>您也可以在<code>gdb</code>会话之外调整此配置文件以满足您的需要。</p>
+<h2 id="context-命令"><a href="#context-命令" class="headerlink" title="context 命令"></a>context 命令</h2><p><img src="../../../../../../program/writing/images/gef/91PFcIyCbRdo.png" alt="mark"></p>
+<p><code>gef</code>（与<code>PEDA</code>或<code>fG! famous gdbinit</code>不同）在遇到断点时提供全面的上下文菜单。</p>
+<ul>
+<li>寄存器上下文框显示当前寄存器值。 红色值表示自上次执行停止以来该寄存器的值已更改。 它可以方便地跟踪值。 也可以通过reg命令访问和/或取消引用寄存器值。</li>
+<li>堆栈上下文框显示堆栈指针寄存器指向的内存中的10个（默认情况下可以调整）条目。 如果这些值是指针，则它们被连续解除引用。</li>
+<li>代码上下文框显示要执行的下一条指令，默认显示10条指令（默认情况下可以调整）。</li>
+</ul>
+<h3 id="编辑上下文布局"><a href="#编辑上下文布局" class="headerlink" title="编辑上下文布局"></a>编辑上下文布局</h3><p><code>gef</code>允许您通过重新排列显示上下文的顺序来配置您自己的显示设置。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ gef<span class="built_in"> config </span>context.layout</span><br></pre></td></tr></table></figure>
+
+<p>目前有6个部分可以显示：</p>
+<ul>
+<li><code>legend</code> : 颜色代码的文字说明</li>
+<li><code>regs</code> : 寄存器的状态</li>
+<li><code>stack</code> : <code>$sp</code> 寄存器指向的内存内容</li>
+<li><code>code</code> : 正在执行的代码</li>
+<li><code>args</code> : 如果在函数调用处停止，则打印调用参数</li>
+<li><code>source</code> : 如果用source编译，这将显示相应的源代码行</li>
+<li><code>threads</code> : 所有线程</li>
+<li><code>trace</code> : 执行调用跟踪</li>
+<li><code>extra</code> : 如果检测到漏洞（易受攻击的格式字符串，堆漏洞等），它将显示在此窗格中</li>
+<li><code>memory</code> : 查看任意内存位置</li>
+</ul>
+<p>要隐藏一个部分，只需使用<code>context.layout</code>设置，并在部分名称前加上<code>-</code>或者省略它。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ gef<span class="built_in"> config </span>context.layout <span class="string">"-legend regs stack code args -source -threads -trace extra memory"</span></span><br></pre></td></tr></table></figure>
+
+<p>此配置不会显示<code>source</code>，<code>threads</code>和<code>trace</code>部分。</p>
+<p><code>memory</code>窗格将显示<code>memory</code>命令指定的所有位置的内容。 例如，</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ <span class="keyword">memory</span> watch $sp <span class="number">0x40</span> byte</span><br></pre></td></tr></table></figure>
+
+<p>这将打印堆栈的0x40字节的hexdump版本。 此命令便于跟踪内存中任意位置的变化。 跟踪位置可以使用<code>memory unwatch</code>逐个删除，或者与<code>memory reset</code>一起删除。</p>
+<p>大多数部分的大小也可以自定义：</p>
+<ul>
+<li><code>nb_lines_stack</code> ：配置要显示的堆栈行数。</li>
+<li><code>nb_lines_backtrack</code> ：配置要显示的回溯线数。</li>
+<li><code>nb_lines_code</code> 和<code>nb_lines_code_prev</code> ：分别配置在PC之后和之前显示的行数。</li>
+<li><code>context.nb_lines_threads</code> ：确定线程窗格内显示的行数。 在调试大量多线程应用程序（apache2，firefox等）时，这很方便。 它接收一个整数作为值：如果该值为“-1”，则将显示所有线程状态。 否则，如果该值设置为“N”，则最多将显示“N”个线程状态。</li>
+</ul>
+<p>要使堆栈在顶部显示最大堆栈地址（即向下增加堆栈），请启用以下设置：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ gef<span class="built_in"> config </span>context.grow_stack_down <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<p>如果保存的指令指针不在显示的堆栈部分内，则创建一个包含已保存的ip并且根据架构指示帧指针的部分。</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x00007fffffffc9e8</span>│+<span class="number">0x00</span>: <span class="number">0x00007ffff7a2d830</span>  →  &lt;__main+<span class="number">240</span>&gt; mov edi, eax    ($current_frame_savedip)</span><br><span class="line"><span class="number">0x00007fffffffc9e0</span>│+<span class="number">0x00</span>: <span class="number">0x00000000004008c0</span>  →  &lt;__init+<span class="number">0</span>&gt; push r15    ← $rbp</span><br><span class="line">. . . (<span class="number">440</span> bytes skipped)</span><br><span class="line"><span class="number">0x00007fffffffc7e8</span>│+<span class="number">0x38</span>: <span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x00007fffffffc7e0</span>│+<span class="number">0x30</span>: <span class="number">0x0000000000000026</span> (<span class="string">"&amp;"</span>?)</span><br><span class="line"><span class="number">0x00007fffffffc7d8</span>│+<span class="number">0x28</span>: <span class="number">0x0000000001958ac0</span></span><br><span class="line"><span class="number">0x00007fffffffc7d0</span>│+<span class="number">0x20</span>: <span class="number">0x00007ffff7ffa2b0</span>  →  <span class="number">0x5f6f7364765f5f00</span></span><br><span class="line"><span class="number">0x00007fffffffc7c8</span>│+<span class="number">0x18</span>: <span class="number">0x00007fff00000000</span></span><br><span class="line"><span class="number">0x00007fffffffc7c0</span>│+<span class="number">0x10</span>: <span class="number">0x00007fffffffc950</span>  →  <span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x00007fffffffc7b8</span>│+<span class="number">0x08</span>: <span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x00007fffffffc7b0</span>│+<span class="number">0x00</span>: <span class="number">0x00007fffffffc7e4</span>  →  <span class="number">0x0000000000000000</span>      ← $rsp</span><br></pre></td></tr></table></figure>
+
+<h3 id="将上下文输出重定向到另一个-TTY-file"><a href="#将上下文输出重定向到另一个-TTY-file" class="headerlink" title="将上下文输出重定向到另一个 TTY/file"></a>将上下文输出重定向到另一个 TTY/file</h3><p>默认情况下，<code>gef</code>上下文将显示在当前TTY上。 这可以通过设置<code>context.redirect</code>变量来覆盖，以将上下文发送到另一个部分。</p>
+<p>为此，请使用<code>gef config</code>选择你希望上下文重定向到的TTY/file/socket等。</p>
+<p>在提示符中输入命令<code>tty</code>：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tty</span><br><span class="line">/dev/pts/<span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来我们把结果告诉 <code>gef</code> !</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ gef<span class="built_in"> config </span>context.redirect /dev/pts/0</span><br></pre></td></tr></table></figure>
+
+<p>成功: <img src="../../../../../../program/writing/images/gef/SLRFj2IWzVzx.png" alt="mark"></p>
+<p>要恢复正常，请删除以下值：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ gef<span class="built_in"> config </span>context.redirect <span class="string">""</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><ul>
+<li>首先显示代码部分，然后寄存器，栈，隐藏其他所有内容：</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ gef<span class="built_in"> config </span>context.layout <span class="string">"code regs stack"</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在抵达断点时停止显示上下文部分：</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ gef<span class="built_in"> config </span>context.<span class="builtin-name">enable</span> 0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在抵达断点时显示上下文部分之前清除屏幕：</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ gef<span class="built_in"> config </span>context.clear_screen 1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>不要对<code>regs</code>部分中的寄存器取消引用（更紧凑）：</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ gef<span class="built_in"> config </span>context.show_registers_raw 1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>不要“显示”被调用的函数的开头。</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤  gef<span class="built_in"> config </span>context.peek_calls <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>从寄存器视图中隐藏指定寄存器。</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤  gef<span class="built_in"> config </span>context.ignore_registers <span class="string">"<span class="variable">$cs</span> <span class="variable">$ds</span> <span class="variable">$gs</span>"</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="dereference-命令"><a href="#dereference-命令" class="headerlink" title="dereference 命令"></a>dereference 命令</h2><p><code>dereference</code>命令（也就是PEDA中的别名<code>telescope</code>）旨在简化GDB中地址的解除引用，以确定它实际指向的内容。</p>
+<p>这是一个有用的便利功能，可以在GDB中使用连续的“x / x”手动跟踪值。</p>
+<p>“dereference`需要一个强制参数，一个地址（或符号或寄存器等）来取消引用：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gef➤  dereference $<span class="built_in">sp</span></span><br><span class="line"><span class="number">0x00007fffffffe258</span>│+<span class="number">0x00</span>: <span class="number">0x0000000000400489</span>  →  <span class="keyword">hlt</span>     ← $<span class="built_in">rsp</span></span><br><span class="line">gef➤  telescope <span class="number">0x7ffff7b9d8b9</span></span><br><span class="line"><span class="number">0x00007ffff7b9d8b9</span>│+<span class="number">0x00</span>: <span class="number">0x0068732f6e69622f</span> (<span class="string">"/bin/sh"</span>?)</span><br></pre></td></tr></table></figure>
+
+<p>它还可以选择接受第二个参数，即取消引用的连续地址数（默认为“1”）。</p>
+<p>例如，如果要取消引用函数上下文中的所有堆栈条目（在64位体系结构上）：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">gef➤  p ($rbp - $rsp)/<span class="number">8</span></span><br><span class="line">$<span class="number">3</span> = <span class="number">4</span></span><br><span class="line">gef➤  dereference $rsp <span class="number">5</span></span><br><span class="line"><span class="number">0x00007fffffffe170</span>│+<span class="number">0x00</span>: <span class="number">0x0000000000400690</span>  →  push r15        ← $rsp</span><br><span class="line"><span class="number">0x00007fffffffe178</span>│+<span class="number">0x08</span>: <span class="number">0x0000000000400460</span>  →  <span class="keyword">xor</span> ebp, ebp</span><br><span class="line"><span class="number">0x00007fffffffe180</span>│+<span class="number">0x10</span>: <span class="number">0x00007fffffffe270</span>  →  <span class="number">0x1</span></span><br><span class="line"><span class="number">0x00007fffffffe188</span>│+<span class="number">0x18</span>: <span class="number">0x1</span></span><br><span class="line"><span class="number">0x00007fffffffe190</span>│+<span class="number">0x20</span>: <span class="number">0x0000000000400690</span>  →  push r15        ← $rbp</span><br></pre></td></tr></table></figure>
+
+<h2 id="edit-flags-命令"><a href="#edit-flags-命令" class="headerlink" title="edit-flags 命令"></a>edit-flags 命令</h2><p><code>edit-flags</code>命令（别名：<code>flags</code>）提供了一种快速且易于理解的方式来查看和编辑支持它的体系结构的标志寄存器。 如果没有参数，该命令将只返回一个人性化的寄存器标志显示。</p>
+<p>可以按照以下语法提供一个或多个参数：</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ flags [(+|<span class="string">-</span>|<span class="string">~)FLAGNAME ...]</span></span><br></pre></td></tr></table></figure>
+
+<p>其中<code>FLAGNAME</code>是标志的名称（不区分大小写），而<code>+|-|~</code>表示是否设置，取消设置或切换标志的操作。</p>
+<p>例如，在x86架构上，如果我们不想进行条件跳转（例如<code>jz</code>指令），但我们想要设置<code>Carry</code>标志，只需使用：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ flags -<span class="literal">ZERO</span> +CARRY</span><br></pre></td></tr></table></figure>
+
+<h2 id="elf-info-命令"><a href="#elf-info-命令" class="headerlink" title="elf-info 命令"></a>elf-info 命令</h2><p><code>elf-info</code>（别名<code>elf</code>）提供了有关当前加载的ELF二进制文件的一些基本信息：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">gef➤</span>  <span class="string">elf</span></span><br><span class="line"><span class="attr">Magic                 :</span> <span class="string">7f</span> <span class="number">45</span> <span class="string">4c</span> <span class="number">46</span></span><br><span class="line"><span class="attr">Class                 :</span> <span class="number">0x2</span> <span class="bullet">-</span> <span class="number">64</span><span class="string">-bit</span></span><br><span class="line"><span class="attr">Endianness            :</span> <span class="number">0x1</span> <span class="bullet">-</span> <span class="string">Little-Endian</span></span><br><span class="line"><span class="attr">Version               :</span> <span class="number">0x1</span></span><br><span class="line"><span class="attr">OS ABI                :</span> <span class="number">0x0</span> <span class="bullet">-</span> <span class="string">System</span> <span class="string">V</span></span><br><span class="line"><span class="attr">ABI Version           :</span> <span class="number">0x0</span></span><br><span class="line"><span class="attr">Type                  :</span> <span class="number">0x2</span> <span class="bullet">-</span> <span class="string">Executable</span></span><br><span class="line"><span class="attr">Machine               :</span> <span class="number">0x3e</span> <span class="bullet">-</span> <span class="string">x86-64</span></span><br><span class="line"><span class="attr">Program Header Table  :</span> <span class="number">0x0000000000000040</span></span><br><span class="line"><span class="attr">Section Header Table  :</span> <span class="number">0x0000000000000c98</span></span><br><span class="line"><span class="attr">Header Table          :</span> <span class="number">0x0000000000000040</span></span><br><span class="line"><span class="attr">ELF Version           :</span> <span class="number">0x1</span></span><br><span class="line"><span class="attr">Header size           :</span> <span class="number">0</span> <span class="string">(0x0)</span></span><br><span class="line"><span class="attr">Entry point           :</span> <span class="number">0x0000000000400460</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="entry-break-命令"><a href="#entry-break-命令" class="headerlink" title="entry-break 命令"></a>entry-break 命令</h2><p><code>entry-break</code>（别名<code>start</code>）命令的目标是在二进制文件中可用的最明显的入口点找到并中断。 由于二进制文件将开始运行，因此一些“PLT”条目也将被解析，从而使进一步的调试变得更容易。</p>
+<p>它将执行以下操作：</p>
+<p>1.查找<code>main</code>。 如果找到，设置临时断点并继续。<br>2.否则，它会查找<code>__libc_start_main</code>。 如果找到，设置临时断点并继续。<br>3.最后，如果找不到前两个符号，它将从ELF头获取入口点，设置断点并运行。 如果ELF二进制文件具有有效结构，则此情况永远不会失败。</p>
+<p><img src="../../../../../../program/writing/images/gef/iXEEe59flVGb.png" alt="mark"></p>
+<h2 id="eval-命令"><a href="#eval-命令" class="headerlink" title="$(eval) 命令"></a>$(eval) 命令</h2><p><code>$</code>命令试图模仿WinDBG中的<code>?</code>命令。</p>
+<p>当提供一个参数时，它将评估表达式，并尝试以各种格式显示结果：</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">gef➤  $ $pc+<span class="number">1</span></span><br><span class="line"><span class="number">93824992252977</span></span><br><span class="line"><span class="number">0x555555559431</span></span><br><span class="line"><span class="number">0b10101010101010101010101010101011001010000110001</span></span><br><span class="line">b'UUUU\x941'</span><br><span class="line">b'<span class="number">1</span>\x94UUUU'</span><br><span class="line"></span><br><span class="line">gef➤  $ -<span class="number">0x1000</span></span><br><span class="line">-<span class="number">4096</span></span><br><span class="line"><span class="number">0xfffffffffffff000</span></span><br><span class="line"><span class="number">0b1111111111111111111111111111111111111111111111111111000000000000</span></span><br><span class="line">b'\xff\xff\xff\xff\xff\xff\xf0\x00'</span><br><span class="line">b'\x00\xf0\xff\xff\xff\xff\xff\xff'</span><br></pre></td></tr></table></figure>
+
+<p>有两个参数，它只会计算它们之间的差值：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">gef➤  vmmap libc</span><br><span class="line">Start              End                Offset             Perm</span><br><span class="line"><span class="number">0x00007ffff7812000</span> <span class="number">0x00007ffff79a7000</span> <span class="number">0x0000000000000000</span> r-x /lib/x86_64-linux-gnu/libc<span class="number">-2.24</span>.so</span><br><span class="line"><span class="number">0x00007ffff79a7000</span> <span class="number">0x00007ffff7ba7000</span> <span class="number">0x0000000000195000</span> --- /lib/x86_64-linux-gnu/libc<span class="number">-2.24</span>.so</span><br><span class="line"><span class="number">0x00007ffff7ba7000</span> <span class="number">0x00007ffff7bab000</span> <span class="number">0x0000000000195000</span> r-- /lib/x86_64-linux-gnu/libc<span class="number">-2.24</span>.so</span><br><span class="line"><span class="number">0x00007ffff7bab000</span> <span class="number">0x00007ffff7bad000</span> <span class="number">0x0000000000199000</span> rw- /lib/x86_64-linux-gnu/libc<span class="number">-2.24</span>.so</span><br><span class="line"></span><br><span class="line">gef➤  $ <span class="number">0x00007ffff7812000</span> <span class="number">0x00007ffff79a7000</span></span><br><span class="line"><span class="number">-1658880</span></span><br><span class="line"><span class="number">1658880</span></span><br><span class="line"></span><br><span class="line">gef➤  $ <span class="number">1658880</span></span><br><span class="line"><span class="number">1658880</span></span><br><span class="line"><span class="number">0x195000</span></span><br><span class="line"><span class="number">0</span>b110010101000000000000</span><br><span class="line">b<span class="string">'\x19P\x00'</span></span><br><span class="line">b<span class="string">'\x00P\x19'</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="format-string-helper-命令"><a href="#format-string-helper-命令" class="headerlink" title="format-string-helper 命令"></a>format-string-helper 命令</h2><p><code>format-string-helper</code>命令将创建一个<code>GEF</code>特定类型的断点，专门用于在使用GlibC库时检测可能不安全的格式字符串。</p>
+<p>它将针对多个目标使用此新断点，包括：</p>
+<ul>
+<li><code>printf()</code></li>
+<li><code>sprintf()</code></li>
+<li><code>fprintf()</code></li>
+<li><code>snprintf()</code></li>
+<li><code>vsnprintf()</code></li>
+</ul>
+<p>只需调用该命令即可启用此功能。</p>
+<p>“fmtstr-helper`是一个较短的别名。</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ fmtstr-<span class="keyword">helper</span></span><br></pre></td></tr></table></figure>
+
+<p>然后开始执行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ r</span><br></pre></td></tr></table></figure>
+
+<p>如果找到潜在的不安全条目，则断点将触发，停止进程执行，显示触发的原因以及关联的上下文。</p>
+<p><img src="../../../../../../program/writing/images/gef/d9Niw46L8MkV.png" alt="mark"></p>
+<h2 id="functions-命令"><a href="#functions-命令" class="headerlink" title="functions 命令"></a>functions 命令</h2><p><code>functions</code>命令将列出GEF提供的所有 <a href="https://sourceware.org/gdb/onlinedocs/gdb/Convenience-Funs.html" target="_blank" rel="noopener">便利功能</a>。</p>
+<ul>
+<li><code>$_bss([offset])</code> — 返回当前的bss基址加上给定的偏移量。</li>
+<li><code>$_got([offset])</code> — 返回当前的bss基址加上给定的偏移量。</li>
+<li><code>$_heap([offset])</code> — 返回当前堆基地址加上可选的偏移量。</li>
+<li><code>$_pie([offset])</code> — 返回当前的PIE基地址和可选的偏移量。</li>
+<li><code>$_stack([offset])</code> — 返回当前栈基址加上可选的偏移量。</li>
+</ul>
+<p>这些函数可以用作其他命令的参数，以动态计算值。</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">gef➤  deref $_heap() l4</span><br><span class="line"><span class="number">0x0000000000602000</span>│+<span class="number">0x00</span>: <span class="number">0x0000000000000000</span>     ← $r8</span><br><span class="line"><span class="number">0x0000000000602008</span>│+<span class="number">0x08</span>: <span class="number">0x0000000000000021</span> (<span class="string">"!"</span>?)</span><br><span class="line"><span class="number">0x0000000000602010</span>│+<span class="number">0x10</span>: <span class="number">0x0000000000000000</span>     ← $rax, $rdx</span><br><span class="line"><span class="number">0x0000000000602018</span>│+<span class="number">0x18</span>: <span class="number">0x0000000000000000</span></span><br><span class="line">gef➤  deref $_heap(<span class="number">0x20</span>) l4</span><br><span class="line"><span class="number">0x0000000000602020</span>│+<span class="number">0x00</span>: <span class="number">0x0000000000000000</span>     ← $rsi</span><br><span class="line"><span class="number">0x0000000000602028</span>│+<span class="number">0x08</span>: <span class="number">0x0000000000020fe1</span></span><br><span class="line"><span class="number">0x0000000000602030</span>│+<span class="number">0x10</span>: <span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x0000000000602038</span>│+<span class="number">0x18</span>: <span class="number">0x0000000000000000</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="gef-remote-命令"><a href="#gef-remote-命令" class="headerlink" title="gef-remote 命令"></a>gef-remote 命令</h2><p>可以在远程调试环境中使用<code>gef</code>。 所需文件将自动下载并缓存在临时目录（大多数Unix系统上的<code>/tmp/gef</code>）中。如果更改目标文件，请记得手动删除缓存，否则<code>gef</code>将使用旧的版本。</p>
+<h3 id="使用本地副本"><a href="#使用本地副本" class="headerlink" title="使用本地副本"></a>使用本地副本</h3><p>如果你想远程调试你已经拥有的二进制文件，你只需要告诉<code>gdb</code>在哪里找到调试信息。</p>
+<p>例如，如果我们想调试<code>uname</code>，我们在服务器上执行：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ gdbserver 0.0.0.0:1234 /bin/uname</span><br><span class="line">Process /bin/uname created; pid = 32280</span><br><span class="line">Listening on<span class="built_in"> port </span>1234</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../../../program/writing/images/gef/t05eFPr522sI.png" alt="mark"></p>
+<p>在客户端上，只需运行<code>gdb</code>：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ gdb /bin/uname</span><br><span class="line">gef➤ target remote 192.168.56.1:1234</span><br><span class="line">Process /bin/uname created; pid = 10851</span><br><span class="line">Listening on<span class="built_in"> port </span>1234</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ gdb</span><br><span class="line">gef➤ file /bin/uname</span><br><span class="line">gef➤ target remote <span class="number">192.168</span><span class="number">.56</span><span class="number">.1</span>:<span class="number">1234</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="没有本地副本"><a href="#没有本地副本" class="headerlink" title="没有本地副本"></a>没有本地副本</h3><p>可以使用<code>gdb</code>内部函数来复制我们的目标二进制文件。</p>
+<p>按照前面的例子，如果我们想调试<code>uname</code>，运行<code>gdb</code>并连接到我们的<code>gdbserver</code>。 为了能够在<code>/proc</code>结构中找到正确的进程，命令<code>gef-remote</code>需要1个参数，即目标主机和端口。 必须提供选项<code>-p</code>并指示远程主机上的进程PID，仅当使用扩展模式（<code>-E</code>）时。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ gdb</span><br><span class="line">gef➤ gef-remote <span class="number">192.168</span><span class="number">.56</span><span class="number">.1</span>:<span class="number">1234</span></span><br><span class="line">[+] Connected <span class="keyword">to</span> <span class="string">'192.168.56.1:1234'</span></span><br><span class="line">[+] Downloading remote information</span><br><span class="line">[+] Remote information loaded, remember <span class="keyword">to</span> clean <span class="string">'/tmp/gef/10851'</span> <span class="keyword">when</span> your <span class="keyword">session</span> <span class="keyword">is</span> <span class="keyword">over</span></span><br></pre></td></tr></table></figure>
+
+<p>正如您所看到的，如果找不到调试信息，<code>gef</code>将尝试自动下载目标文件并存储在本地临时目录中（在大多数Unix的<code>/tmp</code>上）。 如果成功，它将自动将调试信息加载到<code>gdb</code>并继续调试。</p>
+<p><img src="../../../../../../program/writing/images/gef/h64lqkdzYbXq.png" alt="mark"></p>
+<p>然后，您可以将下载的文件重新用于将来的调试会话，在IDA使用它等。 这使得整个远程调试过程（特别是对于Android应用程序）变得很简单。</p>
+<h3 id="QEMU用户模式"><a href="#QEMU用户模式" class="headerlink" title="QEMU用户模式"></a>QEMU用户模式</h3><p>虽然GDB通过QEMU用户工作，但QEMU仅支持<code>gdbremote</code>协议中存在的所有命令的有限子集。 例如，不支持诸如<code>remote get</code>或<code>remote put</code>（分别从远程目标下载和上载文件）的命令。 因此，<code>gef</code>的默认<code>remote</code>模式也不起作用，因为<code>gef</code>将无法获取远程<code>procfs</code>的内容。</p>
+<p>为了避免这种情况并且仍然享受QEMU用户的<code>gef</code>功能，可以人工添加一个简单的存根，使用<code>geq-remote</code>选项<code>-q</code>选项。 请注意，您需要首先正确设置架构：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ qemu-<span class="meta">arm</span> -g <span class="number">1234</span> ./my/<span class="meta">arm</span>/<span class="keyword">binary</span></span><br><span class="line"><span class="keyword">$ </span>gdb-<span class="keyword">multiarch </span>./my/<span class="meta">arm</span>/<span class="keyword">binary</span></span><br><span class="line"><span class="keyword">gef➤ </span> set architecture <span class="meta">arm</span></span><br><span class="line"><span class="symbol">gef</span>➤  gef-remote -q localhost:<span class="number">1234</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../../../program/writing/images/gef/Cs1C5IVOF5OC.png" alt="mark"></p>
+<h2 id="heap-命令"><a href="#heap-命令" class="headerlink" title="heap 命令"></a>heap 命令</h2><p><code>heap</code>命令提供有关指定为参数的堆块的信息。 目前，它只支持GlibC堆格式 (参见 <a href="http://code.woboq.org/userspace/glibc/malloc/malloc.c.html#malloc_chunk" target="_blank" rel="noopener">this link</a> 获取<code>malloc</code>结构信息)。子命令的语法很简单：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ heap <span class="tag">&lt;<span class="name">sub_commands</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="heap-chunks-命令"><a href="#heap-chunks-命令" class="headerlink" title="heap chunks 命令"></a><code>heap chunks</code> 命令</h3><p>展示堆段的所有<code>chunks</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ heap chunks</span><br></pre></td></tr></table></figure>
+
+<p>在某些情况下，分配将从内存页的头立即开始。 如果是，请指定第一个块的基址，如下所示：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ heap chunks <span class="tag">&lt;<span class="name">LOCATION</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../../../program/writing/images/gef/6eHfdOMRR4F1.png" alt="mark"></p>
+<h3 id="heap-chunk-命令"><a href="#heap-chunk-命令" class="headerlink" title="heap chunk 命令"></a><code>heap chunk</code> 命令</h3><p>此命令提供Glibc malloc-ed chunked的可视信息。 只需将地址提供给chunk 的用户内存指针，以显示与特定chunk 相关的信息：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gef➤ heap chunk <span class="tag">&lt;<span class="name">LOCATION</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../../../../program/writing/images/gef/F5pqpSDoeWLP.png" alt="mark"></p>
+<h3 id="heap-arenas-命令"><a href="#heap-arenas-命令" class="headerlink" title="heap arenas 命令"></a><code>heap arenas</code> 命令</h3><p>多线程程序有不同的分配区，而且<code>main_arena</code>的知识还不够。 <code>gef</code>因此提供<code>arena</code>子命令，以帮助您<strong>在调用命令</strong>时列出程序中分配的所有分配区。</p>
+<p><img src="../../../../../../program/writing/images/gef/UsKFmCOSR198.png" alt="mark"></p>
+<h3 id="heap-set-arena-命令"><a href="#heap-set-arena-命令" class="headerlink" title="heap set-arena 命令"></a><code>heap set-arena</code> 命令</h3><p>如果调试符号不存在（例如静态剥离的二进制文件），则可以指示GEF使用以下命令在不同的位置找到<code>main_arena</code>：</p>
+<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">gef➤</span> <span class="string">heap </span><span class="built_in">set-arena</span> &lt;<span class="string">LOCATION&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果分配区地址正确，则所有<code>heap</code>命令都将起作用，并使用指定的地址为<code>main_arena</code>。</p>
+<h3 id="heap-bins-命令"><a href="#heap-bins-命令" class="headerlink" title="heap bins 命令"></a><code>heap bins</code> 命令</h3><p>Glibc使用bins来保存已被<code>free</code>的<code>chunk</code>。 这是因为通过<code>sbrk</code>（需要系统调用）进行分配开销很大。 Glibc使用这些bins来记住以前分配的<code>chunk</code>。 因为bin是单链表或双链表，我发现总是查询<code>gdb</code>以获取指针地址，取消引用它，获取值<code>chunk</code>等等是非常痛苦的…所以我决定实现<code>heap bin</code> 子命令，允许获取以下信息：</p>
+<ul>
+<li><p><code>fastbins</code></p>
+</li>
+<li><pre><code>  bins
+  <figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	- `unsorted`</span><br><span class="line">	- `small bins`</span><br><span class="line">	- `large bins`</span><br><span class="line"></span><br><span class="line">#### `heap bins fast` 命令</span><br><span class="line"></span><br><span class="line">在利用堆损坏漏洞时，有时可以方便地了解`fastbinsY`数组的状态。</span><br><span class="line"></span><br><span class="line">`fast`子命令通过显示此列表中的fastbins列表来帮助实现。 没有任何其他参数，它将显示`main_arena`的信息。 它接受一个可选参数，即另一个arena的地址（您可以使用`heap arenas`轻松找到它）。</span><br></pre></td></tr></table></figure>
+gef➤ heap bins fast
+[+] FastbinsY of arena 0x7ffff7dd5b20
+Fastbin[0] 0x00
+Fastbin[1]  →  FreeChunk(0x600310)  →  FreeChunk(0x600350)
+Fastbin[2] 0x00
+Fastbin[3] 0x00
+Fastbin[4] 0x00
+Fastbin[5] 0x00
+Fastbin[6] 0x00
+Fastbin[7] 0x00
+Fastbin[8] 0x00
+Fastbin[9] 0x00
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 其他的 `heap bins X` 命令</span><br><span class="line"></span><br><span class="line">`heap bins`的所有其他子命令的工作方式与`fast`相同。 如果没有提供参数，`gef`将回退到`main_arena`。 否则，它将使用指向`malloc_state`结构的基址的地址并相应地打印出信息。</span><br><span class="line"></span><br><span class="line">## heap-analysis-helper 命令</span><br><span class="line"></span><br><span class="line">`heap-analysis-helper` 命令旨在通过跟踪和分析内存块的分配和释放来帮助识别Glibc堆不一致的过程。</span><br><span class="line"></span><br><span class="line">目前，可以跟踪以下问题：</span><br><span class="line"></span><br><span class="line">- NULL free</span><br><span class="line">- Use-after-Free</span><br><span class="line">- Double Free</span><br><span class="line">- Heap overlap</span><br><span class="line"></span><br><span class="line">可以通过运行命令简单地激活帮助程序`heap-analysis-helper`。</span><br></pre></td></tr></table></figure>
+gef➤ heap-analysis
+[+] Tracking malloc()
+[+] Tracking free()
+[+] Disabling hardware watchpoints (this may increase the latency)
+[+] Dynamic breakpoints correctly setup, GEF will break execution if a possible vulnerabity is found.
+[+] To disable, clear the malloc/free breakpoints (`delete breakpoints`) and restore hardware breakpoints (`set can-use-hw-watchpoints 1`)
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">帮助程序将创建专门设计的破坏程序以保持分配，从而发现<span class="emphasis">_潜在的_</span>漏洞。一旦激活，只需清除<span class="code">`__GI___libc_free()`</span>和 <span class="code">`__GI___libc_malloc()`</span>即可禁用堆分析断点。也可以通过<span class="code">`gef config`</span>命令启用/禁用手动准时检查。</span><br><span class="line"></span><br><span class="line">允许以下设置:</span><br><span class="line"></span><br><span class="line"><span class="bullet">- </span><span class="code">`check_null_free`</span>: 在遇到free(NULL)时中断执行(默认情况下禁用);</span><br><span class="line"><span class="bullet">- </span><span class="code">`check_double_free`</span>: 在遇到double free时中断执行;</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/KQc0DvUfXSAe.png</span>)</span><br><span class="line"></span><br><span class="line"><span class="bullet">- </span><span class="code">`check_weird_free`</span>: 针对执行<span class="code">`free()`</span>非跟踪指针调用时 ;</span><br><span class="line"><span class="bullet">- </span><span class="code">`check_uaf`</span>: 在遇到可能的Use-after-Free条件时中断执行。</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/5SjIBzH3Fs9P.png</span>)</span><br><span class="line"></span><br><span class="line">就像格式字符串漏洞助手一样，<span class="code">`heap-analysis-helper`</span> 可能无法检测复杂的堆场景和/或提供一些误报警报。必须手动确定每个发现。</span><br><span class="line"></span><br><span class="line"><span class="code">`heap-analysis-helper`</span>还可以用来简单地跟踪的内存块的分配和释放。可以通过将上述所有配置设置为False来简单地启用跟踪：</span><br></pre></td></tr></table></figure>
+gef➤  gef config heap-analysis-helper.check_double_free False
+gef➤  gef config heap-analysis-helper.check_free_null False
+gef➤  gef config heap-analysis-helper.check_weird_free False
+gef➤  gef config heap-analysis-helper.check_uaf False
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">然后，<span class="code">`gef`</span>不会通知您检测到的任何不一致，而只是在分配/释放块时显示清除消息。</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/dTaI196yILj4.png</span>)</span><br><span class="line"></span><br><span class="line">要获取有关当前跟踪的块的信息，请使用<span class="code">`show`</span> 子命令：</span><br></pre></td></tr></table></figure>
+gef➤  heap-analysis-helper show
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/npjygP5CzXjp.png</span>)</span><br><span class="line"></span><br><span class="line"><span class="section">## help 命令</span></span><br><span class="line"></span><br><span class="line">显示已加载命令的帮助菜单。</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/MdOdtPeNdFTO.png</span>)</span><br><span class="line"></span><br><span class="line"><span class="section">## hexdump 命令</span></span><br><span class="line"></span><br><span class="line">模仿WinDBG命令。</span><br><span class="line"></span><br><span class="line">此命令至少需要2个参数，表示数据的格式，以及用作打印hexdump的位置的值/地址/符号。可选的第3个参数用于指定要显示的qword / dword / word / bytes的数量。</span><br><span class="line"></span><br><span class="line">该命令默认提供与WinDBG兼容的别名：</span><br><span class="line"></span><br><span class="line"><span class="bullet">- </span><span class="code">`hexdump qword`</span> -&gt; <span class="code">`dq`</span></span><br><span class="line"><span class="bullet">- </span><span class="code">`hexdump dword`</span> -&gt; <span class="code">`dd`</span></span><br><span class="line"><span class="bullet">- </span><span class="code">`hexdump word`</span> -&gt; <span class="code">`dw`</span></span><br><span class="line"><span class="bullet">- </span><span class="code">`hexdump byte`</span> -&gt; <span class="code">`db`</span></span><br><span class="line"></span><br><span class="line">如果字节是可打印的，<span class="code">`hexdump byte`</span>也会尝试显示ASCII字符值（类似于Linux 上的<span class="code">`hexdump -C`</span>命令）。</span><br><span class="line"></span><br><span class="line">语法如下:</span><br></pre></td></tr></table></figure>
+hexdump (qword|dword|word|byte) LOCATION L[SIZE] [UP|DOWN]
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">例子:</span><br><span class="line"></span><br><span class="line"><span class="bullet">- </span>显示 4 QWORD 的 <span class="code">`$pc`</span>:</span><br></pre></td></tr></table></figure>
+gef➤  dq $pc l4
+0x7ffff7a5c1c0+0000 │ 0x4855544155415641
+0x7ffff7a5c1c0+0008 │ 0x0090ec814853cd89
+0x7ffff7a5c1c0+0010 │ 0x377d6f058b480000
+0x7ffff7a5c1c0+0018 │ 0x748918247c894800
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 显示 <span class="number">32</span> bytes 的堆栈中的某个位置:</span><br></pre></td></tr></table></figure>
+gef➤  db 0x00007fffffffe5e5 l32
+0x00007fffffffe5e5     2f 68 6f 6d 65 2f 68 75 67 73 79 2f 63 6f 64 65     /home/hugsy/code
+0x00007fffffffe5f5     2f 67 65 66 2f 74 65 73 74 73 2f 77 69 6e 00 41     /gef/tests/win.A
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## hijack-fd 命令</span><br><span class="line"></span><br><span class="line">`gef`可用于修改已调试进程的文件描述符。新文件描述符可以指向文件，管道，套接字，设备等。</span><br><span class="line"></span><br><span class="line">要使用它，只需运行</span><br></pre></td></tr></table></figure>
+gef➤ hijack-fd FDNUM NEWFILE
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">例如,</span><br></pre></td></tr></table></figure>
+gef➤ hijack-fd 1 /dev/null
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">将修改当前进程文件描述符以将STDOUT重定向到 <span class="code">`/dev/null`</span>。</span><br><span class="line"></span><br><span class="line">检查此asciicast以获取可视化示例：![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/Hx5iNNLxDaAG.png</span>)</span><br><span class="line"></span><br><span class="line">此命令还支持连接到ip:port（如果它作为参数提供）。例如</span><br></pre></td></tr></table></figure>
+gef➤ hijack-fd 0 localhost:8888
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">将STDIN重定向到localhost:8888</span><br><span class="line"></span><br><span class="line">还有一个例子： ![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/U5sDMXuISz4k.png</span>)</span><br><span class="line"></span><br><span class="line"><span class="section">## ida-interact 命令</span></span><br><span class="line"></span><br><span class="line"><span class="code">`gef`</span>提供了一个简单的XML-RPC客户端，用于与在特定IDA Python插件中运行的服务器通信<span class="code">`ida_gef.py`</span>（可在[<span class="string">这里</span>](<span class="link">https://raw.githubusercontent.com/hugsy/gef/master/scripts/ida_gef.py</span>)免费下载 ）</span><br><span class="line"></span><br><span class="line">只需下载此脚本，然后在IDA中运行即可。当服务器运行时，您将在“输出”窗口中看到一个文本，例如：</span><br></pre></td></tr></table></figure>
+[+] Creating new thread for XMLRPC server: Thread-1
+[+] Starting XMLRPC server: 0.0.0.0:1337
+[+] Registered 6 functions.
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">这表明XML-RPC服务器已准备就绪并正在侦听。</span><br><span class="line"></span><br><span class="line">`gef`可以通过`ida-interact`命令与它进行交互。此命令接收要执行的函数的名称作为第一个参数，所有其他参数是远程函数的参数。</span><br><span class="line"></span><br><span class="line">要枚举可用的功能，只需运行</span><br></pre></td></tr></table></figure>
+gef➤  ida-interact -h
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/nTOhFfUnaaoN.png</span>)</span><br><span class="line"></span><br><span class="line">现在，要执行RPC，请使用命令<span class="code">`ida-interact`</span>并附加其参数（如果需要）。</span><br><span class="line"></span><br><span class="line">例如：</span><br></pre></td></tr></table></figure>
+gef➤  ida ida.set_color 0x40061E
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">将编辑远程IDB并设置<span class="number">0x40061E</span>处的背景颜色为<span class="number">0x005500</span>（默认值）。</span><br><span class="line"></span><br><span class="line">另一个方便的例子是直接从`gef`向IDA中添加注释：</span><br></pre></td></tr></table></figure>
+gef➤  ida ida.add_comment 0x40060C &quot;&lt;&lt;&lt;--- stack overflow&quot;
+[+] Success
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">结果:</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/Ws2NBBhyGlAR.png</span>)</span><br><span class="line"></span><br><span class="line">请使用–help参数查看所有可用的方法及其语法。</span><br><span class="line"></span><br><span class="line">值得注意的是， [<span class="string">Binary Ninja</span>](<span class="link">https://binary.ninja/</span>) 支持已被添加：</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/aCTqjeTuH1To.png</span>)</span><br><span class="line"></span><br><span class="line">通过使用脚本 [<span class="string">`binja_gef.py`</span>](<span class="link">https://raw.githubusercontent.com/hugsy/gef/master/scripts/binja_gef.py</span>).</span><br><span class="line"></span><br><span class="line"><span class="section">## ksymaddr 命令</span></span><br><span class="line"></span><br><span class="line"><span class="code">`ksymaddr`</span>有助于按名称查找内核符号。</span><br><span class="line"></span><br><span class="line">语法很简单：</span><br></pre></td></tr></table></figure>
+ksymaddr &lt;PATTERN&gt;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">例如,</span><br></pre></td></tr></table></figure>
+gef➤  ksymaddr commit_creds
+[+] Found matching symbol for &apos;commit_creds&apos; at 0xffffffff8f495740 (type=T)
+[*] Found partial match for &apos;commit_creds&apos; at 0xffffffff8f495740 (type=T): commit_creds
+[*] Found partial match for &apos;commit_creds&apos; at 0xffffffff8fc71ee0 (type=R): __ksymtab_commit_creds
+[*] Found partial match for &apos;commit_creds&apos; at 0xffffffff8fc8d008 (type=r): __kcrctab_commit_creds
+[*] Found partial match for &apos;commit_creds&apos; at 0xffffffff8fc9bfcd (type=r): __kstrtab_commit_creds
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="section">## memory 命令</span></span><br><span class="line"></span><br><span class="line">只要在上下文布局中启用了“内存”部分（默认情况下），就可以注册地址，长度和分组大小。</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/Jmb9CMo8NbEx.png</span>)</span><br><span class="line"></span><br><span class="line"><span class="section">### 添加一个查看</span></span><br></pre></td></tr></table></figure>
+memory watch &lt;ADDRESS&gt; [SIZE] [(qword|dword|word|byte)]
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 移除一个查看</span><br></pre></td></tr></table></figure>
+memory unwatch &lt;ADDRESS&gt;
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 列出所有查看</span><br></pre></td></tr></table></figure>
+memory list
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 清楚所有查看</span><br></pre></td></tr></table></figure>
+memory clear
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## nop 命令</span><br><span class="line"></span><br><span class="line">`nop`命令允许您轻松跳过指令。</span><br></pre></td></tr></table></figure>
+gef➤ nop [-b NUM_BYTES] [-h] [LOCATION]
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">`LOCATION`表示要绕过的指令的地址。 如果未指定，它将使用程序计数器的当前值。</span><br><span class="line"></span><br><span class="line">如果输入`-b `，gef将显式修补指定的字节数。 否则它会在目标位置修补_whole_指令。</span><br><span class="line"></span><br><span class="line">## patch 命令</span><br><span class="line"></span><br><span class="line">将指定的值修补到指定的地址。</span><br><span class="line"></span><br><span class="line">此命令自动别名为标准的WinDBG命令：`eb`，`ew`，`ed`，`eq`和`ea`。</span><br></pre></td></tr></table></figure>
+gef➤ patch byte $eip 0x90
+gef➤ eb 0x8048000 0x41
+gef➤ ea 0xbffffd74 &quot;This is a double-escaped string\\x00&quot;
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="section">## pattern 命令</span></span><br><span class="line"></span><br><span class="line">此命令将创建或搜索一个 [<span class="string">De Bruijn</span>](<span class="link">https://en.wikipedia.org/wiki/De_Bruijn_sequence</span>) 循环模式，以便于确定内存中的偏移量。</span><br><span class="line"></span><br><span class="line">应该注意的是，为了更好的兼容性，<span class="code">`GEF`</span>中实现的算法与<span class="code">`pwntools`</span>中的算法相同，因此可以结合使用。</span><br><span class="line"></span><br><span class="line"><span class="section">### 创建</span></span><br><span class="line"></span><br><span class="line">子命令<span class="code">`create`</span>允许创建一个新pattern：</span><br></pre></td></tr></table></figure>
+gef➤  pattern create 128
+[+] Generating a pattern of 128 bytes
+aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaauaaavaaawaaaxaaayaaazaabbaabcaabdaabeaabfaabgaab
+[+] Saved as &apos;$_gef0&apos;
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">该模式可以在以后用作输入。 为了生成这个输入，`GET`考虑了体系结构的大小（<span class="number">16</span>,<span class="number">32</span>或<span class="number">64</span>位），以生成它。</span><br><span class="line"></span><br><span class="line">与`pwntools`的等效命令是</span><br></pre></td></tr></table></figure>
+from pwn import *
+p = cyclic(128, n=8)
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">其中`n`是体系结构的字节数（<span class="number">8</span>位为<span class="number">64</span>位，<span class="number">4</span>位为<span class="number">32</span>位）。</span><br><span class="line"></span><br><span class="line">### 查找</span><br><span class="line"></span><br><span class="line">`search`子命令寻找作为参数给出的值，试图在De Bruijn序列中找到它</span><br></pre></td></tr></table></figure>
+gef➤  pattern search 0x6161616161616167
+[+] Searching &apos;0x6161616161616167&apos;
+[+] Found at offset 48 (little-endian search) likely
+[+] Found at offset 41 (big-endian search)
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">请注意，寄存器也可以作为值传递：</span><br></pre></td></tr></table></figure>
+gef➤  pattern search $rbp
+[+] Searching &apos;$rbp&apos;
+[+] Found at offset 32 (little-endian search) likely
+[+] Found at offset 25 (big-endian search)
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="section">## pcustom 命令</span></span><br><span class="line"></span><br><span class="line"><span class="code">`gef`</span> 提供了一种创建任何新结构体(以C结构体方式)和应用于当前调试环境的方法。 除了简单地显示已知和用户定义的结构体之外，它还允许将这些结构体应用于当前上下文。 它打算模仿非常有用的 [<span class="string">WinDBG 中的`dt`命令。</span>](<span class="link">https://msdn.microsoft.com/en-us/library/windows/hardware/ff542772(v=vs.85</span>).aspx)</span><br><span class="line"></span><br><span class="line">这是通过命令<span class="code">`pcustom`</span>（用于<span class="code">`print custom`</span>）实现的，或者你可以使用它的别名<span class="code">`dt`</span>（参考WinDBG命令）。</span><br><span class="line"></span><br><span class="line"><span class="section">### 相关配置</span></span><br><span class="line"></span><br><span class="line">新结构体可以存储在配置给出的位置：</span><br></pre></td></tr></table></figure>
+gef➤ gef config pcustom.struct_path
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">默认情况下，此位置位于 `$TEMP/gef/structs` (例如 `/tmp/user/<span class="number">1000</span>/gef/structs`).</span><br><span class="line"></span><br><span class="line">可以在一个名为` .py`的文件中创建为一个简单的`ctypes`结构体。</span><br><span class="line"></span><br><span class="line">您可以将此路径设置为新位置</span><br></pre></td></tr></table></figure>
+gef➤ gef config pcustom.struct_path /my/new/location
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">并保存此更改，以便下次使用`gdb`时可以直接使用它</span><br></pre></td></tr></table></figure>
+gef➤ gef save
+[+] Configuration saved to &apos;~/.gef.rc&apos;
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 使用用户定义的结构体</span><br><span class="line"></span><br><span class="line">使用如下命令您可以通过列出现有的自定义结构体</span><br></pre></td></tr></table></figure>
+gef➤  dt -l
+[+] Listing custom structures:
+→  struct5
+→  struct6
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">要创建或编辑结构体，请使用`dt  -e`以使用目标结构体生成EDITOR。 如果文件不存在，`gef`将创建树和文件，并用`ctypes`模式填充它，你可以立即使用！</span><br></pre></td></tr></table></figure>
+gef➤  dt mystruct_t -e
+[+] Creating &apos;/tmp/gef/structs/mystruct_t.py&apos; from template
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">代码可以像任何Python（使用`ctypes`）代码一样定义。</span><br></pre></td></tr></table></figure>
+from ctypes import *
+</code></pre></li>
+</ul>
+<p>‘’’<br>typedef struct {<br>  int age;<br>  char name[256];<br>  int id;<br>} person_t;<br>‘’’</p>
+<p>class person_t(Structure):<br>    <em>fields</em> = [<br>        (“age”,  c_int),<br>        (“name”, c_char * 256),<br>        (“id”, c_int),<br>    ]</p>
+<pre><code>_values_ = [
+    # You can define a function to substitute the value
+    (&quot;age&quot;, lambda age: &quot;Old&quot; if age &gt; 40 else &quot;Young&quot;),
+    # Or alternatively a list of 2-tuples
+    (&quot;id&quot;, [
+        (0, &quot;root&quot;),
+        (1, &quot;normal user&quot;),
+        (None, &quot;Invalid person&quot;)
+    ])
+]</code></pre><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">`pcustom`至少需要一个参数，即结构体的名称。 只有一个参数时，`pcustom`将转储此结构体的所有字段。</span><br></pre></td></tr></table></figure>
+<p>gef➤  dt person_t<br>+0000 age c_int (x4)  →  Young<br>+0004 name c_char_Array_256 (x100)<br>+0104 id c_int (x1)   →  normal user</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">通过提供地址或GDB符号，<span class="code">`gef`</span>将把这个用户定义的结构体应用于指定的地址：</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/uJEK5zGvDOCf.png</span>)</span><br><span class="line"></span><br><span class="line">这意味着我们现在可以非常轻松地创建新的用户定义结构体</span><br><span class="line"></span><br><span class="line">观看Asciinema的演示视频：</span><br><span class="line"></span><br><span class="line">[<span class="string">![asciicast</span>](<span class="link">../../../../../../program/writing/images/gef/bhsguibtf4iqyyuomp3vy8iv2.png</span>)](<span class="link">https://asciinema.org/a/bhsguibtf4iqyyuomp3vy8iv2</span>)</span><br><span class="line"></span><br><span class="line">此外，如果您已成功配置IDA设置（请参阅命令<span class="code">`ida-interact`</span>），您还可以直接在GDB会话中直接导入在IDA中进行逆向工程的结构体：</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/ijlTYArWpr68.png</span>)</span><br><span class="line"></span><br><span class="line">然后使用命令<span class="code">`ida ImportStructs`</span>导入所有结构体，或者<span class="code">`ida ImportStruct `</span>只导入一个特定的结构体：</span><br></pre></td></tr></table></figure>
+<p>gef➤  ida ImportStructs<br>[+] Success</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/tayxIKotL8eF.png</span>)</span><br><span class="line"></span><br><span class="line"><span class="section">## pie 命令</span></span><br><span class="line"></span><br><span class="line"><span class="code">`pie`</span>命令提供了一种为启用PIE的二进制文件设置断点的有用方法。 <span class="code">`pie`</span>命令提供我们称之为“PIE断点”的东西。 PIE断点只是一个虚拟断点，当进程附加时，它将被设置为实际断点。 PIE断点的地址是二进制基址的偏移量。</span><br><span class="line"></span><br><span class="line">请注意，您需要使用整个PIE命令序列来支持PIE断点，尤其是<span class="code">`pie`</span>命令提供的“附加”命令，如<span class="code">`pie attach`</span>，<span class="code">`pie run`</span>等。</span><br><span class="line"></span><br><span class="line">用法：</span><br></pre></td></tr></table></figure>
+<p>gef➤ pie <sub_commands></p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### `pie breakpoint` 命令</span><br><span class="line"></span><br><span class="line">此命令设置新的PIE断点。 它可以像gdb中的普通`breakpoint`命令一样使用。 该位置只是与基址的偏移量。 此命令后不会立即设置断点。 相反，它将在您使用`pie attach`，`pie run`，`pie remote`实际附加到进程时设置，因此它可以解析正确的基址。</span><br><span class="line"></span><br><span class="line">用法：</span><br></pre></td></tr></table></figure>
+<p>gef➤ pie breakpoint <LOCATION></p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### `pie info` 命令</span><br><span class="line"></span><br><span class="line">由于PIE断点不是真正的断点，因此该命令提供了一种观察所有PIE断点状态的方法。</span><br><span class="line"></span><br><span class="line">这就像gdb中的`info breakpoint`。</span><br></pre></td></tr></table></figure>
+<p>gef➤  pie info<br>VNum    Num Addr<br>1   N/A 0xdeadbeef</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">VNum是虚拟号码，它是PIE断点的编号。 Num是gdb中相应实际断点数的编号。 地址是PIE断点的地址。</span><br><span class="line"></span><br><span class="line">您可以忽略VNum参数以获取所有PIE断点的信息。</span><br><span class="line"></span><br><span class="line">用法：</span><br></pre></td></tr></table></figure>
+<p>gef➤  pie info [VNum]</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### `pie delete` 命令</span><br><span class="line"></span><br><span class="line">给定该PIE断点的VNum时，此命令将删除PIE断点。</span><br><span class="line"></span><br><span class="line">用法：</span><br></pre></td></tr></table></figure>
+<p>gef➤  pie delete <VNum></p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### `pie attach` 命令</span><br><span class="line"></span><br><span class="line">与gdb的`attach`命令相同。 如果您有PIE断点，请始终使用此命令而不是原始`attach`。 这将在附加时设置真正的断点。</span><br><span class="line"></span><br><span class="line">用法与`attach`相同。</span><br><span class="line"></span><br><span class="line">### `pie remote` 命令</span><br><span class="line"></span><br><span class="line">与gdb的`remote`命令相同。 如果您有PIE断点，请始终使用此命令而不是原始`remote`。 这将在附加时设置真正的断点。</span><br><span class="line"></span><br><span class="line">用法与`remote`相同。</span><br><span class="line"></span><br><span class="line">### `pie run` 命令</span><br><span class="line"></span><br><span class="line">与gdb的`run`命令相同。 如果您有PIE断点，请始终使用命令而不是原始`run`。 这将在附加时设置真正的断点。</span><br><span class="line"></span><br><span class="line">用法与`run`相同。</span><br><span class="line"></span><br><span class="line">## print-format 命令</span><br><span class="line"></span><br><span class="line">- 命令</span><br></pre></td></tr></table></figure>
+<pre><code>print-format
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">（别名</span><br></pre></td></tr></table></figure>
+pf
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">）将根据指定的编程语言的语法将任意位置转储为字节数组。 目前，支持的输出语言是</span><br><span class="line"></span><br><span class="line">- Python (`py` – 默认)</span><br><span class="line">- C (`c`)</span><br><span class="line">- Assembly (`asm`)</span><br><span class="line">- Javascript (`js`)</span><br></pre></td></tr></table></figure></code></pre><p>gef➤  print-format -h<br>[+] print-format [-f FORMAT] [-b BITSIZE] [-l LENGTH] [-c] [-h] LOCATION<br>        -f FORMAT specifies the output format for programming language, avaliable value is py, c, js, asm (default py).<br>        -b BITSIZE sepecifies size of bit, avaliable values is 8, 16, 32, 64 (default is 8).<br>        -l LENGTH specifies length of array (default is 256).<br>        -c The result of data will copied to clipboard (requires xclip)<br>        LOCATION specifies where the address of bytes is stored.</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">例如，此命令将从`$rsp`转储<span class="number">10</span>个字节，并将结果复制到剪贴板。</span><br></pre></td></tr></table></figure>
+<p>gef➤  print-format -f py -b 8 -l 10 -c $rsp<br>[+] Copied to clipboard<br>buf = [0x87, 0xfa, 0xa3, 0xf7, 0xff, 0x7f, 0x0, 0x0, 0x30, 0xe6]</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## process-search 命令</span><br><span class="line"></span><br><span class="line">`process-search`（又名`ps`）是一个方便的命令，用于在主机上列出和过滤进程。 它的目的是在针对分叉过程（例如在新连接上分叉的tcp/listen守护进程）时使调试过程更容易一些。</span><br><span class="line"></span><br><span class="line">如果没有参数，它将返回用户可以访问的所有进程：</span><br></pre></td></tr></table></figure>
+<p>gef➤  ps<br>1               root            0.0             0.4             ?           /sbin/init<br>2               root            0.0             0.0             ?           [kthreadd]<br>3               root            0.0             0.0             ?           [ksoftirqd/0]<br>4               root            0.0             0.0             ?           [kworker/0:0]<br>5               root            0.0             0.0             ?           [kworker/0:0H]<br>6               root            0.0             0.0             ?           [kworker/u2:0]<br>7               root            0.0             0.0             ?           [rcu_sched]<br>8               root            0.0             0.0             ?           [rcuos/0]<br>9               root            0.0             0.0             ?           [rcu_bh]<br>10              root            0.0             0.0             ?           [rcuob/0]<br>11              root            0.0             0.0             ?           [migration/0]<br>[…]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">或者启用过滤器：</span><br></pre></td></tr></table></figure>
+<p>gef➤  ps bash<br>22590           vagrant         0.0             0.8             pts/0       -bash</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">`ps`也允许使用以下选项：</span><br><span class="line"></span><br><span class="line">- `-s`（`smart`）将丢弃一些进程（属于不同的用户，用作参数的模式而不是命令等）</span><br><span class="line">- `-a`（`attach`）将自动附加到找到的第一个进程</span><br><span class="line"></span><br><span class="line">因此，例如，如果您的目标进程名为`/home/foobar/plop`，但现有实例通过`socat`使用，如</span><br></pre></td></tr></table></figure>
+<p>$ socat tcp-l:1234,fork,reuseaddr exec:/home/foobar/plop</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">每次向tcp/<span class="number">1234</span>打开一个新连接时，`plop`将被分叉，并且`gef`可以通过命令轻松附加到它</span><br></pre></td></tr></table></figure>
+<p>gef➤  ps -as plop</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## process-status 命令</span><br><span class="line"></span><br><span class="line">&gt; 此命令用于替换旧命令`pid`和`fd`。</span><br><span class="line"></span><br><span class="line">`process-status`提供了对当前运行进程的详尽描述，通过扩展GDB`info proc`命令提供的信息，以及来自`procfs`结构的所有信息。</span><br></pre></td></tr></table></figure>
+<p>gef➤ ps -s zsh<br>22879<br>gef➤ attach 22879<br>[…]<br>gef➤ status<br>[+] Process Information<br>        PID  →  22879<br>        Executable  →  /bin/zsh<br>        Command line  →  ‘-zsh’<br>[+] Parent Process Information<br>        Parent PID  →  4475<br>        Command line  →  ‘tmux new -s cool vibe<br>[+] Children Process Information<br>        PID  →  26190 (Name: ‘/bin/sleep’, CmdLine: ‘sleep 100000’)<br>[+] File Descriptors:<br>        /proc/22879/fd/0  →  /dev/pts/4<br>        /proc/22879/fd/1  →  /dev/pts/4<br>        /proc/22879/fd/2  →  /dev/pts/4<br>        /proc/22879/fd/10  →  /dev/pts/4<br>[+] File Descriptors:<br>        No TCP connections</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## registers 命令</span><br><span class="line"></span><br><span class="line">`registers`命令将打印所有寄存器并取消引用任何指针。 它没有任何参数。</span><br><span class="line"></span><br><span class="line">MIPS主机上的示例：</span><br></pre></td></tr></table></figure>
+<p>gef&gt; reg<br>$zero     : 0x00000000<br>$at       : 0x00000001<br>$v0       : 0x7fff6cd8 -&gt; 0x77e5e7f8 -&gt; &lt;<strong>libc_start_main+200&gt;: bnez v0,0x77e5e8a8<br>$v1       : 0x77ff4490<br>$a0       : 0x00000001<br>$a1       : 0x7fff6d94 -&gt; 0x7fff6e85 -&gt; “/root/demo-mips”<br>$a2       : 0x7fff6d9c -&gt; 0x7fff6e91 -&gt; “SHELL=/bin/bash”<br>$a3       : 0x00000000<br>$t0       : 0x77fc26a0 -&gt; 0x0<br>$t1       : 0x77fc26a0 -&gt; 0x0<br>$t2       : 0x77fe5000 -&gt; “_dl_fini”<br>$t3       : 0x77fe5000 -&gt; “_dl_fini”<br>$t4       : 0xf0000000<br>$t5       : 0x00000070<br>$t6       : 0x00000020<br>$t7       : 0x7fff6bc8 -&gt; 0x0<br>$s0       : 0x00000000<br>$s1       : 0x00000000<br>$s2       : 0x00000000<br>$s3       : 0x00500000<br>$s4       : 0x00522f48<br>$s5       : 0x00522608<br>$s6       : 0x00000000<br>$s7       : 0x00000000<br>$t8       : 0x0000000b<br>$t9       : 0x004008b0 -&gt; <main>: addiu sp,sp,-32<br>$k0       : 0x00000000<br>$k1       : 0x00000000<br>$s8       : 0x00000000<br>$status   : 0x0000a413<br>$badvaddr : 0x77e7a874 -&gt; &lt;</strong>cxa_atexit&gt;: lui gp,0x15<br>$cause    : 0x10800024<br>$pc       : 0x004008c4 -&gt; &lt;main+20&gt;: li v0,2<br>$sp       : 0x7fff6ca0 -&gt; 0x77e4a834 -&gt; 0x29bd<br>$hi       : 0x000001a5<br>$lo       : 0x00005e17<br>$fir      : 0x00739300<br>$fcsr     : 0x00000000<br>$ra       : 0x77e5e834 -&gt; &lt;__libc_start_main+260&gt;: lw gp,16(sp)<br>$gp       : 0x00418b20</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="section">## reset-cache 命令</span></span><br><span class="line"></span><br><span class="line">这是一个过时的函数，用于重置GEF内部memoize缓存，不需要再从命令行调用它。</span><br><span class="line"></span><br><span class="line">这个命令很快就会消失……</span><br><span class="line"></span><br><span class="line"><span class="section">## ropper 命令</span></span><br><span class="line"></span><br><span class="line"><span class="code">`ropper`</span>是一个gadget查找工具，可以通过<span class="code">`pip`</span>轻松安装。 它提供了一个非常方便的<span class="code">`--search`</span>函数来从正则表达式搜索gadget：</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/jGDxkfIgaAtH.png</span>)</span><br><span class="line"></span><br><span class="line"><span class="code">`ropper`</span>带有一整套选项，所有选项都记录在<span class="code">`--help`</span>菜单中。</span><br><span class="line"></span><br><span class="line"><span class="section">## scan 命令</span></span><br><span class="line"></span><br><span class="line"><span class="code">`scan`</span>搜索位于属于另一个程序的内存映射（haystack）中的地址。</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/JMnPmBGvDExU.png</span>)</span><br><span class="line"></span><br><span class="line"><span class="code">`scan`</span>需要两个参数，第一个是要搜索的内存部分，第二个是要搜索的内容。 参数是针对进程内存映射的（与[<span class="string">vmmap</span>](<span class="link">https://gef.readthedocs.io/en/master/commands/scan/docs/commands/vmmap.md</span>)一样，以确定要搜索的内存范围。</span><br><span class="line"></span><br><span class="line"><span class="section">## search-pattern 命令</span></span><br><span class="line"></span><br><span class="line"><span class="code">`gef`</span>允许您在在运行时搜索进程内存布局的所有段中的特定字符串。 <span class="code">`search-pattern`</span>命令，别名<span class="code">`grep`</span>，旨在直接使用：</span><br></pre></td></tr></table></figure>
+<p>gef➤  search-pattern MyPattern</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/qjzUk3Li5iW0.png</span>)</span><br><span class="line"></span><br><span class="line">它将提供一个易于理解的特定字符串的发现，包括它/它们被发现的部分，以及与该部分相关的权限。</span><br><span class="line"></span><br><span class="line"><span class="code">`search-pattern`</span>也可用于搜索地址。 为此，只需确保您的字符串以“0x”开头并且是有效的十六进制地址。 例如：</span><br></pre></td></tr></table></figure>
+<p>gef➤  search-pattern 0x4005f6</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/QbanlWbld2Oa.png</span>)</span><br><span class="line"></span><br><span class="line"><span class="code">`search-pattern`</span>命令也可以用作搜索地址交叉引用的方法。 因此，别名<span class="code">`xref`</span>也指向命令<span class="code">`search-pattern`</span>。 因此，上面的命令相当于<span class="code">`xref 0x4005f6`</span>，这使得它更直观。</span><br><span class="line"></span><br><span class="line"><span class="section">## set-permission 命令</span></span><br><span class="line"></span><br><span class="line">添加此命令是为了便于漏洞利用过程，方法是直接从调试器更改特定内存页上的权限。</span><br><span class="line"></span><br><span class="line">默认情况下，<span class="code">`GDB`</span>不允许您这样做，因此该命令将修改正在调试的二进制文件的代码部分，并添加本机mprotect系统调用存根。 例如，对于x86，将插入以下存根：</span><br></pre></td></tr></table></figure>
+<p>pushad<br>mov eax, mprotect_syscall_num<br>mov ebx, address_of_the_page<br>mov ecx, size_of_the_page<br>mov edx, permission_to_set<br>int 0x80<br>popad</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在此存根之后添加断点，该点在命中时将恢复原始上下文，允许您继续执行。</span><br></pre></td></tr></table></figure>
+<p>mprotect<code>是</code>set-permission<code>的别名。 举个例子，在这个二进制文件中将</code>stack<code>设置为</code>READ|WRITE|EXECUTE</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/MY56Kvq0X69O.png</span>)</span><br><span class="line"></span><br><span class="line">运行</span><br></pre></td></tr></table></figure>
+<p>gef➤ mprotect 0xfffdd000</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">就是这样! <span class="code">`gef`</span> 将使用内存运行时的信息来正确调整整个部分的保护。</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/a6nGnG0rKdNq.png</span>)</span><br><span class="line"></span><br><span class="line">或者在PowerPC VM上获得完整的演示视频： [<span class="string">![mark</span>](<span class="link">../../../../../../program/writing/images/gef/9vHvvswPk0MS.png</span>)](<span class="link">https://asciinema.org/a/54noulja01k3cgctawjeio8xl</span>)</span><br><span class="line"></span><br><span class="line"><span class="section">## shellcode 命令</span></span><br></pre></td></tr></table></figure>
+<p>shellcode<code>是@JonathanSalwan shellcodes数据库的命令行客户端。 它可以用来直接通过</code>GEF<code>搜索和下载你正在寻找的shellcode。 有两个原始子命令，</code>search<code>和</code>get<br>gef➤ shellcode search arm<br>[+] Showing matching shellcodes<br>901     Linux/ARM       Add map in /etc/hosts file - 79 bytes<br>853     Linux/ARM       chmod(“/etc/passwd”, 0777) - 39 bytes<br>854     Linux/ARM       creat(“/root/pwned”, 0777) - 39 bytes<br>855     Linux/ARM       execve(“/bin/sh”, [], [0 vars]) - 35 bytes<br>729     Linux/ARM       Bind Connect UDP Port 68<br>730     Linux/ARM       Bindshell port 0x1337<br>[…]<br>gef➤ shellcode get 698<br>[+] Downloading shellcode id=698<br>[+] Shellcode written as ‘/tmp/sc-EfcWtM.txt’<br>gef➤ system cat /tmp/sc-EfcWtM.txt<br>/*<br>Title:     Linux/ARM - execve(“/bin/sh”, [0], [0 vars]) - 27 bytes<br>Date:      2010-09-05<br>Tested on: ARM926EJ-S rev 5 (v5l)<br>Author:    Jonathan Salwan - twitter: @jonathansalwan</p>
+<p>shell-storm.org</p>
+<p>Shellcode ARM without 0x20, 0x0a and 0x00<br>[…]</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## stub 命令</span><br><span class="line"></span><br><span class="line">`stub`命令允许你存根函数，可选择指定返回值。</span><br></pre></td></tr></table></figure>
+<p>gef➤  stub [-h] [-r RETVAL] [LOCATION]</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="code">`LOCATION`</span>表示要绕过的功能的地址。 如果未指定，gef将认为程序计数器处的指令是函数的开始。</span><br><span class="line"></span><br><span class="line">如果提供了<span class="code">`-r RETVAL`</span>，gef会将返回值设置为提供的值。 否则，它会将返回值设置为0。</span><br><span class="line"></span><br><span class="line">例如，绕过<span class="code">`fork()`</span>调用是微不足道的。 由于返回值设置为0，因此它实际上将我们放入“子”进程。 必须注意的是，这是一个与经典的“set follow-fork-mode child”不同的行为，因为在这里我们不会产生一个新的进程，我们只是欺骗父进程认为它已经成为了孩子。</span><br><span class="line"></span><br><span class="line"><span class="section">### 例子</span></span><br><span class="line"></span><br><span class="line">绕过 <span class="code">`fork()`</span> 调用:</span><br><span class="line"></span><br><span class="line"><span class="bullet">- </span>Without stub: ![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/8zMXiVW61qsn.png</span>)</span><br><span class="line"><span class="bullet">- </span>With stub: ![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/rI1ggEgckp5G.png</span>)</span><br><span class="line"></span><br><span class="line"><span class="section">## theme 命令</span></span><br><span class="line"></span><br><span class="line">通过改变颜色方案来定制<span class="code">`GEF`</span>。</span><br></pre></td></tr></table></figure>
+<p>gef➤  theme<br>context_title_message                   : red bold<br>default_title_message                   : red bold<br>default_title_line                      : green bold<br>context_title_line                      : green bold<br>disable_color                           : 0<br>xinfo_title_message                     : blue bold</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="section">### 改变颜色</span></span><br><span class="line"></span><br><span class="line">您可以使用<span class="code">`theme`</span>命令更改<span class="code">`GEF`</span>显示的着色属性。 该命令接受2个参数，要更新的属性的名称及其新的着色值。</span><br><span class="line"></span><br><span class="line">颜色可以是以下之一：</span><br><span class="line"></span><br><span class="line"><span class="bullet">- </span>red</span><br><span class="line"><span class="bullet">- </span>green</span><br><span class="line"><span class="bullet">- </span>blue</span><br><span class="line"><span class="bullet">- </span>yellow</span><br><span class="line"><span class="bullet">- </span>gray</span><br><span class="line"><span class="bullet">- </span>pink</span><br><span class="line"></span><br><span class="line">Color还接受以下属性：</span><br><span class="line"></span><br><span class="line"><span class="bullet">- </span>bold</span><br><span class="line"><span class="bullet">- </span>underline</span><br><span class="line"><span class="bullet">- </span>highlight</span><br><span class="line"><span class="bullet">- </span>blink</span><br><span class="line"></span><br><span class="line">任何其他的值都会被忽略。</span><br></pre></td></tr></table></figure>
+<p>gef➤  theme context_title_message blue bold foobar<br>gef➤  theme<br>context_title_message                   : blue bold<br>default_title_message                   : red bold<br>default_title_line                      : green bold<br>context_title_line                      : green bold<br>disable_color                           : 0<br>xinfo_title_message                     : blue bold</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="section">## tmux-setup 命令</span></span><br><span class="line"></span><br><span class="line">为了使调试会话更容易，同时更有效，<span class="code">`GEF`</span>整合了两个命令：</span><br><span class="line"></span><br><span class="line"><span class="bullet">- </span><span class="code">`tmux-setup`</span></span><br><span class="line"><span class="bullet">- </span><span class="code">`screen-setup`</span></span><br><span class="line"></span><br><span class="line">这些命令将检查GDB是否从<span class="code">`tmux`</span>（个别情况下<span class="code">`screen`</span>）会话中生成，如果是，则将垂直拆分窗格，并将上下文配置为重定向到新窗格，如下所示：</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/hf8sgVMMJR4U.png</span>)</span><br><span class="line"></span><br><span class="line">要进行设置，只需输入即可</span><br></pre></td></tr></table></figure>
+<p>gef➤ tmux-setup</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="strong">**注意**</span>：虽然<span class="code">`screen-setup`</span>提供了类似的设置，但是<span class="code">`screen`</span>的结构不允许非常干净的方式来执行此操作。 因此，如果可能，建议使用<span class="code">`tmux-setup`</span>命令。</span><br><span class="line"></span><br><span class="line"><span class="section">## trace-run 命令</span></span><br><span class="line"></span><br><span class="line"><span class="code">`trace-run`</span>命令旨在直接在IDA反汇编程序中提供特定执行所采用的路径。 它应该与IDA脚本[<span class="string">`ida_color_gdb_trace.py`</span>](<span class="link">https://github.com/hugsy/stuff/blob/master/ida_scripts/ida_color_gdb_trace.py</span>)一起使用</span><br><span class="line"></span><br><span class="line">它将跟踪并存储执行流程中<span class="code">`$pc`</span>所取的所有值，从当前值到作为参数提供的值。</span><br></pre></td></tr></table></figure>
+<p>gef➤ trace-run <address_of_last_instruction_to_trace></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/QBGdVqjYgC3V.png</span>)</span><br><span class="line"></span><br><span class="line">通过在生成的文本文件上使用脚本<span class="code">`ida_color_gdb_trace.py`</span>，它将为所采用的路径着色：</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/FU8cbFFlzGmt.png</span>)</span><br><span class="line"></span><br><span class="line"><span class="section">## unicorn-emulate 命令</span></span><br><span class="line"></span><br><span class="line">如果您已经安装了[<span class="string">`unicorn`</span>](<span class="link">http://unicorn-engine.org/</span>) 仿真引擎及其Python绑定，<span class="code">`gef`</span>会集成一个新命令来模拟当前调试环境的指令！</span><br><span class="line"></span><br><span class="line">这个命令<span class="code">`unicorn-emulate`</span>（或它的别名<span class="code">`emu`</span>）将为你复制当前的内存映射（包括页面权限），默认情况下（即没有任何附加参数），它将模拟指令的执行显示即将执行的（即<span class="code">`$pc`</span>指向的那个）并显示哪个寄存器被它修改了。</span><br><span class="line"></span><br><span class="line">使用<span class="code">`-h`</span>寻求帮助</span><br></pre></td></tr></table></figure>
+<p>gef➤ emu -h</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">例如，以下命令将仅执行接下来的<span class="number">2</span>条指令：</span><br></pre></td></tr></table></figure>
+<p>gef➤ emu -n 2</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">并显示： ![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/BDfkWa1INP4W.png</span>)</span><br><span class="line"></span><br><span class="line">在这个例子中，我们可以看到执行后的结果</span><br></pre></td></tr></table></figure>
+<p>0x80484db    &lt;main+75&gt;  xor    eax,eax<br>0x80484dd    &lt;main+77&gt;  add    esp,0x18</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">寄存器<span class="code">`eax`</span>和<span class="code">`esp`</span>被修改。</span><br><span class="line"></span><br><span class="line">一个方便的选项是<span class="code">`-o /path/to/file.py`</span>，它将生成一个嵌入当前执行上下文的纯Python脚本，可以在<span class="code">`gef`</span>之外重用！这对于处理混淆或解决使用SMT搭建的Crackme非常有用。</span><br><span class="line"></span><br><span class="line"><span class="section">## vmmap 命令</span></span><br><span class="line"></span><br><span class="line"><span class="code">`vmmap`</span>显示整个内存空间映射。</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/rBcNJQyYqRo4.png</span>)</span><br><span class="line"></span><br><span class="line">正如一位聪明的读者可能已经看到的，内存映射从一个架构到另一个架构不同（这是我首先开始使用<span class="code">`GEF`</span>的主要原因之一）。 例如，您可以了解到在SPARC体系结构上运行的ELF始终将其<span class="code">`.data`</span>和<span class="code">`heap`</span>部分设置为读/写/执行。</span><br><span class="line"></span><br><span class="line"><span class="code">`vmmap`</span>接受一个参数，一个字符串来匹配结果：</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/JWbpGlm9vQl8.png</span>)</span><br><span class="line"></span><br><span class="line"><span class="section">## xfiles 命令</span></span><br><span class="line"></span><br><span class="line"><span class="code">`xfiles`</span>是GDB命令的更方便的表示，<span class="code">`info files`</span>允许您按参数中给出的模式进行过滤。 例如，如果您只想显示代码部分（即<span class="code">`.text`</span>）：</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/V1YlRTLywUvo.png</span>)</span><br><span class="line"></span><br><span class="line"><span class="section">## xinfo 命令</span></span><br><span class="line"></span><br><span class="line"><span class="code">`xinfo`</span>命令显示作为参数给出的特定地址的所有已知信息：</span><br><span class="line"></span><br><span class="line">![<span class="string">mark</span>](<span class="link">../../../../../../program/writing/images/gef/OnKTDFxzHRru.png</span>)</span><br><span class="line"></span><br><span class="line"><span class="strong">**重要说明**</span>：出于性能原因，<span class="code">`gef`</span>会缓存某些结果。 <span class="code">`gef`</span>将尝试自动刷新自己的缓存，以避免依赖已调试过程的过时信息。 然而，在一些特殊的场景中，<span class="code">`gef`</span>可能无法检测到一些新事件，使其缓存部分过时。 如果您发现内存映射存在不一致，则可能需要通过运行命令<span class="code">`reset-cache`</span>强制<span class="code">`gef`</span>刷新其缓存并获取全新数据。</span><br><span class="line"></span><br><span class="line"><span class="section">## xor-memory 命令</span></span><br><span class="line"></span><br><span class="line">此命令用于对内存块进行异或。</span><br><span class="line"></span><br><span class="line">它的语法是：</span><br></pre></td></tr></table></figure>
+<p>xor-memory &lt;display|patch&gt; <address> <size_to_read> <xor_key></p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">第一个参数（`display`或`patch`）是要执行的操作：</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>.</span><br></pre></td></tr></table></figure>
+<pre><code>display
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">只显示<span class="keyword">XOR</span>-<span class="keyword">ed</span>内存块结果的hexdump，而不写入调试对象的内存。</span><br></pre></td></tr></table></figure>
+gef➤  xor display $rsp 16 1337
+[+] Displaying XOR-ing 0x7fff589b67f8-0x7fff589b6808 with &apos;1337&apos;
+────────────────────────────────[ Original block ]────────────────────────────────────
+0x00007fff589b67f8     46 4e 40 00 00 00 00 00 00 00 00 00 00 00 00 00     FN@.............
+────────────────────────────────[ XOR-ed block ]──────────────────────────────────────
+0x00007fff589b67f8     55 79 53 37 13 37 13 37 13 37 13 37 13 37 13 37     UyS7.7.7.7.7.7.7
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="number">2.</span></span><br></pre></td></tr></table></figure>
+patch
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">将使用<span class="keyword">xor</span>-<span class="keyword">ed</span>内容覆盖内存。</span><br></pre></td></tr></table></figure>
+gef➤  xor patch $rsp 16 1337
+[+] Patching XOR-ing 0x7fff589b67f8-0x7fff589b6808 with &apos;1337&apos;
+gef➤  hexdump byte $rsp 16
+0x00007fff589b67f8     55 79 53 37 13 37 13 37 13 37     UyS7.7.7.7
+```</code></pre>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>pOne
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="/jal285.github.io/pwn/gef/gef/" title="gef">jal285.github.io/pwn/gef/gef/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/pwn/" rel="tag"># pwn</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/pwn/index/" rel="prev" title="explanation">
+      <i class="fa fa-chevron-left"></i> explanation
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#gef使用"><span class="nav-number">1.</span> <span class="nav-text">gef使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#aliases-命令"><span class="nav-number">1.1.</span> <span class="nav-text">aliases 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建-删除-简写命令-别名"><span class="nav-number">1.1.1.</span> <span class="nav-text">创建&#x2F;删除 简写命令(别名)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加入-PEDA-或-WinDBG的喜好设定"><span class="nav-number">1.1.2.</span> <span class="nav-text">加入 PEDA 或 WinDBG的喜好设定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aslr-命令"><span class="nav-number">1.2.</span> <span class="nav-text">aslr 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#assemble-命令"><span class="nav-number">1.3.</span> <span class="nav-text">assemble 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#canary-命令"><span class="nav-number">1.4.</span> <span class="nav-text">canary 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#capstone-disassemble-命令"><span class="nav-number">1.5.</span> <span class="nav-text">capstone-disassemble 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#checksec-命令"><span class="nav-number">1.6.</span> <span class="nav-text">checksec 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#config-命令"><span class="nav-number">1.7.</span> <span class="nav-text">config 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#context-命令"><span class="nav-number">1.8.</span> <span class="nav-text">context 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑上下文布局"><span class="nav-number">1.8.1.</span> <span class="nav-text">编辑上下文布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将上下文输出重定向到另一个-TTY-file"><span class="nav-number">1.8.2.</span> <span class="nav-text">将上下文输出重定向到另一个 TTY&#x2F;file</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#举例"><span class="nav-number">1.8.3.</span> <span class="nav-text">举例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dereference-命令"><span class="nav-number">1.9.</span> <span class="nav-text">dereference 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#edit-flags-命令"><span class="nav-number">1.10.</span> <span class="nav-text">edit-flags 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#elf-info-命令"><span class="nav-number">1.11.</span> <span class="nav-text">elf-info 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#entry-break-命令"><span class="nav-number">1.12.</span> <span class="nav-text">entry-break 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#eval-命令"><span class="nav-number">1.13.</span> <span class="nav-text">$(eval) 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#format-string-helper-命令"><span class="nav-number">1.14.</span> <span class="nav-text">format-string-helper 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#functions-命令"><span class="nav-number">1.15.</span> <span class="nav-text">functions 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gef-remote-命令"><span class="nav-number">1.16.</span> <span class="nav-text">gef-remote 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用本地副本"><span class="nav-number">1.16.1.</span> <span class="nav-text">使用本地副本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#没有本地副本"><span class="nav-number">1.16.2.</span> <span class="nav-text">没有本地副本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QEMU用户模式"><span class="nav-number">1.16.3.</span> <span class="nav-text">QEMU用户模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#heap-命令"><span class="nav-number">1.17.</span> <span class="nav-text">heap 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#heap-chunks-命令"><span class="nav-number">1.17.1.</span> <span class="nav-text">heap chunks 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#heap-chunk-命令"><span class="nav-number">1.17.2.</span> <span class="nav-text">heap chunk 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#heap-arenas-命令"><span class="nav-number">1.17.3.</span> <span class="nav-text">heap arenas 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#heap-set-arena-命令"><span class="nav-number">1.17.4.</span> <span class="nav-text">heap set-arena 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#heap-bins-命令"><span class="nav-number">1.17.5.</span> <span class="nav-text">heap bins 命令</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="pOne"
+      src="/images/cat.jpg">
+  <p class="site-author-name" itemprop="name">pOne</p>
+  <div class="site-description" itemprop="description">to lean your likes</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jal285" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jal285" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2233451206@qq.com" title="E-Mail → mailto:2233451206@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pOne</span>
+  <span>&nbsp;<a href="http://www.miitbeian.gov.cn/" target="_blank" rel="noopener">粤ICP备20006130号</a></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="true"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<! -- clicklove -->
+<script type="text/javascript" src="/js/src/clicklove.js"> </script>
+</body>
+</html>
