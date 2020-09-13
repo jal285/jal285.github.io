@@ -21,19 +21,18 @@
     var CONFIG = {"hostname":"jal285.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Weclome to my blogthis is my first blog’s index">
+  <meta name="description" content="network in kali此例仅为我在kali中实验参考（版本不确定）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Weclome to pOne&#39;s  blog">
-<meta property="og:url" content="jal285.github.io/Weclome-to-pOne-s-blog/index.html">
+<meta property="og:title" content="pwn&#x2F;kali_network">
+<meta property="og:url" content="jal285.github.io/pwn/kali_network/index.html">
 <meta property="og:site_name" content="pOne&#39;s blog">
-<meta property="og:description" content="Weclome to my blogthis is my first blog’s index">
-<meta property="article:published_time" content="2020-03-02T16:30:51.000Z">
-<meta property="article:modified_time" content="2020-03-02T16:30:51.000Z">
+<meta property="og:description" content="network in kali此例仅为我在kali中实验参考（版本不确定）">
+<meta property="article:published_time" content="2020-09-13T13:54:00.116Z">
+<meta property="article:modified_time" content="2020-09-13T13:54:00.116Z">
 <meta property="article:author" content="pOne">
-<meta property="article:tag" content="index">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="jal285.github.io/Weclome-to-pOne-s-blog/">
+<link rel="canonical" href="jal285.github.io/pwn/kali_network/">
 
 
 <script id="page-configurations">
@@ -45,7 +44,7 @@
   };
 </script>
 
-  <title>Weclome to pOne's  blog | pOne's blog</title>
+  <title>pwn/kali_network | pOne's blog</title>
   
 
 
@@ -192,7 +191,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN en">
-    <link itemprop="mainEntityOfPage" href="jal285.github.io/Weclome-to-pOne-s-blog/">
+    <link itemprop="mainEntityOfPage" href="jal285.github.io/pwn/kali_network/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cat.jpg">
@@ -205,7 +204,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Weclome to pOne's  blog
+          pwn/kali_network
         </h1>
 
         <div class="post-meta">
@@ -215,7 +214,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-03-03 00:30:51" itemprop="dateCreated datePublished" datetime="2020-03-03T00:30:51+08:00">2020-03-03</time>
+              <time title="Created: 2020-09-13 21:54:00" itemprop="dateCreated datePublished" datetime="2020-09-13T21:54:00+08:00">2020-09-13</time>
             </span>
 
           
@@ -229,14 +228,77 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Weclome-to-my-blog"><a href="#Weclome-to-my-blog" class="headerlink" title="Weclome to my blog"></a>Weclome to my blog</h1><p>this is my first blog’s index    </p>
+        <h1 id="network-in-kali"><a href="#network-in-kali" class="headerlink" title="network in kali"></a>network in kali</h1><p>此例仅为我在kali中实验参考（版本不确定）</p>
 <a id="more"></a>
 
-<h2 id="something-about-web"><a href="#something-about-web" class="headerlink" title="something about web"></a>something about web</h2><p>​    there mang knowledge in my learing way, i hope i can still do my job. i knwo you can do</p>
-<p> do  never <strong>give up</strong>, i believe, my boy !!!</p>
-<h3 id="text-title"><a href="#text-title" class="headerlink" title="text title"></a>text title</h3><p><a href="/pwn/index">pwn</a></p>
-<!--this page will be changed from time to time-->  
+<h2 id="连接网络"><a href="#连接网络" class="headerlink" title="连接网络"></a>连接网络</h2><p>基于虚拟机内kali 突然不能使用wifi，进行桥接模式得到网络</p>
+<p><a href="https://blog.csdn.net/fzx_hsaj/article/details/87074056" target="_blank" rel="noopener">参考</a></p>
+<h3 id="主要"><a href="#主要" class="headerlink" title="主要"></a>主要</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">route命令：</span><br><span class="line"></span><br><span class="line">route命令用于显示当前Linux系统中的路由信息，从route命令的显示结果可以看到当前主机所在的子网和默认网关的地址</span><br><span class="line"></span><br><span class="line">netstat命令</span><br><span class="line"></span><br><span class="line">netstat -r 命令可以实现与“route<span class="string">"命令相同的功能，即显示Linux系统中的路由信息（路由表）。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">”netstat -au"</span>显示udp传输协议的连接情况</span><br><span class="line"></span><br><span class="line"><span class="string">"netstat -at"</span>显示tcp传输协议的连接状况</span><br></pre></td></tr></table></figure>
 
+<h4 id="interfaces文件修改"><a href="#interfaces文件修改" class="headerlink" title="interfaces文件修改"></a>interfaces文件修改</h4><p>/etc/network/“目录下的”interfaces”文件是kali linux中最重要的网络配置文件之一，该文件用于描述主机中所有的网络接口的信息，不论Linux主机中作为DHCP客户端还是配置使用静态IP地址，都需要对该文件进行修改。</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iface eth0 inet dhcp       <span class="comment">//用于设置网络接口eth0 通过dhcp协议获取网络配置</span></span><br></pre></td></tr></table></figure>
+
+<p>在eht0文件中加入以下语句</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">auto</span> <span class="string">lo </span></span><br><span class="line"><span class="attr">iface</span> <span class="string">eth0 inet dhcp</span></span><br></pre></td></tr></table></figure>
+
+<p>保存更改后重启networking服务</p>
+<p> /etc/init.d/networking restart</p>
+<h2 id="解决kali空间不足"><a href="#解决kali空间不足" class="headerlink" title="解决kali空间不足"></a>解决kali空间不足</h2><h3 id="升级系统时"><a href="#升级系统时" class="headerlink" title="升级系统时"></a>升级系统时</h3><p>[参考](ln -s /home/spool /var)</p>
+<h3 id="var-cache-apt-archives-空间不够"><a href="#var-cache-apt-archives-空间不够" class="headerlink" title="var/cache/apt.archives 空间不够"></a>var/cache/apt.archives 空间不够</h3><p>存储apt install appname时下载的安装文件，可以清理</p>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><ul>
+<li><pre><code>  - 清除自动安装但不再使用的过期安装包
+
+  sudo apt-get autoremove
+
+  - 清除所有已下载的安装包
+
+  ​      sudo apt-get clean
+  <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">-</span><br></pre></td></tr></table></figure>
+  - 在某个空间大的分区建立一个目录，然后把/var/cache/apt/archives换成指向那个目录的软链接
+
+  mkdir -p &quot;$HOME/debs/partial&quot;
+
+  sudo rm -rf /var/cache/apt/archives\
+
+  sudo ln -s &quot;$HOME/debs&quot; /var/cache/apt/archives
+  <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">### apt update提示没有release文件</span><br><span class="line"></span><br><span class="line">删掉  /etc/apt/sources.list.d 下 docker.list 文件</span><br><span class="line"></span><br><span class="line">## hydra  网络登陆破解</span><br><span class="line"></span><br><span class="line">**用法：**</span><br></pre></td></tr></table></figure>
+hydra [[[-l LOGIN|-L FILE] [-p PASS|-P FILE]] | [-C FILE]] [-e nsr] [-o FILE] [-t TASKS] [-M FILE [-T TASKS]] [-w TIME] [-W TIME] [-f] [-s PORT] [-x MIN:MAX:CHARSET] [-c TIME] [-ISOuvVd46] [service://server[:PORT][/OPT]]
+</code></pre></li>
+</ul>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">选项：sudo<span class="built_in"> add-apt-repository </span>\</span><br><span class="line">   <span class="string">"deb [arch=amd64] https://download.docker.com/linux/debian \</span></span><br><span class="line"><span class="string">   $(lsb_release -cs) \</span></span><br><span class="line"><span class="string">   stable"</span></span><br></pre></td></tr></table></figure>
+
+
+<p>-R             恢复先前中止/坠毁的会话</p>
+<p>-I              忽略现有的恢复文件（不要等待10秒钟）</p>
+<p>-S              执行SSL连接</p>
+<p>-s PORT    如果服务在不同的默认端口上，请在此处定义它</p>
+<p>-l LOGIN  或 -L FILE          以LOGIN名称登录，或从FILE加载多个登录名</p>
+<p>-p PASS   或 -P FILE          尝试密码PASS，或从FILE加载多个密码</p>
+<p>-x MIN：MAX：CHARSET               密码暴力生成，键入“-x -h”以获得帮助</p>
+<p>-y                           禁止在暴力中使用符号，参见上文</p>
+<p>-e nsr                     尝试“n”空密码，“s”登录为pass和/或“r”反向登录</p>
+<p>-u                            循环用户，而不是密码（有效！用-x表示）</p>
+<p>-C FILE                    冒号分隔“login：pass”格式，而不是-L / -P选项</p>
+<p>-M FILE                   要攻击的服务器列表，每行一个条目，’：’指定端口</p>
+<p>-o FILE                     将找到的登录名/密码对写入FILE而不是stdout</p>
+<p>-b FORMAT              指定-o FILE：文本（默认），json，jsonv1的格式</p>
+<p>-f / -F                       在找到登录/传递对时退出（-M：-f每个主机，-F全局）</p>
+<p>-t TASKS                    为每个目标并行运行TASKS个连接数（默认值：16）</p>
+<p>-T TASKS                  运行TASKS连接并行整体（for -M，默认值：64）</p>
+<p>-w / -W TIME            每个线程（0）之间的响应（32）/连接之间的TIME等待时间</p>
+<p>-c TIME                     每次尝试登录所有线程的等待时间（强制执行-t 1）</p>
+<p>-4 / -6                       使用IPv4（默认）/ IPv6地址（总是在[]中也放在-M中）</p>
+<p>-v / -V / -d                 详细模式/显示登录+每个尝试/调试模式的传递</p>
+<p>-O                              使用旧的SSL v2和v3</p>
+<p>-q                               不打印有关连接错误的消息</p>
+<p>-U                               服务模块使用细节</p>
+<p>-h                               更多命令行选项（COMPLETE HELP）</p>
+<p>server                         目标：DNS，IP或192.168.0.0/24（此或-M选项）</p>
+<p>service                        该服务以破解（请参阅下面的支持的协议）</p>
+<p>OPT                            某些服务模块支持额外的输入（-U用于模块帮助）</p>
+<p>支持的服务：</p>
+<p>asterisk、 afp、 cisco、 cisco-enable、 cvs、 firebird、 ftp、 ftps、 http(s)-{head|get}、 http(s)-{get|post}-form、 http-proxy、 http-proxy-urlenum、 icq、 imap(s)、 irc ldap2(s)、 ldap3<a href="s">-{cram|digest}md5</a>、 mssql、 mysql、 ncp、 nntp、 oracle-listener、 oracle-sid、 pcanywhere、 pcnfs、 pop3(s)、 postgres、 rdp、 rexec、 rlogin、 rsh s7-300、 sip、 smb、 smtp(s)、 smtp-enum、 snmp、 socks5、 ssh、 sshkey、 svn、 teamspeak、 telnet(s)、 vmauthd、 vnc、 xmpp</p>
+<pre><code></code></pre>
     </div>
 
     
@@ -251,7 +313,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="/jal285.github.io/Weclome-to-pOne-s-blog/" title="Weclome to pOne&#39;s  blog">jal285.github.io/Weclome-to-pOne-s-blog/</a>
+    <a href="/jal285.github.io/pwn/kali_network/" title="pwn&#x2F;kali_network">jal285.github.io/pwn/kali_network/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -280,20 +342,17 @@
 
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/index/" rel="tag"># index</a>
-          </div>
 
         
 
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/pwn/hello_pwn/hello_pwn/" rel="next" title="xctf_hello_pwn">
-      xctf_hello_pwn <i class="fa fa-chevron-right"></i>
+    <a href="/pwn/orw%E6%89%8B%E6%B3%95/" rel="prev" title="pwn/orw手法">
+      <i class="fa fa-chevron-left"></i> pwn/orw手法
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -353,7 +412,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Weclome-to-my-blog"><span class="nav-number">1.</span> <span class="nav-text">Weclome to my blog</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#something-about-web"><span class="nav-number">1.1.</span> <span class="nav-text">something about web</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#text-title"><span class="nav-number">1.1.1.</span> <span class="nav-text">text title</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#network-in-kali"><span class="nav-number">1.</span> <span class="nav-text">network in kali</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#连接网络"><span class="nav-number">1.1.</span> <span class="nav-text">连接网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主要"><span class="nav-number">1.1.1.</span> <span class="nav-text">主要</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#interfaces文件修改"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">interfaces文件修改</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决kali空间不足"><span class="nav-number">1.2.</span> <span class="nav-text">解决kali空间不足</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#升级系统时"><span class="nav-number">1.2.1.</span> <span class="nav-text">升级系统时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#var-cache-apt-archives-空间不够"><span class="nav-number">1.2.2.</span> <span class="nav-text">var&#x2F;cache&#x2F;apt.archives 空间不够</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方法"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">解决方法</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
