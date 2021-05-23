@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="google-site-verification" content="oBDuH0uFwsCklfLVrv3YP51al4TQiIuRQLW6p8VIz88" />
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jal285.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="sk-learn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python&#x2F;sklearn">
+<meta property="og:url" content="jal285.github.io/python/sklearn/index.html">
+<meta property="og:site_name" content="pOne&#39;s blog">
+<meta property="og:description" content="sk-learn">
+<meta property="og:image" content="jal285.github.io/python/images/sklearn/047826f1c2e6f2687b304cb5217be8d8.jpg">
+<meta property="og:image" content="jal285.github.io/python/images/sklearn/4ee9f6c666393981b6458e54c3ec89d0.jpg">
+<meta property="og:image" content="jal285.github.io/python/images/sklearn/b003858334d1ad594207911e84219151.jpg">
+<meta property="og:image" content="jal285.github.io/python/images/sklearn/57e15e43b846791e47a202e1a9a5d8ce.jpg">
+<meta property="og:image" content="jal285.github.io/python/images/sklearn/1b6228a71a038f66ac7b8a2743adf4e7.jpg">
+<meta property="og:image" content="jal285.github.io/python/images/sklearn/image-20201113215106217.png">
+<meta property="og:image" content="jal285.github.io/python/images/sklearn/image-20201113215127267.png">
+<meta property="article:published_time" content="2021-04-06T13:13:17.066Z">
+<meta property="article:modified_time" content="2021-04-06T13:13:17.066Z">
+<meta property="article:author" content="pOne">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="jal285.github.io/python/images/sklearn/047826f1c2e6f2687b304cb5217be8d8.jpg">
+
+<link rel="canonical" href="jal285.github.io/python/sklearn/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>python/sklearn | pOne's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">pOne's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">pOne's website</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">22</span></a>
+
+  </li>
+        <li class="menu-item menu-item-favourite">
+
+    <a href="/favourite/" rel="section"><i class="fa fa-fw fa-fa-star"></i>favourite</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN en">
+    <link itemprop="mainEntityOfPage" href="jal285.github.io/python/sklearn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.jpg">
+      <meta itemprop="name" content="pOne">
+      <meta itemprop="description" content="to lean your likes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pOne's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          python/sklearn
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-04-06 21:13:17" itemprop="dateCreated datePublished" datetime="2021-04-06T21:13:17+08:00">2021-04-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="sk-learn"><a href="#sk-learn" class="headerlink" title="sk-learn"></a>sk-learn</h1><a id="more"></a>
+
+
+
+
+
+<p>简介 </p>
+<p>scikit-learn是基于Python 语言的机器学习工具</p>
+<ul>
+<li>简单高效的数据挖掘和数据分析工具</li>
+<li>可供大家在各种环境中重复使用</li>
+<li>建立在 NumPy ，SciPy 和 matplotlib 上</li>
+<li>开源，可商业使用 - BSD许可证</li>
+</ul>
+<h2 id="监督学习"><a href="#监督学习" class="headerlink" title="监督学习"></a>监督学习</h2><p>fit方法可以用来完成线性模型中的拟合，coef_成员一般用来存储模型系数 </p>
+<h3 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h3><p>本章主要讲述一些用于回归的方法，其中目标值 y 是输入变量 x 的线性组合。 数学概念表示为：如果 <img src="../images/sklearn/047826f1c2e6f2687b304cb5217be8d8.jpg" alt="\hat{y}"> 是预测值，那么有：</p>
+<p><img src="../images/sklearn/4ee9f6c666393981b6458e54c3ec89d0.jpg" alt="\hat{y}(w, x) = w_0 + w_1 x_1 + ... + w_p x_p"></p>
+<p>在整个模块中，我们定义向量 <img src="../images/sklearn/b003858334d1ad594207911e84219151.jpg" alt="w = (w_1,..., w_p)"> 作为 <code>coef_</code> ，定义 <img src="../images/sklearn/57e15e43b846791e47a202e1a9a5d8ce.jpg" alt="w_0"> 作为 <code>intercept_</code> 。</p>
+<h4 id="普通最小二乘法"><a href="#普通最小二乘法" class="headerlink" title="普通最小二乘法"></a>普通最小二乘法</h4><p>LinearRegression 拟合一个带有系数 w = （w1,……,wp）的线性模型</p>
+<p>使得实际观测数据和预测数据（估计值）之间的残差平方和最小</p>
+<p><img src="../images/sklearn/1b6228a71a038f66ac7b8a2743adf4e7.jpg" alt="\underset{w}{min\,} {|| X w - y||_2}^2"></p>
+<p>数学表达式 min(w)||Xw-y||2²</p>
+<p>LinearRegression 会调用fit方法来你和数组X，y，并且将线性模型的系数w存储在其成员变量</p>
+<p>coef_中：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</span><br><span class="line">&gt;&gt;&gt; reg = linear_model.LinearRegression()</span><br><span class="line">&gt;&gt;&gt; reg.fit ([[<span class="number">0</span>, <span class="number">0</span>], [<span class="number">1</span>, <span class="number">1</span>], [<span class="number">2</span>, <span class="number">2</span>]], [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line">LinearRegression(copy_X=True, fit_intercept=True, n_jobs=<span class="number">1</span>, normalize=False)</span><br><span class="line">&gt;&gt;&gt; reg.coef_</span><br><span class="line"><span class="built_in">array</span>([ <span class="number">0.5</span>,  <span class="number">0.5</span>])</span><br></pre></td></tr></table></figure>
+
+<p>特性导致最小二乘估计对于随机误差非常敏感，可能产生很大的方差，在没有实验设计的情况下收集到的数据，这种多重共线性(mylticollinearity)的情况可能真的会出现 </p>
+<h4 id="普通最小二乘法的复杂度"><a href="#普通最小二乘法的复杂度" class="headerlink" title="普通最小二乘法的复杂度"></a>普通最小二乘法的复杂度</h4><p>如果 X 是一个形状为 <code>(n_samples, n_features)</code>的矩阵，设$$n_{samples} \geq n_{features}$$, 则该方法的复杂度为$$O(n_{samples} n_{fearures}^2)$$</p>
+<h3 id="线性和二次判别分析"><a href="#线性和二次判别分析" class="headerlink" title="线性和二次判别分析"></a>线性和二次判别分析</h3><p>该方法使用 X 的奇异值分解来计算最小二乘解。如果 X 是一个形状为 <code>(n_samples, n_features)</code>的矩阵，设 n_{samples} \geq n_{features}<em>n<strong>s</strong>a<strong>m</strong>p<strong>l</strong>e<strong>s<em>≥</em>n</strong>f<strong>e</strong>a<strong>t</strong>u<strong>r</strong>e**s</em> , 则该方法的复杂度为 O(n_{samples} n_{fearures}^2)<em>O</em>(<em>n*</em>s<strong>a</strong>m<strong>p</strong>l<strong>e</strong>s<strong>n</strong>f<strong>e</strong>a<strong>r</strong>u<strong>r</strong>e*<em>s</em>2)</p>
+<h3 id="内核岭回归"><a href="#内核岭回归" class="headerlink" title="内核岭回归"></a>内核岭回归</h3><p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html#sklearn.linear_model.Ridge" target="_blank" rel="noopener"><code>Ridge</code></a> 回归通过对系数的大小施加惩罚来解决 <a href="https://sklearn.apachecn.org/docs/master/2.html#1111-普通最小二乘法复杂度" target="_blank" rel="noopener">普通最小二乘法</a> 的一些问题。 岭系数最小化的是带罚项的残差平方和，</p>
+<p>)<img src="../images/sklearn/image-20201113215106217.png" alt="image-20201113215106217">)其中，<img src="../images/sklearn/image-20201113215127267.png" alt="image-20201113215127267">控制系数收缩量的复杂性参数： 的值越大，收缩量越大，模型对共线性的鲁棒性也更强。</p>
+<h3 id="支持向量机"><a href="#支持向量机" class="headerlink" title="支持向量机"></a>支持向量机</h3><h2 id="无监督学习"><a href="#无监督学习" class="headerlink" title="无监督学习"></a>无监督学习</h2><h2 id="模型选择和评估"><a href="#模型选择和评估" class="headerlink" title="模型选择和评估"></a>模型选择和评估</h2><h2 id="数据集转换"><a href="#数据集转换" class="headerlink" title="数据集转换"></a>数据集转换</h2><h2 id="数据集加载工具"><a href="#数据集加载工具" class="headerlink" title="数据集加载工具"></a>数据集加载工具</h2><h2 id="使用scikit-learn计算"><a href="#使用scikit-learn计算" class="headerlink" title="使用scikit-learn计算"></a>使用scikit-learn计算</h2>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>pOne
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="/jal285.github.io/python/sklearn/" title="python&#x2F;sklearn">jal285.github.io/python/sklearn/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/python/pytorch/" rel="prev" title="python/pytorch">
+      <i class="fa fa-chevron-left"></i> python/pytorch
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#sk-learn"><span class="nav-number">1.</span> <span class="nav-text">sk-learn</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#监督学习"><span class="nav-number">1.1.</span> <span class="nav-text">监督学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#广义线性模型"><span class="nav-number">1.1.1.</span> <span class="nav-text">广义线性模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#普通最小二乘法"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">普通最小二乘法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#普通最小二乘法的复杂度"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">普通最小二乘法的复杂度</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性和二次判别分析"><span class="nav-number">1.1.2.</span> <span class="nav-text">线性和二次判别分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内核岭回归"><span class="nav-number">1.1.3.</span> <span class="nav-text">内核岭回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#支持向量机"><span class="nav-number">1.1.4.</span> <span class="nav-text">支持向量机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无监督学习"><span class="nav-number">1.2.</span> <span class="nav-text">无监督学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型选择和评估"><span class="nav-number">1.3.</span> <span class="nav-text">模型选择和评估</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集转换"><span class="nav-number">1.4.</span> <span class="nav-text">数据集转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集加载工具"><span class="nav-number">1.5.</span> <span class="nav-text">数据集加载工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用scikit-learn计算"><span class="nav-number">1.6.</span> <span class="nav-text">使用scikit-learn计算</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="pOne"
+      src="/images/cat.jpg">
+  <p class="site-author-name" itemprop="name">pOne</p>
+  <div class="site-description" itemprop="description">to lean your likes</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jal285" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jal285" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2233451206@qq.com" title="E-Mail → mailto:2233451206@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pOne</span>
+  <span>&nbsp;<a href="http://www.miitbeian.gov.cn/" target="_blank" rel="noopener">粤ICP备20006130号</a></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="true"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<! -- clicklove -->
+<script type="text/javascript" src="/js/src/clicklove.js"> </script>
+</body>
+</html>

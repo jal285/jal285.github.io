@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="google-site-verification" content="oBDuH0uFwsCklfLVrv3YP51al4TQiIuRQLW6p8VIz88" />
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jal285.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="typora-root-url: .. 科学计算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python&#x2F;Numpy">
+<meta property="og:url" content="jal285.github.io/python/Numpy/index.html">
+<meta property="og:site_name" content="pOne&#39;s blog">
+<meta property="og:description" content="typora-root-url: .. 科学计算">
+<meta property="og:image" content="/images/Numpy/image-20200406193440690.png">
+<meta property="og:image" content="/images/Numpy/image-20200408175853045.png">
+<meta property="og:image" content="/images/Numpy/image-20200408175946155.png">
+<meta property="og:image" content="/images/Numpy/image-20200408181331498.png">
+<meta property="og:image" content="/images/Numpy/image-20200408202827814.png">
+<meta property="og:image" content="/images/Numpy/image-20200408203216749.png">
+<meta property="og:image" content="/images/Numpy/image-20200408204735471.png">
+<meta property="og:image" content="/images/Numpy/image-20200408205425758.png">
+<meta property="og:image" content="/images/Numpy/image-20200409094640413.png">
+<meta property="og:image" content="/images/Numpy/image-20200409095240039.png">
+<meta property="og:image" content="/images/Numpy/image-20200409100933278.png">
+<meta property="og:image" content="/images/Numpy/image-20200409101934983.png">
+<meta property="og:image" content="/images/Numpy/image-20200409102237925.png">
+<meta property="og:image" content="/images/Numpy/image-20200409102814685.png">
+<meta property="og:image" content="/images/Numpy/image-20200409102908011.png">
+<meta property="og:image" content="/images/Numpy/image-20200409102956182.png">
+<meta property="og:image" content="/images/Numpy/image-20200409103128814.png">
+<meta property="og:image" content="/images/Numpy/image-20200409104204447.png">
+<meta property="og:image" content="/images/Numpy/20181202180501231.png">
+<meta property="og:image" content="/images/Numpy/20181202180517553.png">
+<meta property="og:image" content="/images/Numpy/20181205152000631.png">
+<meta property="og:image" content="/images/Numpy/image-20200409105245600.png">
+<meta property="og:image" content="/images/Numpy/image-20200409110120169.png">
+<meta property="article:published_time" content="2021-04-06T13:13:17.058Z">
+<meta property="article:modified_time" content="2021-04-06T13:13:17.058Z">
+<meta property="article:author" content="pOne">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/images/Numpy/image-20200406193440690.png">
+
+<link rel="canonical" href="jal285.github.io/python/Numpy/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>python/Numpy | pOne's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">pOne's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">pOne's website</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">22</span></a>
+
+  </li>
+        <li class="menu-item menu-item-favourite">
+
+    <a href="/favourite/" rel="section"><i class="fa fa-fw fa-fa-star"></i>favourite</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN en">
+    <link itemprop="mainEntityOfPage" href="jal285.github.io/python/Numpy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.jpg">
+      <meta itemprop="name" content="pOne">
+      <meta itemprop="description" content="to lean your likes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pOne's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          python/Numpy
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-04-06 21:13:17" itemprop="dateCreated datePublished" datetime="2021-04-06T21:13:17+08:00">2021-04-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>typora-root-url: ..</p>
+<h1 id="科学计算"><a href="#科学计算" class="headerlink" title="科学计算"></a>科学计算</h1><a id="more"></a>
+
+
+
+
+
+<h2 id="NumPy"><a href="#NumPy" class="headerlink" title="NumPy"></a>NumPy</h2><p>NumPy中的<strong>基本数据类型</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bool</td>
+<td>用一个字节存储的布尔类型（True或False）</td>
+</tr>
+<tr>
+<td>inti</td>
+<td>由所在平台决定其大小的整数（一般为int32或int64）</td>
+</tr>
+<tr>
+<td>int8/16/32/64</td>
+<td>整数，1/2/4/8个字节大小</td>
+</tr>
+<tr>
+<td>uint8/16/32/64</td>
+<td>无符号整数</td>
+</tr>
+<tr>
+<td>float16/32/64</td>
+<td>半/单/双精度浮点数，16/32/64位，指数、精度也不同</td>
+</tr>
+<tr>
+<td>complex64/128</td>
+<td>复数，分别用两个32/64位浮点数表示实部和虚部</td>
+</tr>
+</tbody></table>
+<h3 id="info-函数"><a href="#info-函数" class="headerlink" title="info()函数"></a>info()函数</h3><p> info()函数用于打印DataFrame的简要摘要，显示有关DataFrame的信息，包括索引的数据类型dtype和列的数据类型dtype，非空值的数量和内存使用情况。</p>
+<p>DataFrame.info <strong>(self, verbose=None, buf=None, max_cols=None, memory_usage=None, null_counts=None)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>self</strong></td>
+<td>self只有在类的方法中才会有，其他函数或方法是不必带self的。有关self的更多内容，指路→ \to→<a href="https://www.cnblogs.com/huangbiquan/p/7741016.html" target="_blank" rel="noopener">https://www.cnblogs.com/huangbiquan/p/7741016.html</a></td>
+</tr>
+<tr>
+<td><strong>verbose</strong>：bool, optional</td>
+<td>“verbose”中文译为“冗长的”，该参数决定<strong>是否打印完整的摘要</strong>。如果为True，显示所有列的信息；如果为False，那么会省略一部分。<strong>默认情况下，</strong>遵循pandas.options.display.max_info_columns中的设置。</td>
+</tr>
+<tr>
+<td><strong>buf</strong>：writable buffer, defaults to sys.stdout</td>
+<td>该参数决定<strong>将输出发送到哪里</strong>。<strong>默认情况下，</strong> 输出打印到sys.stdout。如果需要进一步处理输出，请传递可写缓冲区。可将DataFrame.info()存储为变量，指路→ \to→<a href="https://blog.csdn.net/qq_34105362/article/details/90056765。" target="_blank" rel="noopener">https://blog.csdn.net/qq_34105362/article/details/90056765。</a></td>
+</tr>
+<tr>
+<td><strong>max_col</strong>：sint, optional</td>
+<td>该参数使得<strong>从“详细输出”转换为“缩减输出”</strong>，如果DataFrame的列数超过max_cols，则缩减输出。<strong>默认情况下，</strong> 使用pandas.options.display.max_info_columns中的设置。</td>
+</tr>
+<tr>
+<td><strong>memory_usage</strong>：bool, str, optional</td>
+<td>该参数决定<strong>是否应显示DataFrame元素（包括索引）的总内存使用情况</strong>。<strong>默认情况下为True。</strong> True始终显示内存使用情况；False永远不会显示内存使用情况。</td>
+</tr>
+<tr>
+<td><strong>null_counts</strong>：bool, optional</td>
+<td>该参数决定<strong>是否显示非空计数</strong>。值为True始终显示计数，而值为False则不显示计数。<strong>默认情况下，</strong> 仅当Dataframe小于pandas.options.display.max_info_rows和pandas.options.display.max_info_columns时才显示。</td>
+</tr>
+</tbody></table>
+<p>在csv数据集建立数据集对象时可以用来查看数据集对象的信息】</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">test_data = pd.read_csv(<span class="string">r'D:\program\python\ai_program\example_data_csv\Titanic\test_data.csv'</span>)</span><br><span class="line">test_data.info()</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">pandas</span>.<span class="title">core</span>.<span class="title">frame</span>.<span class="title">DataFrame</span>'&gt;</span></span><br><span class="line"><span class="class"><span class="title">RangeIndex</span>:</span> <span class="number">100</span> entries, <span class="number">0</span> to <span class="number">99</span></span><br><span class="line">Data columns (total <span class="number">17</span> columns):</span><br><span class="line"> <span class="comment">#   Column       Non-Null Count  Dtype  </span></span><br><span class="line">---  ------       --------------  -----  </span><br><span class="line"> <span class="number">0</span>   Unnamed: <span class="number">0</span>   <span class="number">100</span> non-null    int64  </span><br><span class="line"> <span class="number">1</span>   PassengerId  <span class="number">100</span> non-null    int64  </span><br><span class="line"> <span class="number">2</span>   Survived     <span class="number">100</span> non-null    int64  </span><br><span class="line"> <span class="number">3</span>   Sex          <span class="number">100</span> non-null    int64  </span><br><span class="line"> <span class="number">4</span>   Age          <span class="number">100</span> non-null    float64</span><br><span class="line"> <span class="number">5</span>   Fare         <span class="number">100</span> non-null    float64</span><br><span class="line"> <span class="number">6</span>   Pclass_1     <span class="number">100</span> non-null    int64  </span><br><span class="line"> <span class="number">7</span>   Pclass_2     <span class="number">100</span> non-null    int64  </span><br><span class="line"> <span class="number">8</span>   Pclass_3     <span class="number">100</span> non-null    int64  </span><br><span class="line"> <span class="number">9</span>   Family_size  <span class="number">100</span> non-null    float64</span><br><span class="line"> <span class="number">10</span>  Title_1      <span class="number">100</span> non-null    int64  </span><br><span class="line"> <span class="number">11</span>  Title_2      <span class="number">100</span> non-null    int64  </span><br><span class="line"> <span class="number">12</span>  Title_3      <span class="number">100</span> non-null    int64  </span><br><span class="line"> <span class="number">13</span>  Title_4      <span class="number">100</span> non-null    int64  </span><br><span class="line"> <span class="number">14</span>  Emb_1        <span class="number">100</span> non-null    int64  </span><br><span class="line"> <span class="number">15</span>  Emb_2        <span class="number">100</span> non-null    int64  </span><br><span class="line"> <span class="number">16</span>  Emb_3        <span class="number">100</span> non-null    int64  </span><br><span class="line">dtypes: float64(<span class="number">3</span>), int64(<span class="number">14</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="ndarray"><a href="#ndarray" class="headerlink" title="ndarray"></a>ndarray</h3><p>多维数组对象  （元素类型相同）</p>
+<p>np.arry()生成一个ndarray数组， </p>
+<p><img src="/images/Numpy/image-20200406193440690.png" alt="image-20200406193440690"></p>
+<p>ndarry仅支持整数，浮点数和负数三种类型</p>
+<p>shape 功能为查看矩阵或者数组的维数</p>
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">x</span> = np.<span class="meta">array</span>(<span class="meta">list</span>/tuple)</span><br><span class="line"></span><br><span class="line"><span class="meta">x</span> = np.<span class="meta">array</span>(<span class="meta">list</span>/tuple,dtype=np.float32)</span><br></pre></td></tr></table></figure>
+
+<p>生成均匀分布的array：<br>arange（最小值，最大值，步长）（左闭右开） : 创建等差数列<br>linspace（最小值，最大值，元素数量）<br>logspace(开始值, 终值, 元素个数): 创建等比数列、</p>
+<p><code>np.ones</code>: 创建一个数组, 其中的元素全为 1<br><code>np.zeros</code>: 创建元素全为 0 的数组, 类似 np.ones<br><code>np.empty</code>创建一个内容随机并且依赖与内存状态的数组。<br><code>np.eye</code>: 创建一个对角线为 1 其他为 0 的矩阵.<br><code>np.identity</code>: 创建一个主对角线为 1 其他为 0 的方阵.</p>
+<p><img src="/images/Numpy/image-20200408175853045.png" alt="image-20200408175853045"></p>
+<p><img src="/images/Numpy/image-20200408175946155.png" alt="image-20200408175946155"></p>
+<h4 id="获取数组的属性"><a href="#获取数组的属性" class="headerlink" title="获取数组的属性"></a>获取数组的属性</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = np.zeros((<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([[[<span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">        [<span class="number">0.</span>, <span class="number">0.</span>]],</span><br><span class="line"></span><br><span class="line">       [[<span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">        [<span class="number">0.</span>, <span class="number">0.</span>]]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.ndim</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>s.shape</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">NameError: name <span class="string">'s'</span> <span class="keyword">is</span> <span class="keyword">not</span> defined</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.shape</span><br><span class="line">(<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.size  <span class="comment">#数组全部元素的数量</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.dtype  <span class="comment">#数组中元素的类型</span></span><br><span class="line">dtype(<span class="string">'float64'</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="数组索引，切片，赋值"><a href="#数组索引，切片，赋值" class="headerlink" title="数组索引，切片，赋值"></a>数组索引，切片，赋值</h4><p>‘…’符号表示将所有未指定索引的维度均赋为 ‘：’<br>‘：’在python中表示该维所有元素</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">6</span>]&gt;&gt;&gt; a = np.array([[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],[<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([[<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">       [<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">1</span>,<span class="number">2</span>]</span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">1</span>,:]</span><br><span class="line">array([<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(a[<span class="number">1</span>,<span class="number">1</span>:<span class="number">2</span>])</span><br><span class="line">[<span class="number">6</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">1</span>,:] =  [<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([[ <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>],</span><br><span class="line">       [ <span class="number">8</span>,  <span class="number">9</span>, <span class="number">10</span>]])&gt;&gt;&gt; <span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x,y)</span>:</span></span><br><span class="line"><span class="meta">... </span>    <span class="keyword">return</span> <span class="number">10</span>*x+y</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = np.fromfunction(f,(<span class="number">5</span>,<span class="number">4</span>),dtype = int)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b</span><br><span class="line">array([[ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>],</span><br><span class="line">       [<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>],</span><br><span class="line">       [<span class="number">20</span>, <span class="number">21</span>, <span class="number">22</span>, <span class="number">23</span>],</span><br><span class="line">       [<span class="number">30</span>, <span class="number">31</span>, <span class="number">32</span>, <span class="number">33</span>],</span><br><span class="line">       [<span class="number">40</span>, <span class="number">41</span>, <span class="number">42</span>, <span class="number">43</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x,y)</span>:</span></span><br><span class="line"><span class="meta">... </span>    <span class="keyword">return</span> <span class="number">10</span>*x+y</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = np.fromfunction(f,(<span class="number">5</span>,<span class="number">4</span>),dtype = int)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b</span><br><span class="line">array([[ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>],</span><br><span class="line">       [<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>],</span><br><span class="line">       [<span class="number">20</span>, <span class="number">21</span>, <span class="number">22</span>, <span class="number">23</span>],</span><br><span class="line">       [<span class="number">30</span>, <span class="number">31</span>, <span class="number">32</span>, <span class="number">33</span>],</span><br><span class="line">       [<span class="number">40</span>, <span class="number">41</span>, <span class="number">42</span>, <span class="number">43</span>]])</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="数组操作"><a href="#数组操作" class="headerlink" title="数组操作"></a>数组操作</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a =  np.ones((<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">array([[<span class="number">1.</span>, <span class="number">1.</span>],</span><br><span class="line">       [<span class="number">1.</span>, <span class="number">1.</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = np.eye(<span class="number">2</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b</span><br><span class="line">array([[<span class="number">1.</span>, <span class="number">0.</span>],</span><br><span class="line">       [<span class="number">0.</span>, <span class="number">1.</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a &gt;<span class="number">2</span></span><br><span class="line">array([[<span class="literal">False</span>, <span class="literal">False</span>],</span><br><span class="line">       [<span class="literal">False</span>, <span class="literal">False</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b &gt;<span class="number">1</span></span><br><span class="line">array([[<span class="literal">False</span>, <span class="literal">False</span>],</span><br><span class="line">       [<span class="literal">False</span>, <span class="literal">False</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a-b</span><br><span class="line">array([[<span class="number">0.</span>, <span class="number">1.</span>],</span><br><span class="line">       [<span class="number">1.</span>, <span class="number">0.</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a+b</span><br><span class="line">array([[<span class="number">2.</span>, <span class="number">1.</span>],</span><br><span class="line">       [<span class="number">1.</span>, <span class="number">2.</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b*<span class="number">2</span></span><br><span class="line">array([[<span class="number">2.</span>, <span class="number">0.</span>],</span><br><span class="line">       [<span class="number">0.</span>, <span class="number">2.</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>(a*<span class="number">2</span>)*(b*<span class="number">2</span>)</span><br><span class="line">array([[<span class="number">4.</span>, <span class="number">0.</span>],</span><br><span class="line">       [<span class="number">0.</span>, <span class="number">4.</span>]])</span><br><span class="line"> b/(a*<span class="number">2</span>) <span class="comment">#数组与数组相除，按位置一对一相除</span></span><br><span class="line">array([[<span class="number">0.5</span>, <span class="number">0.</span> ],</span><br><span class="line">       [<span class="number">0.</span> , <span class="number">0.5</span>]])</span><br><span class="line">a.dot(b)                    <span class="comment"># matrix product，矩阵乘</span></span><br><span class="line">array([[<span class="number">1.</span>, <span class="number">1.</span>],</span><br><span class="line">       [<span class="number">1.</span>, <span class="number">1.</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b =a</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b <span class="keyword">is</span> a  <span class="comment">#浅拷贝</span></span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c = a.copy()	<span class="comment">#深拷贝</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c <span class="keyword">is</span> a</span><br><span class="line"><span class="literal">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.sin(a)</span><br><span class="line">array([[ <span class="number">0.84147098</span>,  <span class="number">0.84147098</span>],</span><br><span class="line">       [ <span class="number">0.84147098</span>,  <span class="number">0.84147098</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.max(a)</span><br><span class="line"><span class="number">1.0</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.floor(a)  </span><br><span class="line">array([[ <span class="number">1.</span>,  <span class="number">1.</span>],</span><br><span class="line">       [ <span class="number">1.</span>,  <span class="number">1.</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>np.exp(a)               <span class="comment">#e^x</span></span><br><span class="line">array([[ <span class="number">2.71828183</span>,  <span class="number">2.71828183</span>],</span><br><span class="line">       [ <span class="number">2.71828183</span>,  <span class="number">2.71828183</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(np.vstack((a,b)))   <span class="comment">#合并数组</span></span><br><span class="line">[[ <span class="number">1.</span>  <span class="number">1.</span>] </span><br><span class="line"> [ <span class="number">1.</span>  <span class="number">1.</span>]</span><br><span class="line"> [ <span class="number">1.</span>  <span class="number">0.</span>]</span><br><span class="line"> [ <span class="number">0.</span>  <span class="number">1.</span>]]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(np.hstack((a,b)))   <span class="comment">#合并数组</span></span><br><span class="line">[[ <span class="number">1.</span>  <span class="number">1.</span>  <span class="number">1.</span>  <span class="number">0.</span>]</span><br><span class="line"> [ <span class="number">1.</span>  <span class="number">1.</span>  <span class="number">0.</span>  <span class="number">1.</span>]]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(a.transpose())       <span class="comment">#转置</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>numpy.linalg模块中有很多关于矩阵运算的方法</p>
+<h3 id="mean"><a href="#mean" class="headerlink" title="mean"></a>mean</h3><p>define:</p>
+<p><strong>numpy.mean</strong> ( a, axis=None, dtype=None, out=None, keepdims=&lt;class numpy._globals._NoValue at 0x40b6a26c&gt; )</p>
+<p>  mean()函数功能：求取均值</p>
+<p>经常操作的参数为axis，以m * n矩阵举例：</p>
+<p>axis 不设置值，对 m*n 个数求均值，返回一个实数</p>
+<p>axis = 0：压缩行，对各列求均值，返回 1* n 矩阵</p>
+<p>axis =1 ：压缩列，对各行求均值，返回 m *1 矩阵</p>
+<h3 id="二元函数"><a href="#二元函数" class="headerlink" title="二元函数"></a>二元函数</h3><p><img src="/images/Numpy/image-20200408181331498.png" alt="image-20200408181331498"></p>
+<h3 id="CSV-文件"><a href="#CSV-文件" class="headerlink" title="CSV 文件"></a>CSV 文件</h3><p>用来存储批量文件</p>
+<p><img src="/images/Numpy/image-20200408202827814.png" alt="image-20200408202827814"></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.savetxt(frame,arry,<span class="attribute">fmt</span>=<span class="string">'%.18e'</span>, <span class="attribute">delimiter</span>=None)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/Numpy/image-20200408203216749.png" alt="image-20200408203216749"></p>
+<p><img src="/images/Numpy/image-20200408204735471.png" alt="image-20200408204735471"></p>
+<p><img src="/images/Numpy/image-20200408205425758.png" alt="image-20200408205425758"></p>
+<h3 id="随机数函数字库"><a href="#随机数函数字库" class="headerlink" title="随机数函数字库"></a>随机数函数字库</h3><p><img src="/images/Numpy/image-20200409094640413.png" alt="image-20200409094640413"></p>
+<p><img src="/images/Numpy/image-20200409095240039.png" alt="image-20200409095240039"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">sn = np.random.randn(<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">print(sn)</span><br><span class="line"></span><br><span class="line">b = np.random.randint(<span class="number">100</span>, <span class="number">200</span>,(<span class="number">3</span>,<span class="number">4</span>))</span><br><span class="line"></span><br><span class="line">np.random.seed(<span class="number">10</span>)</span><br><span class="line">b = np.random.randint(<span class="number">100</span>,<span class="number">200</span>,(<span class="number">3</span>,<span class="number">4</span>))    </span><br><span class="line">print(b)</span><br><span class="line">print(<span class="string">"-------random 2"</span>)</span><br><span class="line">a = np.random.randint(<span class="number">100</span>,<span class="number">200</span>,(<span class="number">3</span>,<span class="number">4</span>))</span><br><span class="line">print(a)</span><br><span class="line">np.random.shuffle(a)</span><br><span class="line">print(a)</span><br><span class="line">np.random.shuffle(a)</span><br><span class="line">print(a)</span><br><span class="line">np.random.permutation(a)</span><br><span class="line">print(a)</span><br><span class="line">print(<span class="string">"---------choice"</span>)</span><br><span class="line">b = np.random.randint(<span class="number">100</span>,<span class="number">200</span>,(<span class="number">8</span>,))     </span><br><span class="line">print(b)</span><br><span class="line">np.random.choice(b,(<span class="number">3</span>,<span class="number">2</span>))</span><br><span class="line">print(b)</span><br><span class="line">np.random.choice(b,(<span class="number">3</span>,<span class="number">2</span>),replace=<span class="literal">False</span>)</span><br><span class="line">print(b)</span><br><span class="line">np.random.choice(b,(<span class="number">3</span>,<span class="number">2</span>),p=b/np.sum(b))</span><br><span class="line">print(b)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="统计函数"><a href="#统计函数" class="headerlink" title="统计函数"></a>统计函数</h3><p><img src="/images/Numpy/image-20200409100933278.png" alt="image-20200409100933278"></p>
+<p><img src="/images/Numpy/image-20200409101934983.png" alt="image-20200409101934983"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">a = np.arange(<span class="number">15</span>).reshape(<span class="number">3</span>, <span class="number">5</span> )</span><br><span class="line">print(a)</span><br><span class="line">np.sum(a)</span><br><span class="line">print(a)</span><br><span class="line">np.mean(a, axis=<span class="number">1</span>)</span><br><span class="line">print(a)</span><br><span class="line">np.average(a,axis=<span class="number">0</span>,weigets=[<span class="number">10</span>,<span class="number">5</span>,<span class="number">1</span>])</span><br><span class="line">print(a)</span><br><span class="line">np.std(a)</span><br><span class="line">print(a)</span><br><span class="line">np.var(a)</span><br><span class="line">print(a)</span><br></pre></td></tr></table></figure>
+
+<h3 id="梯度函数"><a href="#梯度函数" class="headerlink" title="梯度函数"></a>梯度函数</h3><p><img src="/images/Numpy/image-20200409102237925.png" alt="image-20200409102237925"></p>
+<p>梯度： 连续值之间的变化率， 即斜率</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">imprt numoy <span class="keyword">as</span> np </span><br><span class="line">a = np.random.randint(<span class="number">0</span>,<span class="number">20</span>,(<span class="number">5</span>))</span><br><span class="line">print(a)</span><br><span class="line">np.gradient(a)</span><br><span class="line">b = np.random.randint(<span class="number">0</span>,<span class="number">20</span>,(<span class="number">5</span>))</span><br><span class="line">print(b)	</span><br><span class="line">c = numpy.rando.randint(<span class="number">0</span>,<span class="number">50</span>,(<span class="number">3</span>,<span class="number">5</span>))</span><br><span class="line">np.grdient(c)</span><br></pre></td></tr></table></figure>
+
+<h3 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h3><p><img src="/images/Numpy/image-20200409102814685.png" alt="image-20200409102814685"></p>
+<p><img src="/images/Numpy/image-20200409102908011.png" alt="image-20200409102908011"></p>
+<p><img src="/images/Numpy/image-20200409102956182.png" alt="image-20200409102956182"></p>
+<p><img src="/images/Numpy/image-20200409103128814.png" alt="image-20200409103128814"></p>
+<p><img src="/images/Numpy/image-20200409104204447.png" alt="image-20200409104204447"></p>
+<p>###-0-0 星乘(*)和点乘(.dot)的区别</p>
+<p>星乘表示矩阵内各对应位置相乘，矩阵a*b下标(0,0)=矩阵a下标(0,0) x 矩阵b下标(0,0)；</p>
+<p>点乘表示求矩阵内积，二维数组称为矩阵积（mastrix product）                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </p>
+<p>一个行向量乘以一个列向量称作向量的内积，又叫作点积，结果;一个数；</p>
+<p>一个列向量乘以一个行向量称作向量的外积，外积是一种特殊的<a href="http://zh.wikipedia.org/wiki/克罗内克积" target="_blank" rel="noopener">克罗内克积</a>，结果是一个矩阵，</p>
+<h2 id="Pandas"><a href="#Pandas" class="headerlink" title="Pandas"></a>Pandas</h2><h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><h4 id="loc-，iloc"><a href="#loc-，iloc" class="headerlink" title="loc ，iloc"></a>loc ，iloc</h4><p>loc()函数：通过行索引 “Index” 中的具体值来取行数据（<strong>如取”Index”为”A”的行</strong>）</p>
+<p>iloc()函数：通过行号来取数据</p>
+<p><img src="/images/Numpy/20181202180501231.png" alt="img"></p>
+<p><img src="/images/Numpy/20181202180517553.png" alt="img"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> </span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="number">3.</span> *<span class="comment">#创建一个Dataframe*</span></span><br><span class="line"><span class="number">4.</span> data=pd.DataFrame(np.arange(<span class="number">16</span>).reshape(<span class="number">4</span>,<span class="number">4</span>),index=list(<span class="string">'abcd'</span>),columns=list(<span class="string">'ABCD'</span>))</span><br><span class="line"><span class="number">5.</span>  </span><br><span class="line"><span class="number">6.</span> In[<span class="number">1</span>]: data</span><br><span class="line"><span class="number">7.</span> Out[<span class="number">1</span>]: </span><br><span class="line"><span class="number">8.</span> ​    A   B   C   D</span><br><span class="line"><span class="number">9.</span> a   <span class="number">0</span>   <span class="number">1</span>   <span class="number">2</span>   <span class="number">3</span></span><br><span class="line"><span class="number">10.</span> b   <span class="number">4</span>   <span class="number">5</span>   <span class="number">6</span>   <span class="number">7</span></span><br><span class="line"><span class="number">11.</span> c   <span class="number">8</span>   <span class="number">9</span>  <span class="number">10</span>  <span class="number">11</span></span><br><span class="line"><span class="number">12.</span> d  <span class="number">12</span>  <span class="number">13</span>  <span class="number">14</span>  <span class="number">15</span></span><br><span class="line"><span class="number">13.</span>  </span><br><span class="line"><span class="number">14.</span> *<span class="comment">#取索引为'a'的行*</span></span><br><span class="line"><span class="number">15.</span> In[<span class="number">2</span>]: data.loc[<span class="string">'a'</span>]</span><br><span class="line"><span class="number">16.</span> Out[<span class="number">2</span>]:</span><br><span class="line"><span class="number">17.</span> A    <span class="number">0</span></span><br><span class="line"><span class="number">18.</span> B    <span class="number">1</span></span><br><span class="line"><span class="number">19.</span> C    <span class="number">2</span></span><br><span class="line"><span class="number">20.</span> D    <span class="number">3</span></span><br><span class="line"><span class="number">21.</span>  </span><br><span class="line"><span class="number">22.</span> *<span class="comment">#取第一行数据，索引为'a'的行就是第一行，所以结果相同*</span></span><br><span class="line"><span class="number">23.</span> In[<span class="number">3</span>]: data.iloc[<span class="number">0</span>]</span><br><span class="line"><span class="number">24.</span> Out[<span class="number">3</span>]:</span><br><span class="line"><span class="number">25.</span> A    <span class="number">0</span></span><br><span class="line"><span class="number">26.</span> B    <span class="number">1</span></span><br><span class="line"><span class="number">27.</span> C    <span class="number">2</span></span><br><span class="line"><span class="number">28.</span> D    <span class="number">3</span></span><br><span class="line"></span><br><span class="line">In[<span class="number">4</span>]:data.loc[:,[<span class="string">'A'</span>]] <span class="comment">#取'A'列所有行，多取几列格式为 data.loc[:,['A','B']]</span></span><br><span class="line">Out[<span class="number">4</span>]: </span><br><span class="line">    A</span><br><span class="line">a   <span class="number">0</span></span><br><span class="line">b   <span class="number">4</span></span><br><span class="line">c   <span class="number">8</span></span><br><span class="line">d  <span class="number">12</span></span><br><span class="line"> </span><br><span class="line">In[<span class="number">5</span>]:data.iloc[:,[<span class="number">0</span>]] <span class="comment">#取第0列所有行，多取几列格式为 data.iloc[:,[0,1]]</span></span><br><span class="line">Out[<span class="number">5</span>]: </span><br><span class="line">    A</span><br><span class="line">a   <span class="number">0</span></span><br><span class="line">b   <span class="number">4</span></span><br><span class="line">c   <span class="number">8</span></span><br><span class="line">d  <span class="number">12</span></span><br><span class="line">In[<span class="number">6</span>]:data.loc[[<span class="string">'a'</span>,<span class="string">'b'</span>],[<span class="string">'A'</span>,<span class="string">'B'</span>]] <span class="comment">#提取index为'a','b',列名为'A','B'中的数据</span></span><br><span class="line">Out[<span class="number">6</span>]: </span><br><span class="line">   A  B</span><br><span class="line">a  <span class="number">0</span>  <span class="number">1</span></span><br><span class="line">b  <span class="number">4</span>  <span class="number">5</span></span><br><span class="line"> </span><br><span class="line">In[<span class="number">7</span>]:data.iloc[[<span class="number">0</span>,<span class="number">1</span>],[<span class="number">0</span>,<span class="number">1</span>]] <span class="comment">#提取第0、1行，第0、1列中的数据</span></span><br><span class="line">Out[<span class="number">7</span>]: </span><br><span class="line">   A  B</span><br><span class="line">a  <span class="number">0</span>  <span class="number">1</span></span><br><span class="line">b  <span class="number">4</span>  <span class="number">5</span></span><br><span class="line"> <span class="comment">#### groupby()</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="groupby"><a href="#groupby" class="headerlink" title="groupby"></a>groupby</h4><p><strong><em>groupby函数主要的作用是进行数据的分组以及分组后地组内运算！\</em></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>df = pd.DataFrame(&#123; <span class="string">'key1'</span> :[ <span class="string">'a'</span> , <span class="string">'a'</span> , <span class="string">'b'</span> , <span class="string">'b'</span> , <span class="string">'a'</span> ],</span><br><span class="line"><span class="meta">... </span>    <span class="string">'key2'</span> :[ <span class="string">'one'</span> , <span class="string">'two'</span> , <span class="string">'one'</span> , <span class="string">'two'</span> , <span class="string">'one'</span> ],</span><br><span class="line"><span class="meta">... </span>    <span class="string">'data1'</span> :np.random.randn( <span class="number">5</span> ),</span><br><span class="line"><span class="meta">... </span>    <span class="string">'data2'</span> :np.random.randn( <span class="number">5</span> )&#125;)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>df</span><br><span class="line">       data1     data2 key1 key2</span><br><span class="line"><span class="number">0</span> - <span class="number">0.410673</span>  <span class="number">0.519378</span>    a  one</span><br><span class="line"><span class="number">1</span> - <span class="number">2.120793</span>  <span class="number">0.199074</span>    a  two</span><br><span class="line"><span class="number">2</span>  <span class="number">0.642216</span> - <span class="number">0.143671</span>    b  one</span><br><span class="line"><span class="number">3</span>  <span class="number">0.975133</span> - <span class="number">0.592994</span>    b  two</span><br><span class="line"><span class="number">4</span> - <span class="number">1.017495</span> - <span class="number">0.530459</span>    a  one</span><br><span class="line"><span class="comment">#假设你想要按key1进行分组，并计算data1列的平均值，我们可以访问data1，并根据key1调用groupby：</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>grouped = df[ <span class="string">'data1'</span> ].groupby(df[ <span class="string">'key1'</span> ])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>grouped</span><br><span class="line">&lt;pandas.core.groupby.SeriesGroupBy object at <span class="number">0x04120D70</span> &gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">#变量grouped是一个GroupBy对象，它实际上还没有进行任何计算，只是含有一些有关分组键df['key1']的中间数据而已，然后我们可以调用GroupBy的mean方法来计算分组平均值：</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>grouped.mean()</span><br><span class="line">key1</span><br><span class="line">a      - <span class="number">1.182987</span></span><br><span class="line">b       <span class="number">0.808674</span></span><br><span class="line">dtype: float64</span><br><span class="line"> <span class="comment">#说明：数据（Series）根据分组键进行了聚合，产生了一个新的Series，其索引为key1列中的唯一值。之所以结果中索引的名称为key1，是因为原始DataFrame的列df['key1']就叫这个名字。</span></span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、如果我们一次传入多个数组，就会得到不同的结果：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>means = df[ <span class="string">'data1'</span> ].groupby([df[ <span class="string">'key1'</span> ], df[ <span class="string">'key2'</span> ]]).mean()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>means</span><br><span class="line">key1  key2</span><br><span class="line">a     one    - <span class="number">0.714084</span></span><br><span class="line">       two    - <span class="number">2.120793</span></span><br><span class="line">b     one     <span class="number">0.642216</span></span><br><span class="line">       two     <span class="number">0.975133</span></span><br><span class="line">dtype: float64</span><br></pre></td></tr></table></figure>
+
+<h4 id="plot-bar"><a href="#plot-bar" class="headerlink" title="plot.bar()"></a>plot.bar()</h4><p>画柱状图</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.plot.bar(x=<span class="string">"Name"</span>,y=<span class="string">"ListPrice"</span>,color=<span class="string">'orange'</span>,title=<span class="string">"book price list"</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="merage"><a href="#merage" class="headerlink" title="merage()"></a>merage()</h4><p>设置链接字段，默认参数how是inner内连接，并且按照相同的字段key进行合并，即等价于on=”key”。也可以显示的设置on=”key”</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>df1=pd.DataFrame(&#123;<span class="string">'key'</span>:list(<span class="string">'bbaca'</span>),<span class="string">'data1'</span>:range(<span class="number">5</span>)&#125;)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>df2=pd.DataFrame(&#123;<span class="string">'key'</span>:[<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'d'</span>],<span class="string">'data2'</span>:range(<span class="number">3</span>)&#125;)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>df1</span><br><span class="line">  key  data1</span><br><span class="line"><span class="number">0</span>   b      <span class="number">0</span></span><br><span class="line"><span class="number">1</span>   b      <span class="number">1</span></span><br><span class="line"><span class="number">2</span>   a      <span class="number">2</span></span><br><span class="line"><span class="number">3</span>   c      <span class="number">3</span></span><br><span class="line"><span class="number">4</span>   a      <span class="number">4</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>df2</span><br><span class="line">  key  data2</span><br><span class="line"><span class="number">0</span>   a      <span class="number">0</span></span><br><span class="line"><span class="number">1</span>   b      <span class="number">1</span></span><br><span class="line"><span class="number">2</span>   d      <span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pd.merge(df1,df2)</span><br><span class="line">  key  data1  data2</span><br><span class="line"><span class="number">0</span>   b      <span class="number">0</span>      <span class="number">1</span></span><br><span class="line"><span class="number">1</span>   b      <span class="number">1</span>      <span class="number">1</span></span><br><span class="line"><span class="number">2</span>   a      <span class="number">2</span>      <span class="number">0</span></span><br><span class="line"><span class="number">3</span>   a      <span class="number">4</span>      <span class="number">0</span></span><br><span class="line">&gt;&gt;&gt;pd.merge(df1,df2,on=<span class="string">'key'</span>)  <span class="comment">#推荐的写法 </span></span><br><span class="line">  key  data1  data2</span><br><span class="line"><span class="number">0</span>   b      <span class="number">0</span>      <span class="number">1</span></span><br><span class="line"><span class="number">1</span>   b      <span class="number">1</span>      <span class="number">1</span></span><br><span class="line"><span class="number">2</span>   a      <span class="number">2</span>      <span class="number">0</span></span><br><span class="line"><span class="number">3</span>   a      <span class="number">4</span>      <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>pd.merge()方法设置连接方法。<br>主要包括inner（内连接）、outer（外链接）、left（左连接）、right（右连接）。<br>参数how默认值是inner内连接，上面的都是采用内连接，连接两边都有的值。<br>当采用outer外连接时，会取并集，并用NaN填充。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>pd.merge(df1,df2,how=<span class="string">'outer'</span>)</span><br><span class="line">  key  data1  data2</span><br><span class="line"><span class="number">0</span>   b    <span class="number">0.0</span>    <span class="number">1.0</span></span><br><span class="line"><span class="number">1</span>   b    <span class="number">1.0</span>    <span class="number">1.0</span></span><br><span class="line"><span class="number">2</span>   a    <span class="number">2.0</span>    <span class="number">0.0</span></span><br><span class="line"><span class="number">3</span>   a    <span class="number">4.0</span>    <span class="number">0.0</span></span><br><span class="line"><span class="number">4</span>   c    <span class="number">3.0</span>    NaN</span><br><span class="line"><span class="number">5</span>   d    NaN    <span class="number">2.0</span></span><br></pre></td></tr></table></figure>
+
+<p>外连接其实左连接和右连接的并集。左连接是左侧DataFrame取全部数据，右侧DataFrame匹配左侧DataFrame。（右连接right和左连接类似）</p>
+<p>pd.merge()方法可以通过设置left_index或者right_index的值为True来使用索引连接，例如这里df1使用data1当连接关键字，而df2使用索引当连接关键字。</p>
+<p>从上面可以发现两个DataFrame中都有key列，merge合并之后，pandas会自动在后面加上（_x,_y）来区分，我们也可以通过设置suffixes来设置名字。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.merge(df1,df2,left_on=<span class="string">'data1'</span>,right_index=<span class="literal">True</span>,suffixes=(<span class="string">'_df1'</span>,<span class="string">'_df2'</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="concat"><a href="#concat" class="headerlink" title="concat"></a>concat</h4><p>merge姐妹篇<img src="/images/Numpy/20181205152000631.png" alt="在这里插入图片描述"></p>
+<h2 id="matplotlib"><a href="#matplotlib" class="headerlink" title="matplotlib"></a>matplotlib</h2><h3 id="pyplot"><a href="#pyplot" class="headerlink" title="pyplot"></a>pyplot</h3><p><img src="/images/Numpy/image-20200409105245600.png" alt="image-20200409105245600"></p>
+<p><img src="/images/Numpy/image-20200409110120169.png" alt="image-20200409110120169"></p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>pOne
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="/jal285.github.io/python/Numpy/" title="python&#x2F;Numpy">jal285.github.io/python/Numpy/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/python/matplotlib/" rel="prev" title="python/matplotlib">
+      <i class="fa fa-chevron-left"></i> python/matplotlib
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/python/package_function/" rel="next" title="python/package_function">
+      python/package_function <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#科学计算"><span class="nav-number">1.</span> <span class="nav-text">科学计算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NumPy"><span class="nav-number">1.1.</span> <span class="nav-text">NumPy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#info-函数"><span class="nav-number">1.1.1.</span> <span class="nav-text">info()函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ndarray"><span class="nav-number">1.1.2.</span> <span class="nav-text">ndarray</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#获取数组的属性"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">获取数组的属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组索引，切片，赋值"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">数组索引，切片，赋值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组操作"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">数组操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mean"><span class="nav-number">1.1.3.</span> <span class="nav-text">mean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二元函数"><span class="nav-number">1.1.4.</span> <span class="nav-text">二元函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSV-文件"><span class="nav-number">1.1.5.</span> <span class="nav-text">CSV 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随机数函数字库"><span class="nav-number">1.1.6.</span> <span class="nav-text">随机数函数字库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#统计函数"><span class="nav-number">1.1.7.</span> <span class="nav-text">统计函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#梯度函数"><span class="nav-number">1.1.8.</span> <span class="nav-text">梯度函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图像"><span class="nav-number">1.1.9.</span> <span class="nav-text">图像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pandas"><span class="nav-number">1.2.</span> <span class="nav-text">Pandas</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">1.2.1.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#loc-，iloc"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">loc ，iloc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#groupby"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">groupby</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#plot-bar"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">plot.bar()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#merage"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">merage()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#concat"><span class="nav-number">1.2.1.5.</span> <span class="nav-text">concat</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#matplotlib"><span class="nav-number">1.3.</span> <span class="nav-text">matplotlib</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pyplot"><span class="nav-number">1.3.1.</span> <span class="nav-text">pyplot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">1.3.2.</span> <span class="nav-text"></span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="pOne"
+      src="/images/cat.jpg">
+  <p class="site-author-name" itemprop="name">pOne</p>
+  <div class="site-description" itemprop="description">to lean your likes</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jal285" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jal285" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2233451206@qq.com" title="E-Mail → mailto:2233451206@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pOne</span>
+  <span>&nbsp;<a href="http://www.miitbeian.gov.cn/" target="_blank" rel="noopener">粤ICP备20006130号</a></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="true"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<! -- clicklove -->
+<script type="text/javascript" src="/js/src/clicklove.js"> </script>
+</body>
+</html>
