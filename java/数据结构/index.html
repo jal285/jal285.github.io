@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-CN en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="google-site-verification" content="oBDuH0uFwsCklfLVrv3YP51al4TQiIuRQLW6p8VIz88" />
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jal285.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java&#x2F;数据结构">
+<meta property="og:url" content="jal285.github.io/java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.html">
+<meta property="og:site_name" content="pOne&#39;s blog">
+<meta property="og:description" content="数据结构">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/640">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/af3502319d2a56536b54a02f973a7534112150.png@1078w_600h_80q">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/adf35d4ba9207ade1ddd80d0f2ab11b598210.png@676w_322h_80q">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/45dbcbcdfd1a99f1d01b3ae7b013cf7978526.png@697w_242h_80q">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/451fe5109f421fc6bd912e26fc584d0c83808.png@694w_298h_80q">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/d2004602c4b11c5207eae1ddcc013b2e43177.png@576w_237h_80q">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/977048855e80f64b4bd72ed77a216dd643825.png@609w_261h_80q">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/state.jpg">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/state2.jpg">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/state4.jpg">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/exp1.jpg">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/exp3.jpg">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/exp5.jpg">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/exp7.jpg">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/z.jpg">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/allstate.jpg">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/kmp.gif">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/4.jpg">
+<meta property="og:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/put.jpg">
+<meta property="article:published_time" content="2021-05-23T08:38:46.281Z">
+<meta property="article:modified_time" content="2021-05-23T08:38:46.281Z">
+<meta property="article:author" content="pOne">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="jal285.github.io/java/images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/640">
+
+<link rel="canonical" href="jal285.github.io/java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>java/数据结构 | pOne's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">pOne's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">pOne's website</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-favourite">
+
+    <a href="/favourite/" rel="section"><i class="fa fa-fw fa-fa-star"></i>favourite</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN en">
+    <link itemprop="mainEntityOfPage" href="jal285.github.io/java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.jpg">
+      <meta itemprop="name" content="pOne">
+      <meta itemprop="description" content="to lean your likes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pOne's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          java/数据结构
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-05-23 16:38:46" itemprop="dateCreated datePublished" datetime="2021-05-23T16:38:46+08:00">2021-05-23</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><a id="more"></a>
+
+
+
+
+
+<h2 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h2><h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><h3 id="剑指Offer-No-09"><a href="#剑指Offer-No-09" class="headerlink" title="剑指Offer No.09"></a>剑指Offer No.09</h3><h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><p>多数算法以树结构为框架 </p>
+<h3 id="二叉树遍历框架"><a href="#二叉树遍历框架" class="headerlink" title="二叉树遍历框架"></a>二叉树遍历框架</h3><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">void <span class="constructor">BST(TreeNode <span class="params">root</span>, <span class="params">int</span> <span class="params">target</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (root.<span class="keyword">val</span><span class="operator"> == </span>target)</span><br><span class="line">        <span class="comment">// 找到目标，做点什么</span></span><br><span class="line">    <span class="keyword">if</span> (root.<span class="keyword">val</span> &lt; target) </span><br><span class="line">        <span class="constructor">BST(<span class="params">root</span>.<span class="params">right</span>, <span class="params">target</span>)</span>;</span><br><span class="line">    <span class="keyword">if</span> (root.<span class="keyword">val</span> &gt; target)</span><br><span class="line">        <span class="constructor">BST(<span class="params">root</span>.<span class="params">left</span>, <span class="params">target</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>leet.652 寻找重复子树</p>
+<p><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/640" alt="Image"></p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;TreeNode&gt; findDuplicateSubtrees(<span class="name">TreeNode</span> root)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p>分析 : </p>
+<p>想知道以自己为根的子树是不是重复的, 是否应该加入结果列表中, 需要知道一下信息</p>
+<ol>
+<li>以我为根的这颗二叉树(子树)样子</li>
+<li>以其他节点为根的子树都长什么样子 </li>
+</ol>
+<p>计算一颗二叉树有多少个节点</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> <span class="keyword">count</span>(TreeNode root)&#123;</span><br><span class="line">	<span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//先算出右子树有多少节点</span></span><br><span class="line">	<span class="keyword">int</span> left = <span class="keyword">count</span>(root.left);</span><br><span class="line">	<span class="keyword">int</span> right = <span class="keyword">count</span>(root.right);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h3><h4 id="BST"><a href="#BST" class="headerlink" title="BST"></a>BST</h4><p>二叉查找树  ,左节点比父节点值小,  右节点比父节点值大, 高度决定了查找效率</p>
+<p>在理想的情况下，二叉查找树增删查改的时间复杂度为O(logN)（其中N为节点数），最坏的情况下为O(N)。当它的高度为logN+1时，我们就说二叉查找树是平衡的。</p>
+<p><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/af3502319d2a56536b54a02f973a7534112150.png@1078w_600h_80q" alt="img"></p>
+<h5 id="BST查找操作"><a href="#BST查找操作" class="headerlink" title="BST查找操作"></a>BST查找操作</h5><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">T <span class="built_in"> key</span> = a search<span class="built_in"> key</span></span><br><span class="line">Node<span class="built_in"> root</span> = point <span class="keyword">to</span> the<span class="built_in"> root</span> <span class="keyword">of</span> a BST</span><br><span class="line"></span><br><span class="line">while<span class="built_in">(true</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span><span class="built_in">(root</span>==null)&#123;</span><br><span class="line">    	break;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span><span class="built_in">(root</span>.<span class="keyword">value</span>.equals<span class="built_in">(key</span>))&#123;</span><br><span class="line">    	<span class="keyword">return</span><span class="built_in"> root</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span><span class="built_in">(key</span>.compareTo<span class="built_in">(root</span>.<span class="keyword">value</span>)&lt;<span class="number">0</span>)&#123;</span><br><span class="line">    <span class="built_in">	root</span> =<span class="built_in"> root</span>.left;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="built_in">	root</span> =<span class="built_in"> root</span>.right;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> null;</span><br></pre></td></tr></table></figure>
+
+<p>注意: 父结点要和左子树所有所属节点进行比较 , 且所有左子树所属节点小于父节点值</p>
+<p>进行查找时和父节点比较后可以同时排除两个 key&gt;root , key在root.right 找, key&lt;root , 在 roo.left找</p>
+<p>直到当前节点指针为空或者查找到对应的节点，程序查找结束。</p>
+<h5 id="BST-插入"><a href="#BST-插入" class="headerlink" title="BST 插入"></a>BST 插入</h5><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Node</span> <span class="title">node</span> = create a new <span class="keyword">node</span> <span class="title">with</span> specify value</span><br><span class="line"><span class="keyword">Node</span> <span class="title">root</span> = point the root <span class="keyword">node</span> <span class="title">of</span> a BST</span><br><span class="line"><span class="keyword">Node</span> <span class="title">parent</span> = null;</span><br><span class="line"></span><br><span class="line">//find the parent <span class="keyword">node</span> <span class="title">to</span> append the new <span class="keyword">node</span><span class="title"></span></span><br><span class="line"><span class="title">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">   if(<span class="attr">root=</span>=null)break;</span><br><span class="line">   parent = root;</span><br><span class="line">   if(<span class="keyword">node</span>.<span class="title">value</span>.compareTo(root.value)<span class="tag">&lt;=0)&#123;</span></span><br><span class="line"><span class="tag">      root = root.left;  </span></span><br><span class="line"><span class="tag">   &#125;else&#123;</span></span><br><span class="line"><span class="tag">      root = root.right;</span></span><br><span class="line"><span class="tag">   &#125; </span></span><br><span class="line"><span class="tag">&#125;</span></span><br><span class="line"><span class="tag">if(parent!=null)&#123;</span></span><br><span class="line"><span class="tag">   if(node.value.compareTo(parent.value)&lt;=0)&#123;//append to left</span></span><br><span class="line"><span class="tag">      parent.left = node;</span></span><br><span class="line"><span class="tag">   &#125;else&#123;//append to right</span></span><br><span class="line"><span class="tag">	  parent.right = node;</span></span><br><span class="line"><span class="tag">   &#125;</span></span><br><span class="line"><span class="tag">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>插入操作先通过循环查找到待插入的节点的父节点，和查找父节点的逻辑一样，都是比大小，小的往左，大的往右。找到父节点后，对比父节点，小的就插入到父节点的左节点，大就插入到父节点的右节点上。</p>
+<h5 id="BST删除"><a href="#BST删除" class="headerlink" title="BST删除"></a>BST删除</h5><ol>
+<li>查找到要删除的节点。</li>
+<li>如果待删除的节点是叶子节点，则直接删除。</li>
+<li>如果待删除的节点不是叶子节点，则先找到待删除节点的中序遍历的后继节点，用该后继节点的值替换待删除的节点的值，然后删除后继节点。</li>
+</ol>
+<p><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/adf35d4ba9207ade1ddd80d0f2ab11b598210.png@676w_322h_80q" alt="img"></p>
+<p>删除叶子节点后需要保证BST树的完整, 所以需要查看节点子节点是否为空 ,不为空要使用子节点替代被删除节点 </p>
+<h5 id="BST存在的问题"><a href="#BST存在的问题" class="headerlink" title="BST存在的问题"></a>BST存在的问题</h5><p><strong>BST存在的主要问题是，数在插入的时候会导致树倾斜，不同的插入顺序会导致树的高度不一样，而树的高度直接的影响了树的查找效率。理想的高度是logN，最坏的情况是所有的节点都在一条斜线上，这样的树的高度为N。</strong></p>
+<h4 id="RBTree"><a href="#RBTree" class="headerlink" title="RBTree"></a>RBTree</h4><p>基于BST存在的问题，一种新的树——平衡二叉查找树(Balanced BST)产生了。平衡树在插入和删除的时候，会通过旋转操作将高度保持在logN。其中两款具有代表性的平衡树分别为AVL树和红黑树。AVL树由于实现比较复杂，而且插入和删除性能差，在实际环境下的应用不如红黑树。</p>
+<p>红黑树（Red-Black Tree，以下简称RBTree）的实际应用非常广泛，比如Linux内核中的完全公平调度器、高精度计时器、ext3文件系统等等，各种语言的函数库如Java的TreeMap和TreeSet，C++ STL的map、multimap、multiset等。</p>
+<p>RBTree也是函数式语言中最常用的持久数据结构之一，在计算几何中也有重要作用。值得一提的是，Java 8中HashMap的实现也因为用RBTree取代链表，性能有所提升</p>
+<h3 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h3><p>还有一种<code>Map</code>，它在内部会对Key进行排序，这种<code>Map</code>就是<code>SortedMap</code>。注意到<code>SortedMap</code>是接口，它的实现类是<code>TreeMap</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">       ┌───┐</span><br><span class="line">       │Map│</span><br><span class="line">       └───┘</span><br><span class="line">         ▲</span><br><span class="line">    ┌────┴─────┐</span><br><span class="line">    │          │</span><br><span class="line">┌───────┐ ┌─────────┐</span><br><span class="line">│HashMap│ │SortedMap│</span><br><span class="line">└───────┘ └─────────┘</span><br><span class="line">               ▲</span><br><span class="line">               │</span><br><span class="line">          ┌─────────┐</span><br><span class="line">          │ TreeMap │</span><br><span class="line">          └─────────┘</span><br></pre></td></tr></table></figure>
+
+<p><code>SortedMap</code>保证遍历时以Key的顺序来进行排序。例如，放入的Key是<code>&quot;apple&quot;</code>、<code>&quot;pear&quot;</code>、<code>&quot;orange&quot;</code>，遍历的顺序一定是<code>&quot;apple&quot;</code>、<code>&quot;orange&quot;</code>、<code>&quot;pear&quot;</code>，因为<code>String</code>默认按字母排序：</p>
+<p>使用<code>TreeMap</code>时，放入的Key必须实现<code>Comparable</code>接口。<code>String</code>、<code>Integer</code>这些类已经实现了<code>Comparable</code>接口，因此可以直接作为Key使用。作为Value的对象则没有任何要求。</p>
+<p>如果作为Key的class没有实现<code>Comparable</code>接口，那么，必须在创建<code>TreeMap</code>时同时指定一个自定义排序算法：</p>
+<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><p><a href="https://tech.meituan.com/2016/12/02/redblack-tree.html" target="_blank" rel="noopener">参考</a></p>
+<p>红黑树是平衡二叉查找树的一种 </p>
+<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><ol>
+<li>任何一个节点都有颜色 ,黑色或者红色</li>
+<li>根节点是黑色的</li>
+<li>父子节点之间不能出现两个连续的红节点</li>
+<li>任何一个节点向下遍历到其子孙的叶子节点, 所经过的黑节点个数必须相等</li>
+<li>空节点被认为是黑色的</li>
+</ol>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class <span class="keyword">Node</span><span class="title">&lt;T</span>&gt;&#123;</span><br><span class="line">	public T value;</span><br><span class="line">	public boolean isRead;</span><br><span class="line">	public <span class="keyword">Node</span><span class="title">&lt;T</span>&gt; left;</span><br><span class="line">	public <span class="keyword">Node</span><span class="title">&lt;T</span>&gt; right;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>RBTree 在理论上还是一颗BST树, 但是它在对BST 的插入和删除操作会维持树的平衡, 即保证树的高度在[logN, logN +1 ] (理论上, 极端的情况下可以出现RBTree的高度可以达到2*logN ,但实际上很难遇到 ) . 这样RBTree 的查找时间复杂度始终保持在 O(logN) 从而接近于理想的BST, RBTree 的删除和插入的时间复杂度也是O(logN). RBTree 的查找操作就是BST的查找操作 </p>
+<p><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/45dbcbcdfd1a99f1d01b3ae7b013cf7978526.png@697w_242h_80q" alt="img"></p>
+<h4 id="查找操作"><a href="#查找操作" class="headerlink" title="查找操作"></a>查找操作</h4><p>RBTree 的查找操作和 BST 的查找操作是一样的  </p>
+<h4 id="插入操作"><a href="#插入操作" class="headerlink" title="插入操作"></a>插入操作</h4><p>插入与BST插入方式一致. 只不过是插入过后, 可能会导致树的不平衡操作 ,只不过插入后会导致树的不平衡 , 需要对数进行旋转操作和颜色修复,使得它符合RBTree的定义 ,新插入的节点是红色的. 颜色修复操作如果遇到父节点的颜色为黑则修复操作结束 , 也就是说 ,只有子父节点为红色节点的时候需要颜色修复操作</p>
+<p>颜色修复操作分一下三种情况 </p>
+<ol>
+<li>叔叔节点也为红色</li>
+<li>叔叔节点为空, 且祖父节点, 父节点和新节点处于一条xie线上</li>
+<li>叔叔节点为空, 且祖父节点, 父节点和新节点不处于一条斜线上</li>
+</ol>
+<p>插入操作-Case 1</p>
+<p>case 1 的操作是将父节点和叔叔节点与祖父节点的颜色互换, 这样就符合了RBTree 的定义 . 即维持了高度的平衡, 修复后颜色也符合RBTree 定义的第三条和第四条 </p>
+<p>操作完成后A节点变成了新的节点. 如果 A节点的父节点不是黑色的话, 则继续做修复操作 </p>
+<p><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/451fe5109f421fc6bd912e26fc584d0c83808.png@694w_298h_80q" alt="img"></p>
+<p>插入操作-Casse 2 </p>
+<p>case2 的操作是将B节点进行右旋操作, 并且和父节点A互换颜色 . 通过该修复操作RBTree 的高度和颜色都符和红黑树的定义 . 如果 B和 C节点都是右节点的话, 只要将操作变成左旋就可以了<img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/d2004602c4b11c5207eae1ddcc013b2e43177.png@576w_237h_80q" alt="img"></p>
+<p>插入操作-Case 3</p>
+<p>case 3 的操作是将C节点进行左旋, 这样就从Case 3转换成case 2 了,然后针对case 2 进行操作处理就行了. case 2 操作做了一个右旋操作和颜色互换来达到目的. 如果树的结构是下面的镜像结构, 则只需要将对应的左旋变成右旋, 右旋变成左旋即可 </p>
+<p><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/977048855e80f64b4bd72ed77a216dd643825.png@609w_261h_80q" alt="img"></p>
+<h2 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h2><p>No.705</p>
+<p>不使用任何内建的哈希表库设计一个哈希集合（HashSet）。</p>
+<p>实现 MyHashSet 类：</p>
+<ol>
+<li>void add(key) 向哈希集合中插入值 key 。</li>
+<li>bool contains(key) 返回哈希集合中是否存在这个值 key 。</li>
+<li>void remove(key) 将给定值 key 从哈希集合中删除。如果哈希集合中没有这个值，什么也不做。</li>
+</ol>
+<p>哈希集合实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyHashSet</span> </span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span>[] nodes = <span class="keyword">new</span> <span class="keyword">boolean</span>[<span class="number">1000009</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">        nodes[key] = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">        nodes[key] = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> nodes[key];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>引申一下哈希函数</p>
+<p>哈希函数是指把一个大范围映射到一个小范围, 把大范围映射到一个小范围的目的往往是为了节省空间，使得数据容易保存。</p>
+<p>\1. Hash的主要原理就是把大范围映射到小范围；所以，你输入的实际值的个数必须和小范围相当或者比它更小。不然冲突就会很多。<br>\2. 由于Hash逼近单向函数；所以，你可以用它来对数据进行加密。<br>\3. 不同的应用对Hash函数有着不同的要求；比如，用于加密的Hash函数主要考虑它和单项函数的差距，而用于查找的Hash函数主要考虑它映射到小范围的冲突率。</p>
+<p>Hash函数应用的主要对象是数组（比如，字符串），而其目标一般是一个int类型。以下我们都按照这种方式来说明。</p>
+<p>一般的说，Hash函数可以划分为如下几类：<br>\1. 加法Hash</p>
+<p>\2. 位运算Hash</p>
+<p>\3. 乘法Hash</p>
+<p>\4. 除法Hash</p>
+<p>\5. 查表Hash</p>
+<p>\6. 混合Hash</p>
+<p>7.数组Hash</p>
+<h2 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h2><p> 所谓贪心算法是指，在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，他所做出的仅是在某种意义上的局部最优解。</p>
+<p>   贪心算法没有固定的算法框架，算法设计的关键是贪心策略的选择。必须注意的是，贪心算法不是对所有问题都能得到整体最优解，选择的贪心策略必须具备无后效性，即某个状态以后的过程不会影响以前的状态，只与当前状态有关。</p>
+<p>  <strong>所以对所采用的贪心策略一定要仔细分析其是否满足无后效性。</strong></p>
+<p>思路</p>
+<p>1.建立数学模型来描述问题。</p>
+<p>  2.把求解的问题分成若干个子问题。</p>
+<p>  3.对每一子问题求解，得到子问题的局部最优解。</p>
+<p>  4.把子问题的解局部最优解合成原来解问题的一个解。</p>
+<p>贪心算法适用情况很少 </p>
+<p>从问题的某一初始解出发；</p>
+<p>  while （能朝给定总目标前进一步）</p>
+<p>  { </p>
+<p>​     利用可行的决策，求出可行解的一个解元素；</p>
+<p>  }</p>
+<p>  由所有解元素组合成问题的一个可行解；</p>
+<h3 id="OfferNo14-剪绳子问题"><a href="#OfferNo14-剪绳子问题" class="headerlink" title="OfferNo14   剪绳子问题"></a>OfferNo14   剪绳子问题</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">adjectime</span><span class="params">(<span class="keyword">int</span> length)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(length&lt;<span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(length&lt;<span class="number">4</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span>  length-<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// n&gt;=5 时. 多剪长度为 3 的绳子 , 剩下的绳子长度为4时, 把僧子剪成两段长度为2的绳子</span></span><br><span class="line">        <span class="keyword">int</span> timesOf3 = length / <span class="number">3</span> ;</span><br><span class="line">        <span class="keyword">if</span> (length%<span class="number">3</span> == <span class="number">1</span> )&#123;</span><br><span class="line">            --timesOf3;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> timeof2 = (length - timesOf3 * <span class="number">3</span> ) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">int</span>) (Math.pow(<span class="number">3</span>,timesOf3)*Math.pow(<span class="number">2</span>,timeof2));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><h3 id="KMP字符匹配算法"><a href="#KMP字符匹配算法" class="headerlink" title="KMP字符匹配算法"></a>KMP字符匹配算法</h3><p>Knuth-Morris-Pratt 算法,  是一个著名的字符串匹配算法 ,效率很高</p>
+<p>KMP <strong>永不回退 <code>txt</code> 的指针 <code>i</code>，不走回头路（不会重复扫描 <code>txt</code>），</strong> 借助 dp 数组中存储的信息 把 pat 移到正确的位置和 txt 匹配 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>  <span class="class"><span class="keyword">class</span> <span class="title">KMP</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> [][]dp;</span><br><span class="line">	<span class="keyword">private</span> String pat;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">KMP</span><span class="params">(String pat)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.pat = pat;</span><br><span class="line">		<span class="comment">//通过pat 构建dp数组</span></span><br><span class="line">		<span class="comment">//需要O(M)时间</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(String txt)</span></span>&#123;</span><br><span class="line">		<span class="comment">//借助dp数组去匹配 txt </span></span><br><span class="line">		<span class="comment">//需要 O(N)时间 </span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 当我们需要用同一 pat 去匹配不同 txt 时, 就不需要浪费时间 构造 dp数组了 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">KMP kmp = <span class="keyword">new</span> KMP(<span class="string">"aaab"</span>);</span><br><span class="line"><span class="keyword">int</span> pos1 = kmp.search(<span class="string">"aaacaaaab"</span>);</span><br><span class="line"><span class="keyword">int</span> pos2 = kmp.search(<span class="string">"aaaaaaaab"</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="状态机概述"><a href="#状态机概述" class="headerlink" title="状态机概述"></a>状态机概述</h3><p>为什么说 KMP 算法和状态机有关呢？是这样的，我们可以认为 <code>pat</code> 的匹配就是状态的转移。比如当 pat = “ABABC”：</p>
+<p><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/state.jpg" alt="img"></p>
+<p>如上图，圆圈内的数字就是状态，状态 0 是起始状态，状态 5（<code>pat.length</code>）是终止状态。开始匹配时 <code>pat</code> 处于起始状态，一旦转移到终止状态，就说明在 <code>txt</code> 中找到了 <code>pat</code>。比如说当前处于状态 2，就说明字符 “AB” 被匹配：</p>
+<p><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/state2.jpg" alt="img"></p>
+<p>另外，处于不同状态时，<code>pat</code> 状态转移的行为也不同。比如说假设现在匹配到了状态 4，如果遇到字符 A 就应该转移到状态 3，遇到字符 C 就应该转移到状态 5，如果遇到字符 B 就应该转移到状态 0：</p>
+<p><a href="https://github.com/labuladong/fucking-algorithm/blob/master/pictures/kmp/state4.jpg" target="_blank" rel="noopener"><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/state4.jpg" alt="img"></a></p>
+<p>具体什么意思呢，我们来一个个举例看看。用变量 <code>j</code> 表示指向当前状态的指针，当前 <code>pat</code> 匹配到了状态 4：</p>
+<p><a href="https://github.com/labuladong/fucking-algorithm/blob/master/pictures/kmp/exp1.jpg" target="_blank" rel="noopener"><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/exp1.jpg" alt="img"></a></p>
+<p>如果遇到了字符 “A”，根据箭头指示，转移到状态 3 是最聪明的：</p>
+<p><a href="https://github.com/labuladong/fucking-algorithm/blob/master/pictures/kmp/exp3.jpg" target="_blank" rel="noopener"><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/exp3.jpg" alt="img"></a></p>
+<p>如果遇到了字符 “B”，根据箭头指示，只能转移到状态 0（一夜回到解放前）：</p>
+<p><a href="https://github.com/labuladong/fucking-algorithm/blob/master/pictures/kmp/exp5.jpg" target="_blank" rel="noopener"><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/exp5.jpg" alt="img"></a></p>
+<p>如果遇到了字符 “C”，根据箭头指示，应该转移到终止状态 5，这也就意味着匹配完成：</p>
+<p><a href="https://github.com/labuladong/fucking-algorithm/blob/master/pictures/kmp/exp7.jpg" target="_blank" rel="noopener"><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/exp7.jpg" alt="img"></a></p>
+<p>当然了，还可能遇到其他字符，比如 Z，但是显然应该转移到起始状态 0，因为 <code>pat</code> 中根本都没有字符 Z：</p>
+<p><a href="https://github.com/labuladong/fucking-algorithm/blob/master/pictures/kmp/z.jpg" target="_blank" rel="noopener"><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/z.jpg" alt="img"></a></p>
+<p>这里为了清晰起见，我们画状态图时就把其他字符转移到状态 0 的箭头省略，只画 <code>pat</code> 中出现的字符的状态转移：</p>
+<p><a href="https://github.com/labuladong/fucking-algorithm/blob/master/pictures/kmp/allstate.jpg" target="_blank" rel="noopener"><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/allstate.jpg" alt="img"></a></p>
+<p>KMP 算法最关键的步骤就是构造这个状态转移图。<strong>要确定状态转移的行为，得明确两个变量，一个是当前的匹配状态，另一个是遇到的字符</strong>；确定了这两个变量后，就可以知道这个情况下应该转移到哪个状态。</p>
+<p>下面看一下 KMP 算法根据这幅状态转移图匹配字符串 <code>txt</code> 的过程：</p>
+<p><a href="https://github.com/labuladong/fucking-algorithm/blob/master/pictures/kmp/kmp.gif" target="_blank" rel="noopener"><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/kmp.gif" alt="img"></a></p>
+<p><strong>请记住这个 GIF 的匹配过程，这就是 KMP 算法的核心逻辑</strong>！</p>
+<p>为了描述状态转移图, 定义一个二维dp数组, 含义如下:</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">dp[j][c] = next </span><br><span class="line"><span class="number">0</span> &lt;= j &lt; M 代表当前状态 </span><br><span class="line"><span class="number">0</span> &lt;= c &lt; <span class="number">256</span> 代表遇到的字符(ASCII码)</span><br><span class="line"><span class="number">0</span> &lt;= next &lt;= M , 代表下一个状态 </span><br><span class="line"></span><br><span class="line">dp[<span class="number">4</span>][<span class="string">'A'</span>] = <span class="number">3</span> 表示 :</span><br><span class="line">当前是状态 <span class="number">4</span> , 如果遇到字符 A  pat 应该转移到状态<span class="number">3</span> </span><br><span class="line"></span><br><span class="line">dp[<span class="number">1</span>][<span class="string">'B'</span>] = <span class="number">2</span> 表示 :</span><br><span class="line">当前状态是<span class="number">1</span> , 如果遇到字符 B, pat 应该转移到状态 <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>根据dp数组定义和状态转移过程  可以写出KMP算法的search 函数代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(String txt)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> M = pat.length();</span><br><span class="line">	<span class="keyword">int</span> N = txt.length();</span><br><span class="line">	<span class="comment">//pat的初始态 为 0 </span></span><br><span class="line">	<span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)&#123;</span><br><span class="line">		<span class="comment">// 当前是状态 j, 遇到字符 txt[i] , </span></span><br><span class="line">		<span class="comment">// pat 应该转移到那个状态 </span></span><br><span class="line">		j=dp[j][txt.charAt(i)];</span><br><span class="line">		<span class="comment">//如果达到终止态, 返回匹配开头的索引</span></span><br><span class="line">		<span class="keyword">if</span>(j==M)<span class="keyword">return</span> i - M + <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//没达到终止态, 匹配失败 </span></span><br><span class="line">	<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>未完 </p>
+<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><h3 id="LRU"><a href="#LRU" class="headerlink" title="LRU"></a>LRU</h3><p>缓存淘汰策略 .快来手写LRU算法 </p>
+<p>No146 .  </p>
+<p>首先要接受一个cpacity 参数 作为缓存的最大容量 , 然后实现两个API ,一个是    put(key, val) 方法存入键值对, 另一个是get(key) 方法获取key 对应的val , 如果key 不存在则返回 -1. </p>
+<p>注意哦, <strong>get</strong>和 <strong>put</strong>  方法是O(1) 的时间复杂度, 我们举个具体例子来看看LRU 算法怎么工作 .</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 缓存容量为 2 */</span> </span><br><span class="line">LRUCache cache = new LRUCache(<span class="number">2</span>); </span><br><span class="line"><span class="comment">// 可以把cache 理解成一个队列 </span></span><br><span class="line"><span class="comment">// 假设左边是对头, 右边是队尾</span></span><br><span class="line"><span class="comment">// 最近使用的排在对头, 右边是队尾</span></span><br><span class="line"><span class="comment">// 最近使用的排在对头, 久未使用的排在队尾 .</span></span><br><span class="line"><span class="comment">// 圆括号表示键值对( key, val)</span></span><br><span class="line"></span><br><span class="line">cache.put(<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment">// cache = [(1,1)]</span></span><br><span class="line"></span><br><span class="line">cache.put(<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="comment">// cache = [(2,2), (1,1)]</span></span><br><span class="line"></span><br><span class="line">chche.<span class="keyword">get</span>(<span class="number">1</span>)  		<span class="comment">//返回 1</span></span><br><span class="line"><span class="comment">// cache = [(1,1),(2,2)]</span></span><br><span class="line"><span class="comment">// 解释: 因为最近访问了键 1, 所以提前队头 </span></span><br><span class="line"><span class="comment">// 返回键 1 对应的值 1 </span></span><br><span class="line"></span><br><span class="line">cache.put(<span class="number">3</span>,<span class="number">3</span>);</span><br><span class="line"><span class="comment">// cache = [(3,3),(1,1)]</span></span><br><span class="line"><span class="comment">// 解释:缓存容量已满, 需要删除内容空出位置 </span></span><br><span class="line"><span class="comment">// 优先删除久未使用的数据, 也就是队尾的数据 </span></span><br><span class="line"><span class="comment">// 然后把新的数据插入队头</span></span><br><span class="line"></span><br><span class="line">cache.<span class="keyword">get</span>(<span class="number">2</span>) ;     	<span class="comment">// 返回 -1 (未找到)</span></span><br><span class="line"><span class="comment">// cache = [(3,3),(1,1)]</span></span><br><span class="line"><span class="comment">// 解释 : cache 中不存在键为 2的数据 </span></span><br><span class="line"></span><br><span class="line">cache.put(<span class="number">1</span>,<span class="number">4</span>)</span><br><span class="line"><span class="comment">// cache = [(1,4).(3,3)]</span></span><br><span class="line"><span class="comment">// 解释: 键 1已存在, 把原始值覆盖为4 </span></span><br><span class="line"><span class="comment">// 不要忘了也要将键值队提到 队头</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="LRU-设计"><a href="#LRU-设计" class="headerlink" title="LRU 设计"></a>LRU 设计</h4><ol>
+<li><p>分析上面操作过程, 要让put和get 方法 时间复杂度为O(1), 我们可以总结出 cache 这个数据结构必要条件 </p>
+</li>
+<li><p>在cache中快速找某个key是否已存在并得到对应的value</p>
+</li>
+<li><p>每次访问 cache 中的某个key , 需要将这个元素变为最近使用的, 也就是cache 要支持在任意位置快速插入和删除元素 </p>
+</li>
+</ol>
+<p>结合上面要求 , 形成一种新的数据结构: 哈希链表 : LinkedHashMap</p>
+<p>LRU 缓存算法的核心数据结构就是哈希链表, 双向链表和哈希表的结合体 </p>
+<p><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/4.jpg" alt="HashLinkedList"></p>
+<p>我们构建 缓存 需要删除操作 ,删除一个节点不光要得到该节点本身的指针, 也需要操作其前驱节点的指针,而双向链表才能支持查找前驱, 保证操作的时间复杂度O(1)</p>
+<p><strong>注意我们实现的双链表只能从尾部插入, 也就是说靠近尾部的数据是最近使用的 , 靠头部的数据是最久未使用的</strong></p>
+<p>有了双向链表的实现, 我们只需要在LRU算法中把它和哈希表结合起来即可 </p>
+<p>同时维护一个双链表cache和一个哈希表map , 很容易漏掉一些操作, 比如删除某个key 时 , 在cache 中删除了对应的Node, 但忘记了在map中删除 key </p>
+<p><strong>在两种数据结构上提供一层抽象API</strong> </p>
+<p>尽量让LUR 的主方法 get 和 put 避免直接操作 map和 cache 的细节 </p>
+<p>当我们对元素进行操作时的时候, 我们需要用到key来保证 cache 和 map的一致性 </p>
+<p>当缓存容量已满, 我们不仅仅要删除最后一个Node 节点, 还要把map 中映射到该节点的key同时删除, 而这个key 只能由 Node 得到 , 如果 Node 结构中只存储 val , 那么我们就无法得知key 时什么 , 无法删除 map 中的键 , 造成错误</p>
+<p>使用函数 对 操作进行简单封装 ,调用这些函数就可以避免直接操作 cache 链表 和 map 哈希表   </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> LRU;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> badpoone</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">int</span> key,val;</span><br><span class="line">    <span class="keyword">public</span>  Node next, prev;</span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="title">Node</span><span class="params">(<span class="keyword">int</span> k, <span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.key = k ;</span><br><span class="line">        <span class="keyword">this</span>.val = v ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/******* */</span></span><br><span class="line"><span class="keyword">package</span> LRU;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> badpoone</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DoubleList</span> </span>&#123;</span><br><span class="line">    <span class="comment">//头尾虚节点</span></span><br><span class="line">    <span class="keyword">private</span> Node head, tail;</span><br><span class="line">    <span class="comment">//链表元素数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DoubleList</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//初始化双向链表数据</span></span><br><span class="line">        head = <span class="keyword">new</span> Node(<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">        tail = <span class="keyword">new</span> Node(<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">        head.next = tail;</span><br><span class="line">        tail.prev = head;</span><br><span class="line">        size = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *    在链表尾部添加节点x, 时间O(1)</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> x 被添加节点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span>  <span class="title">addLast</span><span class="params">(Node x)</span></span>&#123;</span><br><span class="line">        <span class="comment">//将被插入位置的节点记录为x的记录</span></span><br><span class="line">        x.prev = tail.prev;</span><br><span class="line">        <span class="comment">//将tail 节点变成x的next 节点</span></span><br><span class="line">        x.next = tail;</span><br><span class="line">        tail.prev.next = x;</span><br><span class="line">        tail.prev = x;</span><br><span class="line">        size ++ ;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除链表种 的x节点(x一定存在)</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> x</span></span><br><span class="line"><span class="comment">     * 由于是双链表且给的是目标Node节点, 时间 O(1)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(Node x)</span></span>&#123;</span><br><span class="line">        <span class="comment">//x的前一个节点</span></span><br><span class="line">        x.prev.next = x.next;</span><br><span class="line">        <span class="comment">//x的后一个节点</span></span><br><span class="line">        x.next.prev = x.prev;</span><br><span class="line">        size--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 溢出链表中第一个节点, 并返回该节点, 时间O(1)</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 被删除的第一个节点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Node <span class="title">removeFirst</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(head.next==<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Node first = head.next;</span><br><span class="line">        remove(first);</span><br><span class="line">        <span class="keyword">return</span>  first;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 链表长度</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span>  size;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="get"><a href="#get" class="headerlink" title="get"></a>get</h4><p>,来实现 LRU 算法的get 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!map.containsKey(key)) &#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 将该数据提升为最近使用的</span></span><br><span class="line">    makeRecently(key);</span><br><span class="line">    <span class="keyword">return</span> map.get(key).val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="put"><a href="#put" class="headerlink" title="put"></a>put</h4><p>put 方法比较复杂 </p>
+<p><img src="../images/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/put.jpg" alt="img"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">put</span><span class="params">(<span class="keyword">int</span> key, <span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(map.containsKey(key))&#123;</span><br><span class="line">           <span class="comment">//删除旧的数据</span></span><br><span class="line">           deleteKey(key);</span><br><span class="line">           <span class="comment">//新插入的数据为最近使用的数据</span></span><br><span class="line">           addRecently(key,val);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span>(cap == cache.size())&#123;</span><br><span class="line">           <span class="comment">//删除最久未使用的元素</span></span><br><span class="line">           removeLeastRecently();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//添加为最近使用的元素</span></span><br><span class="line">       addRecently(key,val);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>完整 LRU</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> LRU;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.security.interfaces.ECKey;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> badpoone</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//key -&gt; Nodde(key,val)</span></span><br><span class="line">    <span class="keyword">private</span> HashMap&lt;Integer, Node&gt; map;</span><br><span class="line">    <span class="comment">//Node(k1</span></span><br><span class="line">    <span class="comment">// ,v1) &lt;-&gt; Node(k2,v2) ...</span></span><br><span class="line">    <span class="keyword">private</span> DoubleList cache ;</span><br><span class="line">    <span class="comment">//最大容量</span></span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">int</span> cap;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LRUCache</span><span class="params">(<span class="keyword">int</span> capacity)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.cap = capacity;</span><br><span class="line">        map = <span class="keyword">new</span> HashMap&lt;&gt;( );</span><br><span class="line">        cache = <span class="keyword">new</span> DoubleList();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *  将某个key提升为最近使用的   */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span>  <span class="title">makeRecently</span><span class="params">(<span class="keyword">int</span> key)</span></span>&#123;</span><br><span class="line">        Node x=map.get(key);</span><br><span class="line">        <span class="comment">//先从链表中删除这个节点</span></span><br><span class="line">        cache.remove(x);</span><br><span class="line">        <span class="comment">//重新插到队尾</span></span><br><span class="line">        cache.addLast(x);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 添加最近使用的元素</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addRecently</span><span class="params">(<span class="keyword">int</span> key,<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">        Node x = <span class="keyword">new</span> Node(key,val);</span><br><span class="line">        <span class="comment">//链表尾就是最近使用的元素</span></span><br><span class="line">        cache.addLast(x);</span><br><span class="line">        <span class="comment">// 在map中添加key 的映射</span></span><br><span class="line">        map.put(key,x);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key  删除某一个key</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">deleteKey</span><span class="params">(<span class="keyword">int</span> key)</span></span>&#123;</span><br><span class="line">        Node x = map.get(key);</span><br><span class="line">        <span class="comment">//从链表中删除</span></span><br><span class="line">        cache.remove(x);</span><br><span class="line">        <span class="comment">//从map中删除</span></span><br><span class="line">        map.remove(x);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除最久未使用的元素</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">removeLeastRecently</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//链表头部的第一个元素就是最久未使用的</span></span><br><span class="line">        Node deleteNode = cache.removeFirst();</span><br><span class="line">        <span class="comment">//同时别忘了从高map中 删除它的key</span></span><br><span class="line">        <span class="keyword">int</span> deletedKey = deleteNode.key;</span><br><span class="line">        map.remove(deletedKey);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">int</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> key)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!map.containsKey(key))&#123;</span><br><span class="line">            <span class="keyword">return</span>  -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//将该数据提升为最近使用的</span></span><br><span class="line">        makeRecently(key);</span><br><span class="line">        <span class="keyword">return</span>  map.get(key).val;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">put</span><span class="params">(<span class="keyword">int</span> key, <span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(map.containsKey(key))&#123;</span><br><span class="line">            <span class="comment">//删除旧的数据</span></span><br><span class="line">            deleteKey(key);</span><br><span class="line">            <span class="comment">//新插入的数据为最近使用的数据</span></span><br><span class="line">            addRecently(key,val);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(cap == cache.size())&#123;</span><br><span class="line">            <span class="comment">//删除最久未使用的元素</span></span><br><span class="line">            removeLeastRecently();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//添加为最近使用的元素</span></span><br><span class="line">        addRecently(key,val);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="使用内置LinkedHashMap实现"><a href="#使用内置LinkedHashMap实现" class="headerlink" title="使用内置LinkedHashMap实现"></a>使用内置LinkedHashMap实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> LRU;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.LinkedHashMap;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> badpoone</span></span><br><span class="line"><span class="comment"> * 使用java内置类型LinkedHashMap实现</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LRU</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cap;</span><br><span class="line">    LinkedHashMap&lt;Integer,Integer&gt; cache = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LRU</span><span class="params">(<span class="keyword">int</span> captity)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.cap = captity;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> key)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!cache.containsKey(key))&#123;</span><br><span class="line">            <span class="keyword">return</span>  -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//将key 变为最近使用</span></span><br><span class="line">        makeRecently(key);</span><br><span class="line">        <span class="keyword">return</span> cache.get(key);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> key,<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(cache.containsKey(key))&#123;</span><br><span class="line">            <span class="comment">//修改key 值</span></span><br><span class="line">            cache.put(key,val);</span><br><span class="line">            <span class="comment">//将key 变为最近使用</span></span><br><span class="line">            makeRecently(key);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cache.size() &gt;= <span class="keyword">this</span>.cap)&#123;</span><br><span class="line">            <span class="comment">//链表头部为最久未使用的key</span></span><br><span class="line">            <span class="keyword">int</span> oldestKey = cache.keySet().iterator().next();</span><br><span class="line">            cache.remove(oldestKey);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//将新的key 添加到 链表尾部</span></span><br><span class="line">        cache.put(key,val);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">makeRecently</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> val = cache.get(key);</span><br><span class="line">        <span class="comment">//删除key ,重新插入队尾</span></span><br><span class="line">        cache.remove(key);</span><br><span class="line">        cache.put(key,val);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>pOne
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="/jal285.github.io/java/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="java&#x2F;数据结构">jal285.github.io/java/数据结构/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/java/%E4%BB%A3%E7%A0%81%E6%95%B4%E6%B4%81%E4%B9%8B%E9%81%93/" rel="prev" title="java/代码整洁之道">
+      <i class="fa fa-chevron-left"></i> java/代码整洁之道
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据结构"><span class="nav-number">1.</span> <span class="nav-text">数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#链表"><span class="nav-number">1.1.</span> <span class="nav-text">链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#队列"><span class="nav-number">1.2.</span> <span class="nav-text">队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#剑指Offer-No-09"><span class="nav-number">1.2.1.</span> <span class="nav-text">剑指Offer No.09</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉树"><span class="nav-number">1.3.</span> <span class="nav-text">二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树遍历框架"><span class="nav-number">1.3.1.</span> <span class="nav-text">二叉树遍历框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉搜索树"><span class="nav-number">1.3.2.</span> <span class="nav-text">二叉搜索树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BST"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">BST</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#BST查找操作"><span class="nav-number">1.3.2.1.1.</span> <span class="nav-text">BST查找操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BST-插入"><span class="nav-number">1.3.2.1.2.</span> <span class="nav-text">BST 插入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BST删除"><span class="nav-number">1.3.2.1.3.</span> <span class="nav-text">BST删除</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BST存在的问题"><span class="nav-number">1.3.2.1.4.</span> <span class="nav-text">BST存在的问题</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RBTree"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">RBTree</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TreeMap"><span class="nav-number">1.3.3.</span> <span class="nav-text">TreeMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#红黑树"><span class="nav-number">1.3.4.</span> <span class="nav-text">红黑树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查找操作"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">查找操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#插入操作"><span class="nav-number">1.3.4.3.</span> <span class="nav-text">插入操作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希"><span class="nav-number">1.4.</span> <span class="nav-text">哈希</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贪心算法"><span class="nav-number">1.5.</span> <span class="nav-text">贪心算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OfferNo14-剪绳子问题"><span class="nav-number">1.5.1.</span> <span class="nav-text">OfferNo14   剪绳子问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态规划"><span class="nav-number">1.6.</span> <span class="nav-text">动态规划</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#KMP字符匹配算法"><span class="nav-number">1.6.1.</span> <span class="nav-text">KMP字符匹配算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态机概述"><span class="nav-number">1.6.2.</span> <span class="nav-text">状态机概述</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法"><span class="nav-number">1.7.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LRU"><span class="nav-number">1.7.1.</span> <span class="nav-text">LRU</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LRU-设计"><span class="nav-number">1.7.1.1.</span> <span class="nav-text">LRU 设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#get"><span class="nav-number">1.7.1.2.</span> <span class="nav-text">get</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#put"><span class="nav-number">1.7.1.3.</span> <span class="nav-text">put</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用内置LinkedHashMap实现"><span class="nav-number">1.7.2.</span> <span class="nav-text">使用内置LinkedHashMap实现</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="pOne"
+      src="/images/cat.jpg">
+  <p class="site-author-name" itemprop="name">pOne</p>
+  <div class="site-description" itemprop="description">to lean your likes</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jal285" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jal285" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2233451206@qq.com" title="E-Mail → mailto:2233451206@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pOne</span>
+  <span>&nbsp;<a href="http://www.miitbeian.gov.cn/" target="_blank" rel="noopener">粤ICP备20006130号</a></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="true"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<! -- clicklove -->
+<script type="text/javascript" src="/js/src/clicklove.js"> </script>
+</body>
+</html>
