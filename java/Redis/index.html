@@ -27,12 +27,12 @@
 <meta property="og:url" content="jal285.github.io/java/Redis/index.html">
 <meta property="og:site_name" content="pOne&#39;s blog">
 <meta property="og:description" content="学习Redis">
-<meta property="og:image" content="jal285.github.io/java/images/Redis/v2-8be3d5948f178144a83eec26e2fa2ab6_720w.jpg">
+<meta property="og:image" content="/images/Redis/v2-8be3d5948f178144a83eec26e2fa2ab6_720w.jpg">
 <meta property="article:published_time" content="2021-05-23T08:38:46.250Z">
 <meta property="article:modified_time" content="2021-05-23T08:38:46.250Z">
 <meta property="article:author" content="pOne">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="jal285.github.io/java/images/Redis/v2-8be3d5948f178144a83eec26e2fa2ab6_720w.jpg">
+<meta name="twitter:image" content="/images/Redis/v2-8be3d5948f178144a83eec26e2fa2ab6_720w.jpg">
 
 <link rel="canonical" href="jal285.github.io/java/Redis/">
 
@@ -262,7 +262,7 @@
 <p> I/O 多路复用, 完成多个工作, 只有一个线程  A</p>
 <p>thread A通过跟踪每个I/O流的状态 , 也就是任务的工作内容, 地点 ,来管理多个I/O流</p>
 <p>一下为Redis线程模型 </p>
-<p><img src="../images/Redis/v2-8be3d5948f178144a83eec26e2fa2ab6_720w.jpg" alt="img"></p>
+<p><img src="/images/Redis/v2-8be3d5948f178144a83eec26e2fa2ab6_720w.jpg" alt="img"></p>
 <p>Redis-client 在操作的时候，会产生具有不同事件类型的 Socket。在服务端，有一段 I/O 多路复用程序，将其置入队列之中。然后，文件事件分派器，依次去队列中取，转发到不同的事件处理器中。String</p>
 <p>最常规的 set/get 操作，Value 可以是 String 也可以是数字。一般做一些复杂的计数功能的缓存。</p>
 <p>五种数据类型</p>

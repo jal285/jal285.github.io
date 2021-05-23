@@ -27,12 +27,12 @@
 <meta property="og:url" content="jal285.github.io/java/java_temp_writ/index.html">
 <meta property="og:site_name" content="pOne&#39;s blog">
 <meta property="og:description" content="简易rpc框架">
-<meta property="og:image" content="jal285.github.io/java/images/java_temp_writ/137084-20180506151205222-740014430.png">
+<meta property="og:image" content="/images/java_temp_writ/137084-20180506151205222-740014430.png">
 <meta property="article:published_time" content="2021-05-23T08:38:46.230Z">
 <meta property="article:modified_time" content="2021-05-23T08:38:46.230Z">
 <meta property="article:author" content="pOne">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="jal285.github.io/java/images/java_temp_writ/137084-20180506151205222-740014430.png">
+<meta name="twitter:image" content="/images/java_temp_writ/137084-20180506151205222-740014430.png">
 
 <link rel="canonical" href="jal285.github.io/java/java_temp_writ/">
 
@@ -236,14 +236,14 @@
 <p>允许一台计算机调用另一台计算机上的程序得到结果, 代码中不需要额外的编程, 像在本地调用一样</p>
 <p>分布式的应用可以借助RPC来完成 机器之间的调用 </p>
 <p> <strong>RPC框架原理</strong></p>
-<p>在RPC框架中主要有三个角色：Provider、Consumer和Registry。如下图所示：<br><img src="../images/java_temp_writ/137084-20180506151205222-740014430.png" alt="img"></p>
+<p>在RPC框架中主要有三个角色：Provider、Consumer和Registry。如下图所示：<br><img src="/images/java_temp_writ/137084-20180506151205222-740014430.png" alt="img"></p>
 <p>节点角色说明：<br>* Server: 暴露服务的服务提供方。<br>* Client: 调用远程服务的服务消费方。<br>* Registry: 服务注册与发现的注册中心。</p>
 <h1 id="java-temp"><a href="#java-temp" class="headerlink" title="java_temp"></a>java_temp</h1><!-- more -->
 
 
 
 <h2 id="常用java-库"><a href="#常用java-库" class="headerlink" title="常用java 库"></a>常用java 库</h2><p><a href="https://docs.oracle.com/javase/10/docs/api/javax/swing/JFrame.html" target="_blank" rel="noopener"><u>javax.swing.JFrame</u></a>      制作窗口</p>
-<p><a href="">javax.awt.color.</a>   this.ssetBackground(Color.WHITE);</p>
+<p><a href>javax.awt.color.</a>   this.ssetBackground(Color.WHITE);</p>
 <p>synchronized关键字使多线程依次排队操作共享变量,即解决多线线程运算结果偏差</p>
 <!-- more -->
 
@@ -269,10 +269,9 @@
 <p>最后：将port=”8080”改为其它的就可以了</p>
 <p>。如port=”8081”等。<br>保存server.xml文件，重新启动Tomcat服务器，Tomcat就可以使用8081端口了。</p>
 <p>注意，有的时候要使用两个tomcat，那么就需要修改其中的一个的端口号才能使得两个同时工作。</p>
-<p>修改了上面的以后，还要修改两处：<br>         1. 将 <Connector port="8009" enableLookups="false" redirectPort="8443" debug="0"
-protocol="AJP/1.3" />的8009改为其它的端口。</p>
+<p>修改了上面的以后，还要修改两处：<br>         1. 将 <Connector port="8009" enablelookups="false" redirectport="8443" debug="0" protocol="AJP/1.3">的8009改为其它的端口。</Connector></p>
 <ol start="2">
-<li>继续将<Server port="8005" shutdown="SHUTDOWN" debug="0">的8005改为其它的端口。<br> 经过以上3个修改，应该就可以了。</li>
+<li>继续将<Server port="8005" shutdown="SHUTDOWN" debug="0">的8005改为其它的端口。<br> 经过以上3个修改，应该就可以了。</Server></li>
 </ol>
 <p>hashMap 中的hash</p>
 

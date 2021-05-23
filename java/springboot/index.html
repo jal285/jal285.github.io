@@ -27,19 +27,19 @@
 <meta property="og:url" content="jal285.github.io/java/springboot/index.html">
 <meta property="og:site_name" content="pOne&#39;s blog">
 <meta property="og:description" content="记录一些写程序中得到的知识">
-<meta property="og:image" content="jal285.github.io/java/images/springboot/image-20210420164023668.png">
-<meta property="og:image" content="jal285.github.io/java/images/springboot/image-20210420164355301.png">
-<meta property="og:image" content="jal285.github.io/java/images/springboot/image-20210420164608039.png">
-<meta property="og:image" content="jal285.github.io/java/images/springboot/image-20210420164652108.png">
-<meta property="og:image" content="jal285.github.io/java/images/springboot/image-20210420173827462.png">
-<meta property="og:image" content="jal285.github.io/java/images/springboot/image-20210420173851245.png">
-<meta property="og:image" content="jal285.github.io/java/images/springboot/image-20210420173939168.png">
-<meta property="og:image" content="jal285.github.io/java/images/springboot/image-20210420173957464.png">
+<meta property="og:image" content="/images/springboot/image-20210420164023668.png">
+<meta property="og:image" content="/images/springboot/image-20210420164355301.png">
+<meta property="og:image" content="/images/springboot/image-20210420164608039.png">
+<meta property="og:image" content="/images/springboot/image-20210420164652108.png">
+<meta property="og:image" content="/images/springboot/image-20210420173827462.png">
+<meta property="og:image" content="/images/springboot/image-20210420173851245.png">
+<meta property="og:image" content="/images/springboot/image-20210420173939168.png">
+<meta property="og:image" content="/images/springboot/image-20210420173957464.png">
 <meta property="article:published_time" content="2021-05-23T08:38:46.254Z">
 <meta property="article:modified_time" content="2021-05-23T08:38:46.254Z">
 <meta property="article:author" content="pOne">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="jal285.github.io/java/images/springboot/image-20210420164023668.png">
+<meta name="twitter:image" content="/images/springboot/image-20210420164023668.png">
 
 <link rel="canonical" href="jal285.github.io/java/springboot/">
 
@@ -239,25 +239,25 @@
       
         <h1 id="记录一些写程序中得到的知识"><a href="#记录一些写程序中得到的知识" class="headerlink" title="记录一些写程序中得到的知识"></a>记录一些写程序中得到的知识</h1><a id="more"></a>
 
-<h2 id="使用postman"><a href="#使用postman" class="headerlink" title="使用postman"></a>使用postman</h2><h3 id="post请求传递给-RequestBody-数据"><a href="#post请求传递给-RequestBody-数据" class="headerlink" title="post请求传递给@RequestBody 数据"></a>post请求传递给@RequestBody 数据</h3><p><img src="../images/springboot/image-20210420164023668.png" alt="image-20210420164023668"></p>
+<h2 id="使用postman"><a href="#使用postman" class="headerlink" title="使用postman"></a>使用postman</h2><h3 id="post请求传递给-RequestBody-数据"><a href="#post请求传递给-RequestBody-数据" class="headerlink" title="post请求传递给@RequestBody 数据"></a>post请求传递给@RequestBody 数据</h3><p><img src="/images/springboot/image-20210420164023668.png" alt="image-20210420164023668"></p>
 <p>这里使用的是 @RequestBody 获得post传递的json数据 </p>
 <p>因为是以<strong>简单对象</strong>接收数据, 所以使用 json  , RESTfunl web服务一般会将返回地数据以JSON的形式返回 ,  </p>
 <p>第一次发送数据</p>
-<p><img src="../images/springboot/image-20210420164355301.png" alt="image-20210420164355301"></p>
+<p><img src="/images/springboot/image-20210420164355301.png" alt="image-20210420164355301"></p>
 <p>得到的返回</p>
-<p><img src="../images/springboot/image-20210420164608039.png" alt="image-20210420164608039"></p>
+<p><img src="/images/springboot/image-20210420164608039.png" alt="image-20210420164608039"></p>
 <p>再次添加</p>
-<p><img src="../images/springboot/image-20210420164652108.png" alt="image-20210420164652108"></p>
+<p><img src="/images/springboot/image-20210420164652108.png" alt="image-20210420164652108"></p>
 <p>因为 我设置的@RequestBody 接受对象Book还存在着另一个对象, 所以想到为Book对象中的booCase对象传入数据 </p>
 <p>,自己直接在postman中尝试发送数据的时候因为参考一些别的文章, 导致发送数据的格式不正确 </p>
 <p>所以想到自己添加一个数据进bookCase对象,并利用book对象返回json数据得到 正确格式 </p>
-<p><img src="../images/springboot/image-20210420173827462.png" alt="image-20210420173827462"></p>
+<p><img src="/images/springboot/image-20210420173827462.png" alt="image-20210420173827462"></p>
 <p>返回地数据为 </p>
-<p><img src="../images/springboot/image-20210420173851245.png" alt="image-20210420173851245"></p>
+<p><img src="/images/springboot/image-20210420173851245.png" alt="image-20210420173851245"></p>
 <p>按照这种类型的格式进行json的写入</p>
-<p><img src="../images/springboot/image-20210420173939168.png" alt="image-20210420173939168"></p>
+<p><img src="/images/springboot/image-20210420173939168.png" alt="image-20210420173939168"></p>
 <p>传入结果</p>
-<p><img src="../images/springboot/image-20210420173957464.png" alt="image-20210420173957464"></p>
+<p><img src="/images/springboot/image-20210420173957464.png" alt="image-20210420173957464"></p>
 <p>网上搜到这种为 嵌套json , 还有 json 数组等其他数据格式 </p>
 
     </div>
