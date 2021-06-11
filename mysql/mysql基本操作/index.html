@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="zh-CN en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="google-site-verification" content="oBDuH0uFwsCklfLVrv3YP51al4TQiIuRQLW6p8VIz88" />
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"jal285.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="mysql相关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql&#x2F;mysql基本操作">
+<meta property="og:url" content="jal285.github.io/mysql/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="pOne&#39;s blog">
+<meta property="og:description" content="mysql相关">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/image-20210501180404500.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/image-20210501182226551.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/image-20210505093116822.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/log-as-database.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128200647649-2138221098.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128200732629-417401931.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128200751635-466164258.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201003630-2050662608.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201011603-1317894910.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201021606-1089980279.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201034603-681355962.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201103652-719570401.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201111615-210490190.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201126604-235257040.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201139635-1779107964.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201149661-1275460669.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201206609-1998192060.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201219610-1942897077.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/image-20200910203442350.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/image-20200910203614246.png">
+<meta property="og:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/image-20201026174645717.png">
+<meta property="article:published_time" content="2021-06-11T09:51:39.458Z">
+<meta property="article:modified_time" content="2021-06-11T09:51:39.458Z">
+<meta property="article:author" content="pOne">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/image-20210501180404500.png">
+
+<link rel="canonical" href="jal285.github.io/mysql/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>mysql/mysql基本操作 | pOne's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">pOne's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">pOne's website</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">43</span></a>
+
+  </li>
+        <li class="menu-item menu-item-favourite">
+
+    <a href="/favourite/" rel="section"><i class="fa fa-fw fa-fa-star"></i>favourite</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN en">
+    <link itemprop="mainEntityOfPage" href="jal285.github.io/mysql/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.jpg">
+      <meta itemprop="name" content="pOne">
+      <meta itemprop="description" content="to lean your likes">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pOne's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          mysql/mysql基本操作
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-06-11 17:51:39" itemprop="dateCreated datePublished" datetime="2021-06-11T17:51:39+08:00">2021-06-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="mysql相关"><a href="#mysql相关" class="headerlink" title="mysql相关"></a>mysql相关</h1><a id="more"></a>
+
+<p>[TOC]</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>基本操作</p>
+<h3 id="查看和修改port"><a href="#查看和修改port" class="headerlink" title="查看和修改port"></a>查看和修改port</h3><p>查看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show global variables like &#39;port&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>修改</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vi</span>  /etc/my.<span class="keyword">cnf</span> 文件</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义id规则"><a href="#自定义id规则" class="headerlink" title="自定义id规则"></a>自定义id规则</h3><h4 id="自动填写id"><a href="#自动填写id" class="headerlink" title="自动填写id"></a>自动填写id</h4><p>CREATE TABLE table_name{</p>
+<p>id MEDIUMINT NOT NULL AUTO_INCREMENT,</p>
+<p>name CHAR(30) not null, </p>
+<p>PRIMARY KEY (id)</p>
+<p>}  </p>
+<p>注： 选择合适的integer类型 ，建议使用无符号类型mysql自动填写id </p>
+<p>AT&amp;T<a href="http://images.google.com/images?num=30&amp;q=larry+bird" target="_blank" rel="noopener">http://images.google.com/images?num=30&amp;q=larry+bird</a></p>
+<h4 id="实现id删除后自动填补"><a href="#实现id删除后自动填补" class="headerlink" title="实现id删除后自动填补"></a>实现id删除后自动填补</h4><p>1，不清空数据</p>
+<p>原理：删除原有的自增ID，重新建立新的自增ID</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">删除原有主键：</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">'table_name'</span> <span class="keyword">DROP</span> <span class="string">'id'</span>;</span><br><span class="line">添加新主键字段并设置逐渐：</span><br><span class="line"><span class="keyword">ALTER</span> TABE <span class="string">'table_name'</span> <span class="keyword">ADD</span> <span class="string">'id'</span> mediumint(<span class="number">6</span>) PRIMARY <span class="keyword">KEY</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">FIRST</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h3><p>集中常用的存储引擎</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>MyISAM</th>
+<th>InnoDB</th>
+<th>MEMORY</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>存储限制</td>
+<td>有</td>
+<td>支持</td>
+<td>有</td>
+</tr>
+<tr>
+<td>事务安全</td>
+<td>不支持</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>锁机制</td>
+<td>表锁</td>
+<td>行锁</td>
+<td>表锁</td>
+</tr>
+<tr>
+<td>B树索引</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>哈希索引</td>
+<td>不支持</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>全文索引</td>
+<td>支持</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>集群索引</td>
+<td>不支持</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>数据缓存</td>
+<td></td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>索引缓存</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>数据可压缩</td>
+<td>支持</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>空间使用</td>
+<td>低</td>
+<td>高</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>内存使用</td>
+<td>低</td>
+<td>高</td>
+<td>中等</td>
+</tr>
+<tr>
+<td>批量插入速度</td>
+<td>高</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>支持外键</td>
+<td>不支持</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+</tbody></table>
+<p>1） MyISAM</p>
+<p>Mysql 5.1版本及之前的默认存储引擎   不支持事务和外键，访问速度较快，</p>
+<p>如果应用主要以读取和写入为主，只有少量的更新和删除操作，并且对事务的完整型，并发性要求不是很高，那么选择MylSAM存储引擎是非常适合的</p>
+<p>2)InnoDB</p>
+<p>MySQL 5.5版本后的默认的事务型引擎</p>
+<p>InnoDB存储引擎在事务上具有优势，即支持具有提交、回滚和崩溃回复能力的事务安装，所以比MyISAM存储引擎占用更多的磁盘空间</p>
+<p>如果应用对事务的完整性有比较高的要求，在并发条件下要求数据的一致性，数据操作除了插入和查询以外，还包括很多的更新、删除操作，那么 InnoDB 存储引擎是比较合适的选择。</p>
+<p>InnoDB 存储引擎除了可以有效地降低由于删除和更新导致的锁定，还可以确保事务的完整提交（Commit）和回滚（Rollback），对于类似计费系统或者财务系统等对数据准确性要求比较高的系统，InnoDB 都是合适的选择。</p>
+<p>3）MEMORY</p>
+<p>MEMORY 存储引擎将所有数据保存在RAM中，所以该存储引擎的访问速度块，但是在安全上没有保障</p>
+<p>MEMORY对表的大小有限制，太大的表无法缓存在内存中。由于使用MEMORY存储引擎没有安全保障，所以要确保数据库异常终止后表中的数据可以恢复</p>
+<p>如果应用中涉及数据比较少，且需要进行快速访问，则适合使用MEMORY存储引擎./</p>
+<h4 id="查看和修改数据表的存储引擎"><a href="#查看和修改数据表的存储引擎" class="headerlink" title="查看和修改数据表的存储引擎"></a>查看和修改数据表的存储引擎</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">VARIABLES</span> <span class="keyword">LIKE</span> <span class="string">'default_storage_engine%'</span>; 查看默认存储引擎</span><br><span class="line"><span class="keyword">SET</span> default_storage_engine=&lt;存储引擎名&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span>  talbe_name \G 查看table_name表当前的存储引擎</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name <span class="keyword">ENGINE</span>=MylSAM ; 修改table表的存储引擎为MylSAM类型，</span><br></pre></td></tr></table></figure>
+
+<p>以上这种方法适用于修改单个表的存储引擎，如果希望修改默认的存储引擎，就需要修改 my.cnf 配置文件。在 my.cnf 配置文件的 [mysqld] 后面加入以下语句：</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">default</span>-storage-engine=存储引擎名称</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><p>主键，外键，索引（index），唯一索引</p>
+<p>  <strong>1、主键(primary key)</strong> 能够唯一标识表中某一行的属性或属性组。一个表只能有一个主键，但可以有多个候选索引。主键常常与外键构成参照完整性约束，防止出现数据不一致。主键可以保证记录的唯一和主键域非空,数据库管理系统对于主键自动生成唯一索引，所以<strong>主键也是一个特殊的索引</strong>。</p>
+<p>  <strong>2、外键（foreign key）</strong> 是用于建立和加强两个表数据之间的链接的一列或多列。外键约束主要用来维护两个表之间数据的一致性。简言之，表的外键就是另一表的主键，外键将两表联系起来。一般情况下，要删除一张表中的主键必须首先要确保其它表中的没有相同外键（即该表中的主键没有一个外键和它相关联）。</p>
+<p>  <strong>3、索引(index)</strong> 是用来快速地寻找那些具有特定值的记录。主要是为了检索的方便，是为了加快访问速度， 按一定的规则创建的，一般起到排序作用。所谓<strong>唯一性索引</strong>，这种索引和前面的“普通索引”基本相同，但有一个区别：索引列的所有值都只能出现一次，即必须唯一。</p>
+<p>  <strong>总结：</strong></p>
+<p>主键一定是唯一性索引，唯一性索引并不一定就是主键。</p>
+<p> 一个表中可以有多个唯一性索引，但只能有一个主键。</p>
+<p>主键列不允许空值，而唯一性索引列允许空值。</p>
+<p>主键可以被其他字段作外键引用，而索引不能作为外键引用。</p>
+<h4 id="普通索引"><a href="#普通索引" class="headerlink" title="普通索引"></a>普通索引</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">创建索引，</span><br><span class="line">	CREATE INDEX &lt;索引的名字&gt; ON talbename(列的列表);</span><br><span class="line">修改表，</span><br><span class="line">	ALTER TABLE tablename ADD INDEX [索引的名字](列的列表) ;</span><br><span class="line">创建表的时候指定索引，</span><br><span class="line">	CREATE TABLE tablename ([...] ,	INDEX [索引的名字](列的列表))；</span><br></pre></td></tr></table></figure>
+
+<h4 id="唯一性索引"><a href="#唯一性索引" class="headerlink" title="唯一性索引"></a>唯一性索引</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">创建索引，例如:</span><br><span class="line">      CREATE UNIQUE INDEX &lt;索引的名字&gt; ON tablename (列的列表); </span><br><span class="line">修改表，例如:</span><br><span class="line">      ALTER TABLE tablename ADD UNIQUE [索引的名字] (列的列表); </span><br><span class="line">创建表的时候指定索引，例如:</span><br><span class="line">      CREATE TABLE tablename ( [...], UNIQUE [索引的名字] (列的列表) );</span><br></pre></td></tr></table></figure>
+
+<h4 id="主键"><a href="#主键" class="headerlink" title="主键"></a>主键</h4><p>主键是一种唯一性索引，但它必须指定为“<a href="http://whatis.ctocio.com.cn/searchwhatis/287/6026287.shtml" target="_blank" rel="noopener">PRIMARYKEY</a>”。(每个表只能有一个主键) </p>
+<ul>
+<li><p>主键值必须唯一标识表中的每一行，且不能为 NULL，即表中不可能存在有相同主键值的两行数据。这是唯一性原则。</p>
+</li>
+<li><p>一个字段名只能在联合主键字段表中出现一次。</p>
+</li>
+<li><p>联合主键不能包含不必要的多余字段。当把联合主键的某一字段删除后，如果剩下的字段构成的主键仍然满足唯一性原则，那么这个联合主键是不正确的。这是最小化原则。</p>
+</li>
+</ul>
+<p>主键一般在创建表的时候指定，例如</p>
+<p>“CREATE TABLE tablename([,,,],<strong>PRIMARY KEY</strong> （列的列表));”</p>
+<p>也可以通过修改表的方式加入主键，例如：</p>
+<p>“ALTER TABLE tablename ADD PRIMARY KEY (列的列表);”</p>
+<p>例 : 在test_db数据库中创建tb_emp3数据库，其主键为id</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE tb_emp3</span><br><span class="line">    -&gt; (</span><br><span class="line">    -&gt; id INT(11) PRIMARY KEY,</span><br><span class="line">    -&gt; name VARCHAR(25),</span><br><span class="line">    -&gt; deptId INT(11),</span><br><span class="line">    -&gt; salary FLOAT</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.37 sec)</span><br><span class="line">mysql&gt; DESC tb_emp3;</span><br><span class="line">+<span class="comment">--------+-------------+------+-----+---------+-------+</span></span><br><span class="line">| Field  | Type        | Null | Key | Default | Extra |</span><br><span class="line">+<span class="comment">--------+-------------+------+-----+---------+-------+</span></span><br><span class="line">| id     | int(11)     | NO   | PRI | NULL    |       |</span><br><span class="line">| name   | varchar(25) | YES  |     | NULL    |       |</span><br><span class="line">| deptId | int(11)     | YES  |     | NULL    |       |</span><br><span class="line">| salary | float       | YES  |     | NULL    |       |</span><br><span class="line">+<span class="comment">--------+-------------+------+-----+---------+-------+</span></span><br><span class="line">4 rows in <span class="keyword">set</span> (<span class="number">0.14</span> sec)</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> &lt;数据表名&gt; <span class="keyword">ADD</span> PRIMARY <span class="keyword">KEY</span>(&lt;字段名&gt;); 修改数据表时添加主键约束的语法格式</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> &lt;数据表名&gt; <span class="keyword">DROP</span> PRIMARY <span class="keyword">KEY</span>; 删除主键约束的语法格式</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="联合主键"><a href="#联合主键" class="headerlink" title="联合主键"></a>联合主键</h5><p>联合主键是由一张表中多个字段组成。</p>
+<p>设置学生选课数据表时，当学生编号和课程编号放一起共同作为主键（联合主键）就可以限定一个学生智能选择同一课程一次</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">主键由多个字段联合组成，语法格式如下:</span><br><span class="line">PRIMARY KEY[字段<span class="number">1</span>,字段<span class="number">2</span>,……,字段n]</span><br></pre></td></tr></table></figure>
+
+<p>例 创建数据表tb_emp5，假设表中没有主键id，为了唯一确定一个员工，可以把name,deptld 联合起来作为主键，sql语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE tb_emp5</span><br><span class="line">    -&gt; (</span><br><span class="line">    -&gt; name VARCHAR(25),</span><br><span class="line">    -&gt; deptId INT(11),</span><br><span class="line">    -&gt; salary FLOAT,</span><br><span class="line">    -&gt; PRIMARY KEY(id,deptId)</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.37 sec)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">设置主键自增字段初始值</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tb_student2(</span><br><span class="line"> <span class="keyword">id</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line"> </span><br><span class="line">)AUTO_INCREMENT = <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="外键约束（FOREIGN-KEY）"><a href="#外键约束（FOREIGN-KEY）" class="headerlink" title="外键约束（FOREIGN KEY）"></a>外键约束（FOREIGN KEY）</h4><p>MySQL 外键约束经常与主键约束一起使用，对于两个具有关联关系的表而言，相关字段中主键所在的表就是主表（父表），外键所在的表就是从表(子表)</p>
+<p>外键用来建立主表与从表的关联关系，为两个表的数据建立链接，约束两个表中数据的一致性和完整性，比如，水果摊上只有苹果、桃子、李子、西瓜等4种水果，那么你来水果毯买水果就只能选择这四种水果，其它的水果是不能买的</p>
+<p>主表更改某条记录时，从表中与之对应的记录也必须要有相应的改变，一个表可以有一个或多个外键，外键可为空，若不为空，则每一个外键的值必须等于主表中主键的某个值</p>
+<p>定义外键需要遵守的规则：</p>
+<ul>
+<li><p>主表必须已经存在于数据库中，或者是当前正在创建的表。如果是后一种情况，则主表与从表是同一个表，这样的表称为自参照表，这种结构称为自参照完整性。</p>
+</li>
+<li><p>必须为主表定义主键。</p>
+</li>
+<li><p>主键不能包含空值，但允许在外键中出现空值。也就是说，只要外键的每个非空值出现在指定的主键中，这个外键的内容就是正确的。</p>
+</li>
+<li><p>在主表的表名后面指定列名或列名的组合。这个列或列的组合必须是主表的主键或候选键。</p>
+</li>
+<li><p>外键中列的数目必须和主表的主键中列的数目相同。</p>
+</li>
+<li><p>外键中列的数据类型必须和主表主键中对应列的数据类型相同。</p>
+  <figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[CONSTRAINT &lt;外键名&gt;] <span class="meta">FOREIGN</span> <span class="meta">KEY</span> 字段名 [，字段名2，…]</span><br><span class="line"><span class="meta">REFERENCES</span> &lt;主表名&gt; 主键列1 [，主键列2，…]  通过FOREGIN <span class="meta">KEY</span> 关键字指定外键，语法格式</span><br><span class="line"></span><br><span class="line"><span class="meta">ALTER</span> <span class="meta">TABLE</span> &lt;数据表名&gt; <span class="meta">ADD</span> CONSTRAINT &lt;外键名&gt;</span><br><span class="line"><span class="meta">FOREIGN</span> <span class="meta">KEY</span>(&lt;列名&gt;) <span class="meta">REFERENCES</span> &lt;主表名&gt; (&lt;列名&gt;); 修改表时添加外键约束</span><br></pre></td></tr></table></figure>
+
+<p>  ALTER TABLE  tb_emp2 ADD CONSTRAINT fk_tb_dept1 FOREGIN KEY(deptId) REFERENCES tb_dept1(id);</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> &lt;表明&gt; <span class="keyword">DROP</span> <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> &lt;外键约束名&gt;;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+</li>
+</ul>
+<h4 id="列索引与多列索引"><a href="#列索引与多列索引" class="headerlink" title="列索引与多列索引"></a><strong>列索引与多列索引</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE people </span><br><span class="line">( peopleid SMALLINT NOT NULL AUTO_INCREMENT, </span><br><span class="line">  firstname CHAR(50) NOT NULL, </span><br><span class="line">  lastname CHAR(50) NOT NULL, </span><br><span class="line">  age SMALLINT NOT NULL, </span><br><span class="line">  townid SMALLINT NOT NULL,</span><br><span class="line">  PRIMARY KEY (peopleid) );</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE people ADD INDEX fname_lname_age (firstname,lastname,age);</span><br></pre></td></tr></table></figure>
+
+<p>  多列索引还有另外一个优点，它通过称为<strong>最左前缀</strong>（LeftmostPrefixing）的概念体现出来。继续考虑前面的例子，现在我们有一个firstname、lastname、age列上的多列索引，我们称这个索引为fname_lname_age。当搜索条件是以下各种列的组合时，MySQL将使用fname_lname_age索引：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firstname，lastname age, firstname lastname, firstname0</span><br></pre></td></tr></table></figure>
+
+<p>  从另一方面理解，它相当于我们创建了(firstname，lastname，age)、(firstname，lastname)以及(firstname)这些列组合上的索引。下面这些查询都能够使用这个fname_lname_age索引：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT peopleid FROM people WHERE firstname&#x3D;&#39;Mike&#39; AND lastname&#x3D;&#39;Sullivan&#39; AND age&#x3D;&#39;17&#39;;</span><br><span class="line">SELECT peopleid FROM people WHERE firstname&#x3D;&#39;Mike&#39; AND lastname&#x3D;&#39;Sullivan&#39;; </span><br><span class="line">SELECT peopleid FROM people WHERE firstname&#x3D;&#39;Mike&#39;;</span><br><span class="line"> </span><br><span class="line">The following queries cannot use the index at all: </span><br><span class="line"></span><br><span class="line">SELECT peopleid FROM people WHERE lastname&#x3D;&#39;Sullivan&#39;; </span><br><span class="line">SELECT peopleid FROM people WHERE age&#x3D;&#39;17&#39;; </span><br><span class="line">SELECT peopleid FROM people WHERE lastname&#x3D;&#39;Sullivan&#39; AND age&#x3D;&#39;17&#39;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="MySQL默认值"><a href="#MySQL默认值" class="headerlink" title="MySQL默认值"></a>MySQL默认值</h4><p>Default 完整称呼 是“默认值约束”，用来指定某列的默认值。在表中插入一条新纪录时，如果没有为某个字段赋值，系统就会自动为这个字段插入默认值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;字段名&gt; &lt;数据类型&gt; DEFAULT &lt;默认值&gt;; 创建表时DEFAULT关键字设置默认值约束 </span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> &lt;数据表名&gt;</span><br><span class="line"><span class="keyword">CHANGE</span> <span class="keyword">COLUMN</span> &lt;字段名&gt; &lt;数据类型&gt; <span class="keyword">DEFAULT</span> &lt;默认值&gt;; 修改表时添加默认值约束</span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> &lt;数据表名&gt;;      查看约束</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> &lt;数据表名&gt; <span class="keyword">CHANGE</span> <span class="keyword">COLUMN</span> &lt;字段名&gt;&lt;字段名&gt; &lt;数据类型&gt;<span class="keyword">DEFAULT</span> <span class="literal">NULL</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="MySQL常用运算符"><a href="#MySQL常用运算符" class="headerlink" title="MySQL常用运算符"></a>MySQL常用运算符</h3><h4 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h4><table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>作用</th>
+<th>使用方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+</td>
+<td>加法运算</td>
+<td>用于获得一个或多个值的和</td>
+</tr>
+<tr>
+<td>-</td>
+<td>减法运算</td>
+<td>用于从一个值中减去另一个值</td>
+</tr>
+<tr>
+<td>*</td>
+<td>乘法运算</td>
+<td>使数字相乘，得到两个或多个值的乘积</td>
+</tr>
+<tr>
+<td>/</td>
+<td>除法运算，返回商</td>
+<td>用一个值除以另一个值得到商</td>
+</tr>
+<tr>
+<td>%，MOD</td>
+<td>求余运算，返回余数</td>
+<td>用一个值除以另一个值得到余数</td>
+</tr>
+</tbody></table>
+<h4 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h4><table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NOT 或者 !</td>
+<td>逻辑非</td>
+</tr>
+<tr>
+<td>AND 或者 &amp;&amp;</td>
+<td>逻辑与</td>
+</tr>
+<tr>
+<td>OR 和 ||</td>
+<td>逻辑或</td>
+</tr>
+<tr>
+<td>XOR</td>
+<td>逻辑异或</td>
+</tr>
+</tbody></table>
+<h4 id="逻辑位运算符"><a href="#逻辑位运算符" class="headerlink" title="逻辑位运算符"></a>逻辑位运算符</h4><table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NOT 或者 !</td>
+<td>逻辑非</td>
+</tr>
+<tr>
+<td>AND 或者 &amp;&amp;</td>
+<td>逻辑与</td>
+</tr>
+<tr>
+<td>OR 和 ||</td>
+<td>逻辑或</td>
+</tr>
+<tr>
+<td>XOR</td>
+<td>逻辑异或</td>
+</tr>
+</tbody></table>
+<h4 id="运算符优先级"><a href="#运算符优先级" class="headerlink" title="运算符优先级"></a>运算符优先级</h4><table>
+<thead>
+<tr>
+<th>优先级由低到高排列</th>
+<th>运算符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>=(赋值运算）、:=</td>
+</tr>
+<tr>
+<td>2</td>
+<td>II、OR</td>
+</tr>
+<tr>
+<td>3</td>
+<td>XOR</td>
+</tr>
+<tr>
+<td>4</td>
+<td>&amp;&amp;、AND</td>
+</tr>
+<tr>
+<td>5</td>
+<td>NOT</td>
+</tr>
+<tr>
+<td>6</td>
+<td>BETWEEN、CASE、WHEN、THEN、ELSE</td>
+</tr>
+<tr>
+<td>7</td>
+<td>=(比较运算）、&lt;=&gt;、&gt;=、&gt;、&lt;=、&lt;、&lt;&gt;、!=、 IS、LIKE、REGEXP、IN</td>
+</tr>
+<tr>
+<td>8</td>
+<td>|</td>
+</tr>
+<tr>
+<td>9</td>
+<td>&amp;</td>
+</tr>
+<tr>
+<td>10</td>
+<td>&lt;&lt;、&gt;&gt;</td>
+</tr>
+<tr>
+<td>11</td>
+<td>-(减号）、+</td>
+</tr>
+<tr>
+<td>12</td>
+<td>*、/、%</td>
+</tr>
+<tr>
+<td>13</td>
+<td>^</td>
+</tr>
+<tr>
+<td>14</td>
+<td>-(负号）、〜（位反转）</td>
+</tr>
+<tr>
+<td>15</td>
+<td>!</td>
+</tr>
+</tbody></table>
+<h3 id="去重"><a href="#去重" class="headerlink" title="去重"></a>去重</h3><p>为了实现查询不重复的数据，MySQL提供了DISTINCT关键字</p>
+<p>DISTINCT关键字的主要作用就是对数据表中一个或多个自读那重复的数据进行过滤，只返回其中的一条数据给用户</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> &lt;字段名&gt;<span class="keyword">FROM</span>&lt;表名&gt;；</span><br><span class="line">字段名 为消除重复记录的字段名称，多个字段时用逗号隔开</span><br></pre></td></tr></table></figure>
+
+<p>使用 DISTINCT 关键字时需要注意以下几点：</p>
+<ul>
+<li><p>DISTINCT 关键字只能在 SELECT 语句中使用。</p>
+</li>
+<li><p>在对一个或多个字段去重时，DISTINCT 关键字必须在所有字段的最前面。</p>
+</li>
+<li><p>如果 DISTINCT 关键字后有多个字段，则会对多个字段进行组合去重，也就是说，只有多个字段组合起来完全是一样的情况下才会被去重。</p>
+</li>
+<li><p>因为 DISTINCT 只能返回它的目标字段，而无法返回其它字段，所以在实际情况中，我们经常使用 DISTINCT 关键字来返回不重复字段的条数。</p>
+</li>
+</ul>
+<h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/image-20210501180404500.png" alt="image-20210501180404500"></p>
+<p>第二条sql语句会将 customer中所有的重复数据都删除,一条不留 </p>
+<p><strong>保留一条</strong></p>
+<p> 排除其中一条的某个参数, id最大或 最小 </p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/image-20210501182226551.png" alt="image-20210501182226551"></p>
+<p>保留id最大的数据 </p>
+<h3 id="LIMIT"><a href="#LIMIT" class="headerlink" title="LIMIT"></a>LIMIT</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LIMIT 初始位置</span><br><span class="line">LIMIT <span class="number">3</span>,<span class="number">5</span>; 从第<span class="number">4</span>条记录开始的行数为<span class="number">5</span>的记录</span><br><span class="line">LIMIT 记录数</span><br><span class="line">sql查询语句 LIMIT <span class="number">15</span>; 指定显示<span class="number">15</span>条记录</span><br><span class="line">LIMIT <span class="number">5</span> OFFSET <span class="number">3</span> ; 返回从第<span class="number">4</span>条记录开始的行数为<span class="number">5</span>的记录</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="ORDER-BY"><a href="#ORDER-BY" class="headerlink" title="ORDER BY"></a>ORDER BY</h3><figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> &lt;字段名&gt; [<span class="keyword">ASC</span>|<span class="keyword">DESC</span>]  将查询结果中的数据按照一定的顺序进行排序</span><br></pre></td></tr></table></figure>
+
+<p>语法说明如下。</p>
+<ul>
+<li>字段名：表示需要排序的字段名称，多个字段时用逗号隔开。</li>
+<li>ASC|DESC：<code>ASC</code>表示字段按升序排序；<code>DESC</code>表示字段按降序排序。其中<code>ASC</code>为默认值。</li>
+</ul>
+<p>使用 ORDER BY 关键字应该注意以下几个方面：</p>
+<ul>
+<li>ORDER BY 关键字后可以跟子查询（关于子查询后面教程会详细讲解，这里了解即可）。</li>
+<li>当排序的字段中存在空值时，ORDER BY 会将该空值作为最小值来对待。</li>
+<li>ORDER BY 指定多个字段进行排序时，MySQL 会按照字段的顺序从左到右依次进行排序。语法说明如下。</li>
+</ul>
+<p>指定多个字段时，按照字段名在sql居于中的先后顺序进行排序</p>
+<p><strong>注意</strong>：在对多个字段进行排序时，排序的第一个字段必须有相同的值，才会对第二个字段进行排序。如果第一个字段数据中所有的值都是唯一的，MySQL 将不再对第二个字段进行排序。</p>
+<h3 id="REPLACE"><a href="#REPLACE" class="headerlink" title="REPLACE"></a>REPLACE</h3><p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/image-20210505093116822.png" alt="image-20210505093116822"></p>
+<p>用法</p>
+<p>(1) 同insert</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//含义一</span></span><br><span class="line"><span class="selector-tag">REPLACE</span> <span class="selector-tag">INTO</span> <span class="selector-tag">score</span>(change_type,scope, score, user_id) <span class="selector-tag">VALUES</span>(<span class="string">'吃饭'</span>,<span class="number">10</span>,<span class="number">1</span><span class="string">'),('</span>喝茶<span class="string">',10,1),('</span>喝茶',<span class="number">10</span>,<span class="number">1</span>);  </span><br><span class="line"><span class="comment">//含义二</span></span><br><span class="line"><span class="selector-tag">REPLACE</span> <span class="selector-tag">INTO</span> <span class="selector-tag">score</span>(id,change_type,score,user_id) <span class="selector-tag">VALUES</span>(<span class="number">1</span>,<span class="string">'吃饭'</span>,<span class="number">10</span>,<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>此语句的作用是向表table中插入3条记录。如果主键id为1或2不存在就相当于插入语句：</p>
+<p>INSERTINTO score (change_type,score,user_id) VALUES (‘吃饭’,10,1),(‘喝茶’,10,1),(‘喝茶’,10,1);</p>
+<p>如果存在相同的值则不会插入数据。</p>
+<p>(2) replace(object, serchmreplace),把object出现search的全部替换为replace</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用法一: 并不是修改数据, 而只是单纯做局部替换数据返回而已 </span></span><br><span class="line"><span class="keyword">SELECT</span> REPLACE(<span class="string">'喝茶'</span>,<span class="string">'茶'</span>,<span class="string">'喝'</span>)</span><br><span class="line"><span class="comment">//结果: 喝喝</span></span><br></pre></td></tr></table></figure>
+
+<p>用法二 修改表数据, </p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> score <span class="keyword">SET</span> change_type=REPLACE(change_type,<span class="string">'做任务'</span>,<span class="string">'bb'</span>)  //bb替换 作任务</span><br></pre></td></tr></table></figure>
+
+
+
+<p>update 和replace的区别 </p>
+<p>1）UPDATE在没有匹配记录时什么都不做，而REPLACE在有重复记录时更新，在没有重复记录时插入。</p>
+<p>2）UPDATE可以选择性地更新记录的一部分字段。而REPLACE在发现有重复记录时就将这条记录彻底删除，再插入新的记录。也就是说，将所有的字段都更新了。</p>
+<p>其实REPLACE更像INSERT与DELETE的结合。</p>
+<h2 id="原理性与mysql-设计"><a href="#原理性与mysql-设计" class="headerlink" title="原理性与mysql 设计"></a>原理性与mysql 设计</h2><h3 id="三大范式"><a href="#三大范式" class="headerlink" title="三大范式"></a>三大范式</h3><h4 id="1NF-第一范式"><a href="#1NF-第一范式" class="headerlink" title="1NF(第一范式)"></a>1NF(第一范式)</h4><p>属性（对应于表中的字段）不能再被分割，也就是这个字段只能是一个值，不能再分为多个其他的字段了。<strong>1NF是所有关系型数据库的最基本要求</strong> ，也就是说关系型数据库中创建的表一定满足第一范式。</p>
+<h4 id="2NF-第二范式"><a href="#2NF-第二范式" class="headerlink" title="2NF(第二范式)"></a>2NF(第二范式)</h4><h3 id="唯一约束和联合唯一约束"><a href="#唯一约束和联合唯一约束" class="headerlink" title="唯一约束和联合唯一约束"></a>唯一约束和联合唯一约束</h3><h3 id="不使用外键与级联-一切外键概念必须在应用层解决"><a href="#不使用外键与级联-一切外键概念必须在应用层解决" class="headerlink" title="不使用外键与级联,一切外键概念必须在应用层解决"></a>不使用外键与级联,一切外键概念必须在应用层解决</h3><p>互联网行业应用 用户量大, 并发高, 数据库容易成为性能瓶颈, 尤其收IO限制, 此时不用外键,把数据一致性的控制放到业务中,易于水平扩展 </p>
+<p>传统行业 软件应用的用户数有限, 不考虑数据库性能问题</p>
+<h3 id="模拟外键"><a href="#模拟外键" class="headerlink" title="模拟外键"></a>模拟外键</h3><p>需要遵循的原则</p>
+<ul>
+<li>向表中插入数据或者修改表中的数据时，都应该执行额外的 <code>SELECT</code> 语句确保它引用的数据在数据库中存在；</li>
+<li>在删除数据之前需要执行额外的 <code>SELECT</code> 语句检查是否存在当前记录的引用；</li>
+</ul>
+<p>插入或者 修改posts 表 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="keyword">authors</span> <span class="keyword">WHERE</span> <span class="keyword">id</span> = &lt;post.author_id&gt; <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;</span><br><span class="line"><span class="comment">-- INSERT INTO posts ... / UPDATE posts ...</span></span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
+
+<p>但是如果我们要删除 <code>authors</code> 表中的数据，就需要查询所有引用 <code>authors</code> 数据的表；如果有 10 个表都有指向 <code>authors</code> 表的外键，我们就需要在 10 个表中查询是否存在对应的记录，这个过程相对比较麻烦，不过也是为了实现完整性的必要代价，不过这种模拟外键方法其实远比使用外键更消耗资源，它不仅需要查询关联数据，还要通过网络发送更多的数据包。</p>
+<p>模拟外键的使用会带来更大的额外开销, 但能降低对数据库性能瞬时影响,提高数据库性能</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>外键提供的几种在更新和删除时的不同行为都可以帮助我们保证数据库中数据的一致性和引用合法性，但是外键的使用也需要数据库承担额外的开销，在大多数服务都可以水平扩容的今天，高并发场景中使用外键确实会影响服务的吞吐量上限。在数据库之外手动实现外键的功能是可能的，但是却会带来很多维护上的成本或者需要我们在数据一致性上做出一些妥协。我们可以从可用性、一致性几个方面分析使用外键、模拟外键以及不使用外键的差异：</p>
+<ul>
+<li>不使用外键牺牲了数据库中数据的一致性，但是却能够减少数据库的负载；</li>
+<li>模拟外键将一部分工作移到了数据库之外，我们可能需要放弃一部分一致性以获得更高的可用性，但是为了这部分可用性，我们会付出更多的研发与维护成本，也增加了与数据库之间的网络通信次数；</li>
+<li>使用外键保证了数据库中数据的一致性，也将全部的计算任务全部交给了数据库；</li>
+</ul>
+<p>在大多数不需要高并发或者对一致性有较强要求的系统中，我们可以直接使用数据库提供的外键帮助我们对数据进行校验，但是在对一致性要求不高的、复杂的场景或者大规模的团队中，不使用外键也确实可以为数据库减负，而大团队也有更多的时间和精力去设计其他的方案，例如：分布式的关系型数据库。</p>
+<p>当我们考虑应不应该在数据库中使用外键时，需要关注的核心我们的数据库承担这部分计算任务后会不会影响系统的可用性，在使用时也<strong>不应该一刀切</strong>的决定用或者不用外键，应该根据具体的场景做决策，我们在这里介绍了两个使用外键时可能遇到的问题：</p>
+<ul>
+<li><code>RESTRICT</code> 外键会在更新和删除关系表中的数据时对外键约束的合法性进行检查，保证外键不会引用到不存在的记录；</li>
+<li><code>CASCADE</code> 外键会在更新和删除关系表中的数据时触发对关联记录的更新和删除，在数据量较大的数据库中可能会有数量级的放大效果；</li>
+</ul>
+<p>我们在很多时候其实并不能选择是否使用外键，大多数公司的 DBA 都会对数据库系统的使用有比较明确的规定，但是我们要清楚做出使用外键和不使用外键这一抉择的原因。到最后，我们还是来看一些比较开放的相关问题，有兴趣的读者可以仔细思考一下下面的问题：</p>
+<ul>
+<li>数据库中还有哪些特性是我们在生产环境中不会使用的？为什么？</li>
+<li>分布式的关系型数据库与 MySQL 等传统数据库有哪些区别？</li>
+</ul>
+<h3 id="分布式的关系型数据库与MySQL等传统数据库的区别"><a href="#分布式的关系型数据库与MySQL等传统数据库的区别" class="headerlink" title="分布式的关系型数据库与MySQL等传统数据库的区别"></a>分布式的关系型数据库与MySQL等传统数据库的区别</h3><h3 id="默认引擎InnoDB"><a href="#默认引擎InnoDB" class="headerlink" title="默认引擎InnoDB"></a>默认引擎InnoDB</h3><p>使用B+树, 不使用B树和哈希的原因 </p>
+<ul>
+<li>InnoDB 需要支持的场景和功能需要在特定查询上拥有较强的性能；</li>
+<li>CPU 将磁盘上的数据加载到内存中需要花费大量的时间，这使得 B+ 树成为了非常好的选择；</li>
+</ul>
+<p>数据的持久化以及持久化数据的查询其实是一个常见的需求，而数据的持久化就需要我们与磁盘、内存和 CPU 打交道；MySQL 作为 OLTP 的数据库不仅需要具备事务的处理能力，而且要保证数据的持久化并且能够有一定的实时数据查询能力，这些需求共同决定了 B+ 树的选择，接下来我们会详细分析上述两个原因背后的逻辑。</p>
+<h4 id="读写性能"><a href="#读写性能" class="headerlink" title="读写性能"></a>读写性能</h4><p>与 OLTP 相比的还有 OLAP，它们分别是 Online Transaction Processing 和 Online Analytical Processing，从这两个名字中我们就可以看出，前者指的就是传统的关系型数据库，主要用于处理基本的、日常的事务处理，而后者主要在数据仓库中使用，用于支持一些复杂的分析和决策。</p>
+<p>InnoDB存储引擎支持 OlTP 数据库 , 其常用工作</p>
+<ul>
+<li>通过 <code>INSERT</code>、<code>UPDATE</code> 和 <code>DELETE</code> 语句对表中的数据进行增加、修改和删除；</li>
+<li>通过 <code>UPDATE</code> 和 <code>DELETE</code> 语句对符合条件的数据进行批量的删除；</li>
+<li>通过 <code>SELECT</code> 语句和主键查询某条记录的全部列；</li>
+<li>通过 <code>SELECT</code> 语句在表中查询符合某些条件的记录并根据某些字段排序；</li>
+<li>通过 <code>SELECT</code> 语句查询表中数据的行数；</li>
+<li>通过唯一索引保证表中某个字段或者某几个字段的唯一性；</li>
+</ul>
+<p>使用B+树作为底层数据结构时 那么所有只会访问或者修改一条数据的 SQL 的时间复杂度都是 <code>O(log n)</code>，也就是树的高度，但是使用哈希却有可能达到 <code>O(1)</code> 的时间复杂度，看起来是不是特别的美好。但是当我们使用如下所示的 SQL 时，哈希的表现就不会这么好了：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> posts <span class="keyword">WHERE</span> author = <span class="string">'draven'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> created_at <span class="keyword">DESC</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> posts <span class="keyword">WHERE</span> comments_count &gt; <span class="number">10</span></span><br><span class="line"><span class="keyword">UPDATE</span> posts <span class="keyword">SET</span> github = <span class="string">'github.com/draveness'</span> <span class="keyword">WHERE</span> author = <span class="string">'draven'</span></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> posts <span class="keyword">WHERE</span> author = <span class="string">'draven'</span></span><br></pre></td></tr></table></figure>
+
+<p>如果我们使用哈希作为底层的数据结构，遇到上述的场景时，使用哈希构成的主键索引或者辅助索引可能就没有办法快速处理了，它对于处理范围查询或者排序性能会非常差，只能进行全表扫描并依次判断是否满足条件。全表扫描对于数据库来说是一个非常糟糕的结果，这其实也就意味着我们使用的数据结构对于这些查询没有其他任何效果，最终的性能可能都不如从日志中顺序进行匹配。</p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/log-as-database.png" alt="log-as-database"></p>
+<p>使用 B+ 树其实能够保证数据按照键的顺序进行存储，也就是相邻的所有数据其实都是按照自然顺序排列的，使用哈希却无法达到这样的效果，因为哈希函数的目的就是让数据尽可能被分散到不同的桶中进行存储，所以在遇到可能存在相同键 <code>author = &#39;draven</code> 或者排序以及范围查询 <code>comments_count &gt; 10</code> 时，由哈希作为底层数据结构的表可能就会面对数据库查询的噩梦 —— 全表扫描。</p>
+<p>B 树和 B+ 树在数据结构上其实有一些类似，它们都可以按照某些顺序对索引中的内容进行遍历，对于排序和范围查询等操作，B 树和 B+ 树相比于哈希会带来更好的性能，当然如果索引建立不够好或者 SQL 查询非常复杂，依然会导致全表扫描。</p>
+<p>与 B 树和 B+ 树相比，哈希作为底层的数据结构的表能够以 <code>O(1)</code> 的速度处理单个数据行的增删改查，但是面对范围查询或者排序时就会导致全表扫描的结果，而 B 树和 B+ 树虽然在单数据行的增删查改上需要 <code>O(log n)</code> 的时间，但是它会将索引列相近的数据按顺序存储，所以能够避免全表扫描。</p>
+<h4 id="数据加载"><a href="#数据加载" class="headerlink" title="数据加载"></a>数据加载</h4><p>使用哈希无法应对我们常见的SQL中排序和范围查询等操作, b树和b+树都可以 . </p>
+<p>计算机在读写文件时会以页为单位将数据加载到内存中。页的大小可能会根据操作系统的不同而发生变化，不过在大多数的操作系统中，页的大小都是 `4KB</p>
+<p>B 树与 B+ 树的最大区别就是，B 树可以在非叶结点中存储数据，但是 B+ 树的所有数据其实都存储在叶子节点中，当一个表底层的数据结构是 B 树时，假设我们需要访问所有『大于 4，并且小于 9 的数据』：</p>
+<h2 id="锁机制"><a href="#锁机制" class="headerlink" title="锁机制"></a>锁机制</h2><p><a href="https://blog.csdn.net/Jack__Frost/article/details/73347688" target="_blank" rel="noopener">参考</a></p>
+<p>使用锁机制对mysql语句进行优化 ,涉及到mysql 锁使用的时候一般在并发比较高时 </p>
+<p>锁是计算机 协调多个进程或纯线程并发访问某一资源的机制 .在数据库中, 除传统的计算资源（CPU、RAM、I/O）的争用以外，数据也是一种供许多用户共享的资源。如何保证数据并发访问的一致性、有效性是所在有数据库必须解决的一个问题，锁冲突也是影响数据库并发访问性能的一个重要因素。从这个角度来说，锁对数据库而言显得尤其重要，也更加复杂。</p>
+<p>防止更新丢失, 并不能单靠数据库事务控制器来解决, 需要应用程序对要更新的数据加必要的锁来解决</p>
+<p>Thread T 将B加锁, 解锁后才能被其它thread 访问 </p>
+<p>事务 T将某个数据对象(表, 记录)操作之前, 先向系统发出请求, 对其加锁, 加锁后事务T就对数据库对象有一定的控制，在事务T释放它的锁之前，其他事务不能更新此数据对象。 </p>
+<h3 id="锁定机制分类"><a href="#锁定机制分类" class="headerlink" title="锁定机制分类"></a>锁定机制分类</h3><p>锁定机制就是数据库为了保证数据的一致性而使各种共享资源在被并发访问访问变得有序所设计的一种规则。MySQL数据库由于其自身架构的特点，存在多种数据存储引擎，每种存储引擎所针对的应用场景特点都不太一样，为了满足各自特定应用场景的需求，每种存储引擎的锁定机制都是为各自所面对的特定场景而优化设计，所以各存储引擎的锁定机制也有较大区别。</p>
+<h4 id="排他锁-又称写锁-X锁"><a href="#排他锁-又称写锁-X锁" class="headerlink" title="排他锁(又称写锁, X锁)"></a>排他锁(又称写锁, X锁)</h4><p>会阻塞其它事务读和写</p>
+<p>若事务T对数据对象A加上X锁，则只允许T读取和修改A，其他任何事务都不能再对加任何类型的锁，知道T释放A上的锁。这就保证了其他事务在T释放A上的锁之前不能再读取和修改A。</p>
+<h4 id="共享锁-又成读取-S锁"><a href="#共享锁-又成读取-S锁" class="headerlink" title="共享锁(又成读取,S锁)"></a>共享锁(又成读取,S锁)</h4><p>会阻塞其他事务修改表数据。</p>
+<p>若事务T对数据对象A加上S锁，则其他事务只能再对A加S锁，而不能X锁，直到T释放A上的锁。这就保证了其他事务可以读A，但在T释放A上的S锁之前不能对A做任何修改。</p>
+<p>X锁和S锁都是加载某一个数据对象上的。也就是数据的粒度。</p>
+<h4 id="行级锁定-row-level"><a href="#行级锁定-row-level" class="headerlink" title="行级锁定(row-level)"></a>行级锁定(row-level)</h4><p>行级锁: 开销大, 枷锁慢;  会出现死锁; 锁定粒读最小, 发生锁冲突的概率最低,并发度也最高 </p>
+<p><strong>详细：</strong>行级锁定最大的特点就是锁定对象的颗粒度很小，也是目前各大数据库管理软件所实现的锁定颗粒度最小的。由于锁定颗粒度很小，所以发生锁定资源争用的概率也最小，能够给予应用程序尽可能大的并发处理能力而提高一些需要高并发应用系统的整体性能。</p>
+<p><strong>缺陷：</strong>由于锁定资源的颗粒度很小，所以每次获取锁和释放锁需要做的事情也更多，带来的消耗自然也就更大了。此外，行级锁定也最容易发生死锁。</p>
+<h4 id="表级锁定-table-level"><a href="#表级锁定-table-level" class="headerlink" title="表级锁定(table-level)"></a>表级锁定(table-level)</h4><p>表级锁:开销小, 枷锁快;不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低</p>
+<p><strong>详细：</strong>和行级锁定相反，表级别的锁定是MySQL各存储引擎中最大颗粒度的锁定机制。该锁定机制最大的特点是实现逻辑非常简单，带来的系统负面影响最小。所以获取锁和释放锁的速度很快。由于表级锁一次会将整个表锁定，所以可以很好的避免困扰我们的死锁问题。</p>
+<p><strong>缺陷：</strong>锁定颗粒度大所带来最大的负面影响就是出现锁定资源争用的概率也会最高，致使并发度大打折扣。</p>
+<h4 id="页级锁定-page-level-MySQL特有"><a href="#页级锁定-page-level-MySQL特有" class="headerlink" title="页级锁定(page-level) (MySQL特有)"></a>页级锁定(page-level) (MySQL特有)</h4><p>页级锁: 开销和枷锁时间届于表锁和行锁之间; 会出现死锁,锁定粒度大, 发生锁冲突的概率最高, 并发度一般</p>
+<p><strong>详细：</strong>页级锁定是MySQL中比较独特的一种锁定级别，在其他数据库管理软件中也并不是太常见。页级锁定的特点是锁定颗粒度介于行级锁定与表级锁之间，所以获取锁定所需要的资源开销，以及所能提供的并发处理能力也同样是介于上面二者之间。</p>
+<p><strong>缺陷：</strong>页级锁定和行级锁定一样，会发生死锁。</p>
+<p>从这里我们应该引申去思考行锁更多的缺点：（因为我们执行sql主要依赖行锁来提高并发度）<br>1- 比表级锁、页级锁消耗更多内存<br>2- 如果你在大部分数据上经常进行GROUP BY操作或者必须经常扫描整个表，比其它锁定明显慢很多。<br>3- 更容易发生死锁。</p>
+<h3 id="事务机制"><a href="#事务机制" class="headerlink" title="事务机制"></a>事务机制</h3><p>事务简称ACID. 是恢复和并发控制的基本单位 </p>
+<p>A 事务的原子性(Atomicity)：<br>指一个事务要么全部执行,要么不执行.也就是说一个事务不可能只执行了一半就停止了.比如你从取款机取钱,这个事务可以分成两个步骤:1划卡,2出钱.不可能划了卡,而钱却没出来.这两步必须同时完成.要么就不完成.</p>
+<p>C 事务的一致性(Consistency)：<br>指事务的运行并不改变数据库中数据的一致性.例如,完整性约束了a+b=10,一个事务改变了a,那么b也应该随之改变.</p>
+<p>I 独立性(Isolation）:<br>事务的独立性也有称作隔离性,是指两个以上的事务不会出现交错执行的状态.因为这样可能会导致数据不一致.</p>
+<p>D 持久性(Durability）:<br>事务的持久性是指事务执行成功以后,该事务所对数据库所作的更改便是持久的保存在数据库之中，不会无缘无故的回滚.</p>
+<h3 id="事务锁"><a href="#事务锁" class="headerlink" title="事务锁"></a>事务锁</h3><p>首先来看两个事务的写操作之间的相互影响。隔离性要求同一时刻只能有一个事务对数据进行写操作，InnoDB通过锁机制来保证这一点。</p>
+<p>锁机制的基本原理可以概括为：事务在修改数据之前，需要先获得相应的锁；获得锁之后，事务便可以修改数据；该事务操作期间，这部分数据是锁定的，其他事务如果需要修改数据，需要等待当前事务提交或回滚后释放锁。</p>
+<p><strong>行锁与表锁</strong></p>
+<p>按照粒度，锁可以分为表锁、行锁以及其他位于二者之间的锁。表锁在操作数据时会锁定整张表，并发性能较差；行锁则只锁定需要操作的数据，并发性能好。但是由于加锁本身需要消耗资源(获得锁、检查锁、释放锁等都需要消耗资源)，因此在锁定数据较多情况下使用表锁可以节省大量资源。MySQL中不同的存储引擎支持的锁是不一样的，例如MyIsam只支持表锁，而InnoDB同时支持表锁和行锁，且出于性能考虑，绝大多数情况下使用的都是行锁。</p>
+<p>查看锁信息 </p>
+<p>需要先加锁, 分类性锁 表锁或行级锁</p>
+<h3 id="事务引起的并发调度问题"><a href="#事务引起的并发调度问题" class="headerlink" title="事务引起的并发调度问题"></a>事务引起的并发调度问题</h3><h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>事务(Transaction) 是访问和更新数据库的程序执行单元; 事务中可能包含一个或sql 语句, 这些语句要么都执行, 要么都不执行. 作为一个关系型数据库, MySQL事务的基础知识</p>
+<h3 id="逻辑架构和存储引擎"><a href="#逻辑架构和存储引擎" class="headerlink" title="逻辑架构和存储引擎"></a>逻辑架构和存储引擎</h3><p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128200647649-2138221098.png" alt="img"></p>
+<p>图片来源：<a href="https://blog.csdn.net/fuzhongmin05/article/details/70904190" target="_blank" rel="noopener">https://blog.csdn.net/fuzhongmin05/article/details/70904190</a></p>
+<p>如上图所示，MySQL服务器逻辑架构从上往下可以分为三层：</p>
+<p>（1）第一层：处理客户端连接、授权认证等。</p>
+<p>（2）第二层：服务器层，负责查询语句的解析、优化、缓存以及内置函数的实现、存储过程等。</p>
+<p>（3）第三层：存储引擎，负责MySQL中数据的存储和提取。<strong>MySQL**</strong>中服务器层不管理事务，事务是由存储引擎实现的。**MySQL支持事务的存储引擎有InnoDB、NDB Cluster等，其中InnoDB的使用最为广泛；其他存储引擎不支持事务，如MyIsam、Memory等。</p>
+<p>如无特殊说明，后文中描述的内容都是基于InnoDB。</p>
+<h3 id="提交和回滚"><a href="#提交和回滚" class="headerlink" title="提交和回滚"></a>提交和回滚</h3><p>典型的MySQL事务是如下操作的:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;</span><br><span class="line">……  <span class="comment">#一条或多条sql语句</span></span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
+
+<p>其中start trnsaction标志事务开始,commit提交事务, 将执行结果写入到数据库,如果sql 语句执行出现问题, 会调用rollaback, 回滚所有已经执行成功的sql 语句. 当然,也可以在事务中直接使用rollback 语句进行回滚</p>
+<p>自动提交 </p>
+<p>MySQL中默认采用的是自动提交（autocommit）模式，如下所示：</p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128200732629-417401931.png" alt="img"></p>
+<p>在自动提交模式下，如果没有start transaction显式地开始一个事务，那么每个sql语句都会被当做一个事务执行提交操作。</p>
+<p>通过如下方式，可以关闭autocommit；需要注意的是，autocommit参数是针对连接的，在一个连接中修改了参数，不会对其他连接产生影响。</p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128200751635-466164258.png" alt="img"></p>
+<p>如果关闭了autocommit，则所有的sql语句都在一个事务中，直到执行了commit或rollback，该事务结束，同时开始了另外一个事务。</p>
+<p><strong>特殊操作</strong></p>
+<p>在MySQL中，存在一些特殊的命令，如果在事务中执行了这些命令，会马上强制执行commit提交事务；如DDL语句(create table/drop table/alter/table)、lock tables语句等等。</p>
+<p>不过，常用的select、insert、update和delete命令，都不会强制提交事务。</p>
+<p>关于<a href="http://www.xwood.net/_site_domain_/_root/5870/5930/5932/t_c257586.html" target="_blank" rel="noopener">mysql</a>的不同分布式事务交互存在三种问题：脏读、不可重复读、幻读，<a href="http://www.xwood.net/_site_domain_/_root/5870/5930/5932/t_c257586.html" target="_blank" rel="noopener">mysql</a>根据不同应用场景设置不同的隔离级别（如下表格四种不同隔离级别，每个级别分别对应解决问题说明），默认设置为可重复读（repeatable-read）。</p>
+<table>
+<thead>
+<tr>
+<th><strong>事务隔离级别</strong></th>
+<th><strong>脏读</strong></th>
+<th><strong>不可重复读</strong></th>
+<th><strong>幻读</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>读未提交（read-uncommitted）</td>
+<td>是</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>不可重复读（read-committed）</td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>可重复读（repeatable-read）</td>
+<td>否</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>串行化（serializable）</td>
+<td>否</td>
+<td>否</td>
+<td>否</td>
+</tr>
+</tbody></table>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">A</span>、事务的基本要素（ACID）</span><br><span class="line"></span><br><span class="line"> 　　<span class="number">1</span>、原子性（Atomicity）：一个事务必须操作完成，不会停滞在中间环节，执行过程出错，回滚到事务开始前的状态。该事务是一个不可分割的整体-如化学中学过的原子，是物质构成的基本单位。</span><br><span class="line">　　 </span><br><span class="line">　　 <span class="number">2</span>、一致性（Consistency）：事务开始前和结束后，数据库的完整性约束没有被破坏 。比如<span class="keyword">A</span>向B转账，不可能<span class="keyword">A</span>扣了钱，B却没收到。</span><br><span class="line">　　 </span><br><span class="line">　　 <span class="number">3</span>、隔离性（Isolation）：同一时刻，只允许一个事务请求同一数据，不同的事务之间彼此没有任何干扰。比如<span class="keyword">A</span>正在从一张银行卡中取钱，在<span class="keyword">A</span>取钱的过程结束前，B不能向这张卡转账。</span><br><span class="line">　　 </span><br><span class="line">　　 <span class="number">4</span>、持久性（Durability）：事务完成后，事务对数据库的所有更新将被保存到数据库，不能回滚。</span><br><span class="line">　　 </span><br><span class="line">B、事务的并发问题</span><br><span class="line"></span><br><span class="line">　　<span class="number">1</span>、脏读：事务<span class="keyword">A</span>读取了事务B更新的数据，然后B回滚操作，那么<span class="keyword">A</span>读取到的数据是脏数据</span><br><span class="line">　</span><br><span class="line">　　<span class="number">2</span>、不可重复读：事务<span class="keyword">A</span>不同阶段多次读取同一数据，事务B在事务<span class="keyword">A</span>多次读取的过程中，对该数据进行变更，导致事务<span class="keyword">A</span>多次读取同一数据时，结果不一致。</span><br><span class="line">　　</span><br><span class="line">　　<span class="number">3</span>、幻读：事务<span class="keyword">A</span>读取到本不该出现事务B提交的新数据，出现貌似幻觉</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><ol>
+<li>定义</li>
+</ol>
+<p>原子性是指一个事务是一个不可分割的工作单位，其中的操作要么都做，要么都不做；如果事务中一个sql语句执行失败，则已执行的语句也必须回滚，数据库退回到事务前的状态。</p>
+<ol start="2">
+<li>实现原理：undo log</li>
+</ol>
+<p>在说明原子性原理之前，首先介绍一下MySQL的事务日志。MySQL的日志有很多种，如二进制日志、错误日志、查询日志、慢查询日志等，此外InnoDB存储引擎还提供了两种事务日志：redo log(重做日志)和undo log(回滚日志)。其中redo log用于保证事务持久性；undo log则是事务原子性和隔离性实现的基础。</p>
+<p>下面说回undo log。实现原子性的关键，是当事务回滚时能够撤销所有已经成功执行的sql语句。<strong>InnoDB**</strong>实现回滚，靠的是undo log<strong><strong>：当事务对数据库进行修改时，InnoDB</strong></strong>会生成对应的undo log<strong><strong>；如果事务执行失败或调用了rollback</strong></strong>，导致事务需要回滚，便可以利用undo log<strong>**中的信息将数据回滚到修改之前的样子。</strong></p>
+<p>undo log属于逻辑日志，它记录的是sql执行相关的信息。当发生回滚时，InnoDB会根据undo log的内容做与之前相反的工作：对于每个insert，回滚时会执行delete；对于每个delete，回滚时会执行insert；对于每个update，回滚时会执行一个相反的update，把数据改回去。</p>
+<p>以update操作为例：当事务执行update时，其生成的undo log中会包含被修改行的主键(以便知道修改了哪些行)、修改了哪些列、这些列在修改前后的值等信息，回滚时便可以使用这些信息将数据还原到update之前的状态。</p>
+<p>``</p>
+<h3 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h3><ol>
+<li><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4></li>
+</ol>
+<p>持久性是指事务一旦提交, 它对数据库的改变就是永久性的. 接下来的其它操作或故障不应该对其有任何影响 </p>
+<ol start="2">
+<li><h4 id="实现原理-redo-log"><a href="#实现原理-redo-log" class="headerlink" title="实现原理 : redo log"></a>实现原理 : redo log</h4></li>
+</ol>
+<p>redo log和undo log都属于InnoDB的事务日志。下面先聊一下redo log存在的背景。</p>
+<p>InnoDB作为MySQL的存储引擎，数据是存放在磁盘中的，但如果每次读写数据都需要磁盘IO，效率会很低。为此，InnoDB提供了缓存(Buffer Pool)，Buffer Pool中包含了磁盘中部分数据页的映射，作为访问数据库的缓冲：当从数据库读取数据时，会首先从Buffer Pool中读取，如果Buffer Pool中没有，则从磁盘读取后放入Buffer Pool；当向数据库写入数据时，会首先写入Buffer Pool，Buffer Pool中修改的数据会定期刷新到磁盘中（这一过程称为刷脏）。</p>
+<p>Buffer Pool的使用大大提高了读写数据的效率，但是也带了新的问题：如果MySQL宕机，而此时Buffer Pool中修改的数据还没有刷新到磁盘，就会导致数据的丢失，事务的持久性无法保证。</p>
+<p>于是，redo log被引入来解决这个问题：当数据修改时，除了修改Buffer Pool中的数据，还会在redo log记录这次操作；当事务提交时，会调用fsync接口对redo log进行刷盘。如果MySQL宕机，重启时可以读取redo log中的数据，对数据库进行恢复。redo log采用的是WAL（Write-ahead logging，预写式日志），所有修改先写入日志，再更新到Buffer Pool，保证了数据不会因MySQL宕机而丢失，从而满足了持久性要求。</p>
+<p>既然redo log也需要在事务提交时将日志写入磁盘，为什么它比直接将Buffer Pool中修改的数据写入磁盘(即刷脏)要快呢？主要有以下两方面的原因：</p>
+<p>（1）刷脏是随机IO，因为每次修改的数据位置随机，但写redo log是追加操作，属于顺序IO。</p>
+<p>（2）刷脏是以数据页（Page）为单位的，MySQL默认页大小是16KB，一个Page上一个小修改都要整页写入；而redo log中只包含真正需要写入的部分，无效IO大大减少。</p>
+<ol start="3">
+<li><h4 id="redo-log-与binlog"><a href="#redo-log-与binlog" class="headerlink" title="redo log 与binlog"></a>redo log 与binlog</h4></li>
+</ol>
+<p>我们知道，在MySQL中还存在binlog(二进制日志)也可以记录写操作并用于数据的恢复，但二者是有着根本的不同的：</p>
+<p>（1）作用不同：redo log是用于crash recovery的，保证MySQL宕机也不会影响持久性；binlog是用于point-in-time recovery的，保证服务器可以基于时间点恢复数据，此外binlog还用于主从复制。</p>
+<p>（2）层次不同：redo log是InnoDB存储引擎实现的，而binlog是MySQL的服务器层(可以参考文章前面对MySQL逻辑架构的介绍)实现的，同时支持InnoDB和其他存储引擎。</p>
+<p>（3）内容不同：redo log是物理日志，内容基于磁盘的Page；binlog的内容是二进制的，根据binlog_format参数的不同，可能基于sql语句、基于数据本身或者二者的混合。</p>
+<p>（4）写入时机不同：binlog在事务提交时写入；redo log的写入时机相对多元：</p>
+<ul>
+<li>前面曾提到：当事务提交时会调用fsync对redo log进行刷盘；这是默认情况下的策略，修改innodb_flush_log_at_trx_commit参数可以改变该策略，但事务的持久性将无法保证。</li>
+<li>除了事务提交时，还有其他刷盘时机：如master thread每秒刷盘一次redo log等，这样的好处是不一定要等到commit时刷盘，commit速度大大加快。</li>
+</ul>
+<h3 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h3><h4 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h4><p><strong>与原子性、持久性侧重于研究事务本身不同，隔离性研究的是不同事务之间的相互影响。</strong>隔离性是指，事务内部的操作与其他事务是隔离的，并发执行的各个事务之间不能互相干扰。严格的隔离性，对应了事务隔离级别中的Serializable (可串行化)，但实际应用中出于性能方面的考虑很少会使用可串行化。</p>
+<p>隔离性追求的是并发情形下事务之间互不干扰。简单起见，我们主要考虑最简单的读操作和写操作(加锁读等特殊读操作会特殊说明)，那么隔离性的探讨，主要可以分为两个方面：</p>
+<ul>
+<li>(一个事务)写操作对(另一个事务)写操作的影响：锁机制保证隔离性</li>
+<li>(一个事务)写操作对(另一个事务)读操作的影响：MVCC保证隔离性</li>
+</ul>
+<h4 id="锁机制-1"><a href="#锁机制-1" class="headerlink" title="锁机制"></a>锁机制</h4><p>在上面</p>
+<h4 id="脏读-不可重复读和幻读"><a href="#脏读-不可重复读和幻读" class="headerlink" title="脏读 , 不可重复读和幻读"></a>脏读 , 不可重复读和幻读</h4><p>首先来看并发情况下，读操作可能存在的三类问题：</p>
+<p>（1）脏读：当前事务(A)中可以读到其他事务(B)未提交的数据（脏数据），这种现象是脏读。举例如下（以账户余额表为例）：</p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201003630-2050662608.png" alt="img"></p>
+<p>（2）不可重复读：在事务A中先后两次读取同一个数据，两次读取的结果不一样，这种现象称为不可重复读。脏读与不可重复读的区别在于：前者读到的是其他事务未提交的数据，后者读到的是其他事务已提交的数据。举例如下：</p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201011603-1317894910.png" alt="img"></p>
+<p>（3）幻读：在事务A中按照某个条件先后两次查询数据库，两次查询结果的条数不同，这种现象称为幻读。不可重复读与幻读的区别可以通俗的理解为：前者是数据变了，后者是数据的行数变了。举例如下：</p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201021606-1089980279.png" alt="img"></p>
+<h3 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h3><p>SQL标准中定义了四种隔离级别，并规定了每种隔离级别下上述几个问题是否存在。一般来说，隔离级别越低，系统开销越低，可支持的并发越高，但隔离性也越差。隔离级别与读问题的关系如下：</p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201034603-681355962.png" alt="img"></p>
+<p>在实际应用中，<strong>读未提交</strong>在并发时会导致很多问题，而性能相对于其他隔离级别提高却很有限，因此使用较少。<strong>可串行化</strong>强制事务串行，并发效率很低，只有当对数据一致性要求极高且可以接受没有并发时使用，因此使用也较少。因此在大多数数据库系统中，默认的隔离级别是<strong>读已提交**</strong>(<strong>**如Oracle)</strong>或<strong>可重复读（后文简称**</strong>RR<strong>**）</strong>。</p>
+<p>可以通过如下两个命令分别查看全局隔离级别和本次会话的隔离级别：</p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201103652-719570401.png" alt="img"></p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201111615-210490190.png" alt="img"></p>
+<p>InnoDB默认的隔离级别是RR，后文会重点介绍RR。需要注意的是，在SQL标准中，RR是无法避免幻读问题的，但是InnoDB实现的RR避免了幻读问题。</p>
+<h3 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h3><p>RR解决脏读、不可重复读、幻读等问题，使用的是MVCC：MVCC全称Multi-Version Concurrency Control，即多版本的并发控制协议。下面的例子很好的体现了MVCC的特点：在同一时刻，不同的事务读取到的数据可能是不同的(即多版本)——在T5时刻，事务A和事务C可以读取到不同版本的数据。</p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201126604-235257040.png" alt="img"></p>
+<p>MVCC最大的优点是读不加锁，因此读写不冲突，并发性能好。InnoDB实现MVCC，多个版本的数据可以共存，主要基于以下技术及数据结构：</p>
+<p>1）隐藏列：InnoDB中每行数据都有隐藏列，隐藏列中包含了本行数据的事务id、指向undo log的指针等。</p>
+<p>2）基于undo log的版本链：前面说到每行数据的隐藏列中包含了指向undo log的指针，而每条undo log也会指向更早版本的undo log，从而形成一条版本链。</p>
+<p>3）ReadView：通过隐藏列和版本链，MySQL可以将数据恢复到指定版本；但是具体要恢复到哪个版本，则需要根据ReadView来确定。所谓ReadView，是指事务（记做事务A）在某一时刻给整个事务系统（trx_sys）打快照，之后再进行读操作时，会将读取到的数据中的事务id与trx_sys快照比较，从而判断数据对该ReadView是否可见，即对事务A是否可见。</p>
+<p>trx_sys中的主要内容，以及判断可见性的方法如下：</p>
+<ul>
+<li>low_limit_id：表示生成ReadView时系统中应该分配给下一个事务的id。如果数据的事务id大于等于low_limit_id，则对该ReadView不可见。</li>
+<li>up_limit_id：表示生成ReadView时当前系统中活跃的读写事务中最小的事务id。如果数据的事务id小于up_limit_id，则对该ReadView可见。</li>
+<li>rw_trx_ids：表示生成ReadView时当前系统中活跃的读写事务的事务id列表。如果数据的事务id在low_limit_id和up_limit_id之间，则需要判断事务id是否在rw_trx_ids中：如果在，说明生成ReadView时事务仍在活跃中，因此数据对ReadView不可见；如果不在，说明生成ReadView时事务已经提交了，因此数据对ReadView可见。</li>
+</ul>
+<p>下面以RR隔离级别为例，结合前文提到的几个问题分别说明。</p>
+<p>（1）脏读</p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201139635-1779107964.png" alt="img"></p>
+<p>当事务A在T3时刻读取zhangsan的余额前，会生成ReadView，由于此时事务B没有提交仍然活跃，因此其事务id一定在ReadView的rw_trx_ids中，因此根据前面介绍的规则，事务B的修改对ReadView不可见。接下来，事务A根据指针指向的undo log查询上一版本的数据，得到zhangsan的余额为100。这样事务A就避免了脏读。</p>
+<p>（2）不可重复读</p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201149661-1275460669.png" alt="img"></p>
+<p>当事务A在T2时刻读取zhangsan的余额前，会生成ReadView。此时事务B分两种情况讨论，一种是如图中所示，事务已经开始但没有提交，此时其事务id在ReadView的rw_trx_ids中；一种是事务B还没有开始，此时其事务id大于等于ReadView的low_limit_id。无论是哪种情况，根据前面介绍的规则，事务B的修改对ReadView都不可见。</p>
+<p>当事务A在T5时刻再次读取zhangsan的余额时，会根据T2时刻生成的ReadView对数据的可见性进行判断，从而判断出事务B的修改不可见；因此事务A根据指针指向的undo log查询上一版本的数据，得到zhangsan的余额为100，从而避免了不可重复读。</p>
+<p>（3）幻读</p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201206609-1998192060.png" alt="img"></p>
+<p>MVCC避免幻读的机制与避免不可重复读非常类似。</p>
+<p>当事务A在T2时刻读取0&lt;id&lt;5的用户余额前，会生成ReadView。此时事务B分两种情况讨论，一种是如图中所示，事务已经开始但没有提交，此时其事务id在ReadView的rw_trx_ids中；一种是事务B还没有开始，此时其事务id大于等于ReadView的low_limit_id。无论是哪种情况，根据前面介绍的规则，事务B的修改对ReadView都不可见。</p>
+<p>当事务A在T5时刻再次读取0&lt;id&lt;5的用户余额时，会根据T2时刻生成的ReadView对数据的可见性进行判断，从而判断出事务B的修改不可见。因此对于新插入的数据lisi(id=2)，事务A根据其指针指向的undo log查询上一版本的数据，发现该数据并不存在，从而避免了幻读。</p>
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><p>前面介绍的MVCC，是RR隔离级别下“非加锁读”实现隔离性的方式。下面是一些简单的扩展。</p>
+<p>（1）读已提交（RC）隔离级别下的非加锁读</p>
+<p>RC与RR一样，都使用了MVCC，其主要区别在于：</p>
+<p>RR是在事务开始后第一次执行select前创建ReadView，直到事务提交都不会再创建。根据前面的介绍，RR可以避免脏读、不可重复读和幻读。</p>
+<p>RC每次执行select前都会重新建立一个新的ReadView，因此如果事务A第一次select之后，事务B对数据进行了修改并提交，那么事务A第二次select时会重新建立新的ReadView，因此事务B的修改对事务A是可见的。因此RC隔离级别可以避免脏读，但是无法避免不可重复读和幻读。</p>
+<p>（2）加锁读与next-key lock</p>
+<p>按照是否加锁，MySQL的读可以分为两种：</p>
+<p>一种是非加锁读，也称作快照读、一致性读，使用普通的select语句，这种情况下使用MVCC避免了脏读、不可重复读、幻读，保证了隔离性。</p>
+<p>另一种是加锁读，查询语句有所不同，如下所示：</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#共享锁读取``<span class="keyword">select</span><span class="symbol">``</span>...lock <span class="symbol">``</span><span class="keyword">in</span><span class="symbol">` `</span>share mode<span class="symbol">``</span>#排它锁读取<span class="symbol">``</span><span class="keyword">select</span><span class="symbol">``</span>...<span class="symbol">``</span><span class="keyword">for</span><span class="symbol">` `</span><span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+
+<p>加锁读在查询时会对查询的数据加锁（共享锁或排它锁）。由于锁的特性，当某事务对数据进行加锁读后，其他事务无法对数据进行写操作，因此可以避免脏读和不可重复读。而避免幻读，则需要通过next-key lock。<strong>next-key lock**</strong>是行锁的一种，实现相当于<strong><strong>record lock(</strong></strong>记录锁<strong><strong>) + gap lock(</strong></strong>间隙锁<strong><strong>)</strong></strong>；其特点是不仅会锁住记录本身<strong><strong>(record lock</strong></strong>的功能<strong><strong>)</strong></strong>，还会锁定一个范围<strong><strong>(gap lock</strong></strong>的功能<strong><strong>)</strong></strong>。**因此，加锁读同样可以避免脏读、不可重复读和幻读，保证隔离性。</p>
+<h4 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h4><p>概括来说，InnoDB实现的RR，通过锁机制（包含next-key lock）、MVCC（包括数据的隐藏列、基于undo log的版本链、ReadView）等，实现了一定程度的隔离性，可以满足大多数场景的需要。</p>
+<p>不过需要说明的是，RR虽然避免了幻读问题，但是毕竟不是Serializable，不能保证完全的隔离，下面是两个例子：</p>
+<p>第一个例子，如果在事务中第一次读取采用非加锁读，第二次读取采用加锁读，则如果在两次读取之间数据发生了变化，两次读取到的结果不一样，因为加锁读时不会采用MVCC。</p>
+<p>第二个例子，如下所示，大家可以自己验证一下。</p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/1174710-20190128201219610-1942897077.png" alt="img"></p>
+<h3 id="锁表"><a href="#锁表" class="headerlink" title="锁表"></a>锁表</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、事务隔离级别是可重复读时，并不会锁住读取到的行，如果有索引（包括主键索引）的时候，以索引列为条件更新数据，</span><br><span class="line">     </span><br><span class="line">    会存在间隙锁间隙锁、行锁、下一键锁的问题，从而锁住一些行；如果没有索引，更新数据时会锁住整张表。</span><br><span class="line"> </span><br><span class="line"><span class="number">2</span>、事务隔离级别为读未提交时，写数据只会锁住相应的行</span><br><span class="line"> </span><br><span class="line"><span class="number">3</span>、事务隔离级别为串行化时，读写数据都会锁住整张表</span><br><span class="line"> </span><br><span class="line">注：隔离级别越高，越能保证数据的完整性和一致性，但是对并发性能的影响也越大。</span><br><span class="line">     </span><br><span class="line">    对于多数应用程序，可以优先考虑把数据库系统的隔离级别设为Read Committed，它能够避免脏读取，而且具有较好的并发性能。</span><br><span class="line">     </span><br><span class="line">    尽管它会导致不可重复读、幻读这些并发问题，在可能出现这类问题的个别场合，可以由应用程序采用悲观锁或乐观锁来控制。</span><br></pre></td></tr></table></figure>
+
+<h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p>一致性是指事务执行结束后，<strong>数据库的完整性约束没有被破坏，事务执行的前后都是合法的数据状态。</strong>数据库的完整性约束包括但不限于：实体完整性（如行的主键存在且唯一）、列完整性（如字段的类型、大小、长度要符合要求）、外键约束、用户自定义完整性（如转账前后，两个账户余额的和应该不变）。</p>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>可以说，一致性是事务追求的最终目标：前面提到的原子性、持久性和隔离性，都是为了保证数据库状态的一致性。此外，除了数据库层面的保障，一致性的实现也需要应用层面进行保障。</p>
+<p>实现一致性的措施包括：</p>
+<ul>
+<li>保证原子性、持久性和隔离性，如果这些特性无法保证，事务的一致性也无法保证</li>
+<li>数据库本身提供保障，例如不允许向整形列插入字符串值、字符串长度不能超过列的限制等</li>
+<li>应用层面进行保障，例如如果转账操作只扣除转账者的余额，而没有增加接收者的余额，无论数据库实现的多么完美，也无法保证状态的一致</li>
+</ul>
+<h3 id="操作配置"><a href="#操作配置" class="headerlink" title="操作配置"></a>操作配置</h3><p>方法一:  在my.inf 文件的[mysqld] 节里类似如下设置该选项</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transaction</span>-<span class="keyword">isolation</span> = &#123;<span class="keyword">READ</span>-<span class="keyword">UNCOMMITTED</span> | <span class="keyword">READ</span>-<span class="keyword">COMMITTED</span> | <span class="keyword">REPEATABLE</span>-<span class="keyword">READ</span> | <span class="keyword">SERIALIZABLE</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>方法二: 用SET TRANSACTION 语句改变单个会话或者所有新进连接的隔离级别 , 语法如下</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> [<span class="keyword">SESSION</span> | <span class="keyword">GLOBAL</span>] <span class="keyword">TRANSACTION</span> <span class="keyword">ISOLATION</span> <span class="keyword">LEVEL</span> &#123;<span class="keyword">READ</span> <span class="keyword">UNCOMMITTED</span> | <span class="keyword">READ</span> <span class="keyword">COMMITTED</span> | <span class="keyword">REPEATABLE</span> <span class="keyword">READ</span> | <span class="keyword">SERIALIZABLE</span>&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="navict"><a href="#navict" class="headerlink" title="navict"></a>navict</h2><p>at for mysql</p>
+<p><strong>报错</strong></p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/image-20200910203442350.png" alt="image-20200910203442350"></p>
+<p><strong>解决</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED WITH mysql_native_password BY ‘password&#39;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/image-20200910203614246.png" alt="image-20200910203614246"></p>
+<p><img src="/images/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/image-20201026174645717.png" alt="image-20201026174645717"></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>pOne
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="/jal285.github.io/mysql/mysql%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="mysql&#x2F;mysql基本操作">jal285.github.io/mysql/mysql基本操作/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>Welcome to my other publishing channels</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/mysql/mysql_problem/" rel="prev" title="mysql/mysql_problem">
+      <i class="fa fa-chevron-left"></i> mysql/mysql_problem
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/mysql/Mysql%E6%A0%91%E7%BB%93%E6%9E%84/" rel="next" title="mysql/Mysql树结构">
+      mysql/Mysql树结构 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql相关"><span class="nav-number">1.</span> <span class="nav-text">mysql相关</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.1.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看和修改port"><span class="nav-number">1.1.1.</span> <span class="nav-text">查看和修改port</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义id规则"><span class="nav-number">1.1.2.</span> <span class="nav-text">自定义id规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#自动填写id"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">自动填写id</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现id删除后自动填补"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">实现id删除后自动填补</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存储引擎"><span class="nav-number">1.1.3.</span> <span class="nav-text">存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查看和修改数据表的存储引擎"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">查看和修改数据表的存储引擎</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引"><span class="nav-number">1.1.4.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#普通索引"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">普通索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#唯一性索引"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">唯一性索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主键"><span class="nav-number">1.1.4.3.</span> <span class="nav-text">主键</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#联合主键"><span class="nav-number">1.1.4.3.1.</span> <span class="nav-text">联合主键</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#外键约束（FOREIGN-KEY）"><span class="nav-number">1.1.4.4.</span> <span class="nav-text">外键约束（FOREIGN KEY）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#列索引与多列索引"><span class="nav-number">1.1.4.5.</span> <span class="nav-text">列索引与多列索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL默认值"><span class="nav-number">1.1.4.6.</span> <span class="nav-text">MySQL默认值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL常用运算符"><span class="nav-number">1.1.5.</span> <span class="nav-text">MySQL常用运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算术运算符"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">算术运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑运算符"><span class="nav-number">1.1.5.2.</span> <span class="nav-text">逻辑运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑位运算符"><span class="nav-number">1.1.5.3.</span> <span class="nav-text">逻辑位运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运算符优先级"><span class="nav-number">1.1.5.4.</span> <span class="nav-text">运算符优先级</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#去重"><span class="nav-number">1.1.6.</span> <span class="nav-text">去重</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#删除"><span class="nav-number">1.1.6.1.</span> <span class="nav-text">删除</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LIMIT"><span class="nav-number">1.1.7.</span> <span class="nav-text">LIMIT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ORDER-BY"><span class="nav-number">1.1.8.</span> <span class="nav-text">ORDER BY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#REPLACE"><span class="nav-number">1.1.9.</span> <span class="nav-text">REPLACE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理性与mysql-设计"><span class="nav-number">1.2.</span> <span class="nav-text">原理性与mysql 设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三大范式"><span class="nav-number">1.2.1.</span> <span class="nav-text">三大范式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1NF-第一范式"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">1NF(第一范式)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2NF-第二范式"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">2NF(第二范式)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#唯一约束和联合唯一约束"><span class="nav-number">1.2.2.</span> <span class="nav-text">唯一约束和联合唯一约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不使用外键与级联-一切外键概念必须在应用层解决"><span class="nav-number">1.2.3.</span> <span class="nav-text">不使用外键与级联,一切外键概念必须在应用层解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模拟外键"><span class="nav-number">1.2.4.</span> <span class="nav-text">模拟外键</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式的关系型数据库与MySQL等传统数据库的区别"><span class="nav-number">1.2.5.</span> <span class="nav-text">分布式的关系型数据库与MySQL等传统数据库的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#默认引擎InnoDB"><span class="nav-number">1.2.6.</span> <span class="nav-text">默认引擎InnoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#读写性能"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">读写性能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据加载"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">数据加载</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁机制"><span class="nav-number">1.3.</span> <span class="nav-text">锁机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#锁定机制分类"><span class="nav-number">1.3.1.</span> <span class="nav-text">锁定机制分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#排他锁-又称写锁-X锁"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">排他锁(又称写锁, X锁)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#共享锁-又成读取-S锁"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">共享锁(又成读取,S锁)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#行级锁定-row-level"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">行级锁定(row-level)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表级锁定-table-level"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">表级锁定(table-level)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#页级锁定-page-level-MySQL特有"><span class="nav-number">1.3.1.5.</span> <span class="nav-text">页级锁定(page-level) (MySQL特有)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务机制"><span class="nav-number">1.3.2.</span> <span class="nav-text">事务机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务锁"><span class="nav-number">1.3.3.</span> <span class="nav-text">事务锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务引起的并发调度问题"><span class="nav-number">1.3.4.</span> <span class="nav-text">事务引起的并发调度问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">1.4.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑架构和存储引擎"><span class="nav-number">1.4.1.</span> <span class="nav-text">逻辑架构和存储引擎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提交和回滚"><span class="nav-number">1.4.2.</span> <span class="nav-text">提交和回滚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原子性"><span class="nav-number">1.4.3.</span> <span class="nav-text">原子性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#持久性"><span class="nav-number">1.4.4.</span> <span class="nav-text">持久性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">1.4.4.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现原理-redo-log"><span class="nav-number">1.4.4.2.</span> <span class="nav-text">实现原理 : redo log</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redo-log-与binlog"><span class="nav-number">1.4.4.3.</span> <span class="nav-text">redo log 与binlog</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#隔离性"><span class="nav-number">1.4.5.</span> <span class="nav-text">隔离性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义-1"><span class="nav-number">1.4.5.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#锁机制-1"><span class="nav-number">1.4.5.2.</span> <span class="nav-text">锁机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#脏读-不可重复读和幻读"><span class="nav-number">1.4.5.3.</span> <span class="nav-text">脏读 , 不可重复读和幻读</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务隔离级别"><span class="nav-number">1.4.6.</span> <span class="nav-text">事务隔离级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVCC"><span class="nav-number">1.4.7.</span> <span class="nav-text">MVCC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#扩展"><span class="nav-number">1.4.7.1.</span> <span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结-1"><span class="nav-number">1.4.7.2.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#锁表"><span class="nav-number">1.4.8.</span> <span class="nav-text">锁表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一致性"><span class="nav-number">1.4.9.</span> <span class="nav-text">一致性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本概念"><span class="nav-number">1.4.9.1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现"><span class="nav-number">1.4.9.2.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作配置"><span class="nav-number">1.4.10.</span> <span class="nav-text">操作配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#navict"><span class="nav-number">1.5.</span> <span class="nav-text">navict</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="pOne"
+      src="/images/cat.jpg">
+  <p class="site-author-name" itemprop="name">pOne</p>
+  <div class="site-description" itemprop="description">to lean your likes</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/jal285" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;jal285" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2233451206@qq.com" title="E-Mail → mailto:2233451206@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pOne</span>
+  <span>&nbsp;<a href="http://www.miitbeian.gov.cn/" target="_blank" rel="noopener">粤ICP备20006130号</a></span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="true"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<! -- clicklove -->
+<script type="text/javascript" src="/js/src/clicklove.js"> </script>
+</body>
+</html>

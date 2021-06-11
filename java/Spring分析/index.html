@@ -27,25 +27,25 @@
 <meta property="og:url" content="jal285.github.io/java/Spring%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="pOne&#39;s blog">
 <meta property="og:description" content="Spring Ioc 源码学习">
-<meta property="og:image" content="/images/SpringIoc/image-20210416214130584.png">
-<meta property="og:image" content="/images/SpringIoc/image-20210416214109290.png">
-<meta property="og:image" content="/images/SpringIoc/image-20210417140637111.png">
-<meta property="og:image" content="/images/Spring%E5%88%86%E6%9E%90/image-20210421122757898.png">
-<meta property="og:image" content="/images/Spring%E5%88%86%E6%9E%90/image-20210421122822091.png">
-<meta property="og:image" content="/images/Spring%E5%88%86%E6%9E%90/image-20210421122835172.png">
-<meta property="og:image" content="/images/Spring%E5%88%86%E6%9E%90/image-20210421122908458.png">
-<meta property="og:image" content="/images/Spring%E5%88%86%E6%9E%90/image-20210421123106539.png">
-<meta property="og:image" content="/images/Spring%E5%88%86%E6%9E%90/image-20210421123301679.png">
-<meta property="og:image" content="/images/Spring%E5%88%86%E6%9E%90/image-20210421124705636.png">
-<meta property="og:image" content="/images/Spring%E5%88%86%E6%9E%90/image-20210421133027565.png">
-<meta property="og:image" content="/images/Spring%E5%88%86%E6%9E%90/image-20210421133054326.png">
-<meta property="og:image" content="/images/Spring%E5%88%86%E6%9E%90/image-20210421133132993.png">
-<meta property="og:image" content="/images/Spring%E5%88%86%E6%9E%90/image-20210421135256852.png">
-<meta property="article:published_time" content="2021-05-23T09:26:03.749Z">
-<meta property="article:modified_time" content="2021-05-23T09:26:03.749Z">
+<meta property="og:image" content="jal285.github.io/java/images/SpringIoc/image-20210416214130584.png">
+<meta property="og:image" content="jal285.github.io/java/images/Spring%E5%88%86%E6%9E%90/image-20210416214109290.png">
+<meta property="og:image" content="jal285.github.io/java/images/Spring%E5%88%86%E6%9E%90/image-20210417140637111.png">
+<meta property="og:image" content="jal285.github.io/java/images/Spring%E5%88%86%E6%9E%90/image-20210421122757898.png">
+<meta property="og:image" content="jal285.github.io/java/images/Spring%E5%88%86%E6%9E%90/image-20210421122822091.png">
+<meta property="og:image" content="jal285.github.io/java/images/Spring%E5%88%86%E6%9E%90/image-20210421122835172.png">
+<meta property="og:image" content="jal285.github.io/java/images/Spring%E5%88%86%E6%9E%90/image-20210421122908458.png">
+<meta property="og:image" content="jal285.github.io/java/images/Spring%E5%88%86%E6%9E%90/image-20210421123106539.png">
+<meta property="og:image" content="jal285.github.io/java/images/Spring%E5%88%86%E6%9E%90/image-20210421123301679.png">
+<meta property="og:image" content="jal285.github.io/java/images/Spring%E5%88%86%E6%9E%90/image-20210421124705636.png">
+<meta property="og:image" content="jal285.github.io/java/images/Spring%E5%88%86%E6%9E%90/image-20210421133027565.png">
+<meta property="og:image" content="jal285.github.io/java/images/Spring%E5%88%86%E6%9E%90/image-20210421133054326.png">
+<meta property="og:image" content="jal285.github.io/java/images/Spring%E5%88%86%E6%9E%90/image-20210421133132993.png">
+<meta property="og:image" content="jal285.github.io/java/images/Spring%E5%88%86%E6%9E%90/image-20210421135256852.png">
+<meta property="article:published_time" content="2021-06-11T09:51:35.888Z">
+<meta property="article:modified_time" content="2021-06-11T09:51:35.888Z">
 <meta property="article:author" content="pOne">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="/images/SpringIoc/image-20210416214130584.png">
+<meta name="twitter:image" content="jal285.github.io/java/images/SpringIoc/image-20210416214130584.png">
 
 <link rel="canonical" href="jal285.github.io/java/Spring%E5%88%86%E6%9E%90/">
 
@@ -151,7 +151,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">30</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">43</span></a>
 
   </li>
         <li class="menu-item menu-item-favourite">
@@ -229,7 +229,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-05-23 17:26:03" itemprop="dateCreated datePublished" datetime="2021-05-23T17:26:03+08:00">2021-05-23</time>
+              <time title="Created: 2021-06-11 17:51:35" itemprop="dateCreated datePublished" datetime="2021-06-11T17:51:35+08:00">2021-06-11</time>
             </span>
 
           
@@ -259,13 +259,13 @@
 <p>好莱坞原则: Don’t call us, we will call you</p>
 <p>IOC容器装着 bean对象   -&gt;  数据结构 -&gt; map-&gt; 三级缓存   (map结构存储对象 )  hashmap   </p>
 <p>对象存储时都存储的为 K-V格式的数据 -&gt; 创建对象 -&gt; 获取对象  -&gt;beanName /Bean实例对象 </p>
-<h3 id="源码中的三级缓存"><a href="#源码中的三级缓存" class="headerlink" title="源码中的三级缓存"></a>源码中的三级缓存</h3><p><img src="/images/SpringIoc/image-20210416214130584.png" alt="image-20210416214130584">  文件中的 </p>
-<p><img src="/images/SpringIoc/image-20210416214109290.png" alt="image-20210416214109290"></p>
+<h3 id="源码中的三级缓存"><a href="#源码中的三级缓存" class="headerlink" title="源码中的三级缓存"></a>源码中的三级缓存</h3><p><img src="../images/SpringIoc/image-20210416214130584.png" alt="image-20210416214130584">  文件中的 </p>
+<p><img src="../images/Spring%E5%88%86%E6%9E%90/image-20210416214109290.png" alt="image-20210416214109290"></p>
 <p>三级缓存</p>
 <p>从 singletonObjects 开始的三个 Map结构 </p>
 <h3 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h3><p>分析AOP源码中找到createProxy </p>
 <p> 在after 方法中 到 WrapIfNecessary 方法再到  createProxy  ,创建代理对象 </p>
-<p><img src="/images/SpringIoc/image-20210417140637111.png" alt="image-20210417140637111"></p>
+<p><img src="../images/Spring%E5%88%86%E6%9E%90/image-20210417140637111.png" alt="image-20210417140637111"></p>
 <p><strong>DefaultListableBeanFactory</strong></p>
 <p>bean工厂管理着bean ,现有工厂 ,才有 bean </p>
 <p>对spring源码 参照几个接口  </p>
@@ -278,31 +278,31 @@
 <h3 id="依赖注入-设计模式"><a href="#依赖注入-设计模式" class="headerlink" title="依赖注入(设计模式)"></a>依赖注入(设计模式)</h3><p>将实例变量传入到一个对象当中去</p>
 <p>(Dependency injection means giving an object its instance variables)</p>
 <p>IoC使用依赖注入作为实现控制反转的方式, 控制反转还有其它的实现方式, 例如 ServiceLoacter</p>
-<h2 id="springboot自动配置"><a href="#springboot自动配置" class="headerlink" title="springboot自动配置"></a>springboot自动配置</h2><p>从<img src="/images/Spring%E5%88%86%E6%9E%90/image-20210421122757898.png" alt="image-20210421122757898"> 走到</p>
-<p><img src="/images/Spring%E5%88%86%E6%9E%90/image-20210421122822091.png" alt="image-20210421122822091"></p>
+<h2 id="springboot自动配置"><a href="#springboot自动配置" class="headerlink" title="springboot自动配置"></a>springboot自动配置</h2><p>从<img src="../images/Spring%E5%88%86%E6%9E%90/image-20210421122757898.png" alt="image-20210421122757898"> 走到</p>
+<p><img src="../images/Spring%E5%88%86%E6%9E%90/image-20210421122822091.png" alt="image-20210421122822091"></p>
 <p>到</p>
-<p><img src="/images/Spring%E5%88%86%E6%9E%90/image-20210421122835172.png" alt="image-20210421122835172"></p>
+<p><img src="../images/Spring%E5%88%86%E6%9E%90/image-20210421122835172.png" alt="image-20210421122835172"></p>
 <p>到</p>
-<p><img src="/images/Spring%E5%88%86%E6%9E%90/image-20210421122908458.png" alt="image-20210421122908458"></p>
+<p><img src="../images/Spring%E5%88%86%E6%9E%90/image-20210421122908458.png" alt="image-20210421122908458"></p>
 <p>在AutoAutoConfigurationImportSelector.class中 向下看</p>
-<p><img src="/images/Spring%E5%88%86%E6%9E%90/image-20210421123106539.png" alt="image-20210421123106539"></p>
+<p><img src="../images/Spring%E5%88%86%E6%9E%90/image-20210421123106539.png" alt="image-20210421123106539"></p>
 <p>the auto-configuration  should be imported   </p>
 <p>AutoConfigurationEntry 方法会筛选出有效的自动配置类</p>
 <p>看注释</p>
-<p><img src="/images/Spring%E5%88%86%E6%9E%90/image-20210421123301679.png" alt="image-20210421123301679"></p>
+<p><img src="../images/Spring%E5%88%86%E6%9E%90/image-20210421123301679.png" alt="image-20210421123301679"></p>
 <p>getCandidateConfigurations 方法加载spring boot 配置的自动配置类</p>
 <p>下断点,查看筛选过后的 自动配置 , debug</p>
-<img src="/images/Spring%E5%88%86%E6%9E%90/image-20210421124705636.png" alt="image-20210421124705636" style="zoom:200%;">
+<img src="../images/Spring%E5%88%86%E6%9E%90/image-20210421124705636.png" alt="image-20210421124705636" style="zoom:200%;" />
 
 
 
 <p>从maven下管理的lib</p>
 <hr>
-<p><img src="/images/Spring%E5%88%86%E6%9E%90/image-20210421133027565.png" alt="image-20210421133027565"></p>
+<p><img src="../images/Spring%E5%88%86%E6%9E%90/image-20210421133027565.png" alt="image-20210421133027565"></p>
 <p>向下找到web的package</p>
-<p><img src="/images/Spring%E5%88%86%E6%9E%90/image-20210421133054326.png" alt="image-20210421133054326"></p>
+<p><img src="../images/Spring%E5%88%86%E6%9E%90/image-20210421133054326.png" alt="image-20210421133054326"></p>
 <p>查看源码</p>
-<p><img src="/images/Spring%E5%88%86%E6%9E%90/image-20210421133132993.png" alt="image-20210421133132993"></p>
+<p><img src="../images/Spring%E5%88%86%E6%9E%90/image-20210421133132993.png" alt="image-20210421133132993"></p>
 <p>@EnableConfigurationProperties(SerProperties.class) 启动指定类的</p>
 <p>ConfigurationProperties 功能, 将配置文件中的值和<code>ServerProperties</code>绑定起来并把 ServerProperties 加入到IOC容器</p>
 <p>看到ServerProperties</p>
@@ -311,7 +311,7 @@
 <p>@ConfigurationProperties 绑定属性映射文件中的server开头的属性,结合默认配置 </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 路径spring-boot-autoconfigure-2.1.1.RELEASE.jar*</span><br><span class="line">*# /META-INF/spring-configuration-metadata.json*</span><br><span class="line"></span><br><span class="line">  &#123;</span><br><span class="line">   <span class="string">"name"</span>: <span class="string">"server.port"</span>,</span><br><span class="line">   <span class="string">"type"</span>: <span class="string">"java.lang.Integer"</span>,</span><br><span class="line">   <span class="string">"description"</span>: <span class="string">"Server HTTP port."</span>,</span><br><span class="line">   <span class="string">"sourceType"</span>: <span class="string">"org.springframework.boot.autoconfigure.web.ServerProperties"</span>,</span><br><span class="line">   <span class="string">"defaultValue"</span>: <span class="number">8080</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/images/Spring%E5%88%86%E6%9E%90/image-20210421135256852.png" alt="image-20210421135256852"></p>
+<p><img src="../images/Spring%E5%88%86%E6%9E%90/image-20210421135256852.png" alt="image-20210421135256852"></p>
 <p>达到了自动配置的目的</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>springboot启动时加载主配置类, 开启自动配置功能@EnableAutoConfiguration </p>
 <p>@EnableAutoConfiguration 给容器导入 META-INF/spring.factories 里定义的自动配置类</p>
@@ -435,8 +435,8 @@
       <i class="fa fa-chevron-left"></i> java/springboot
     </a></div>
       <div class="post-nav-item">
-    <a href="/java/Vue/" rel="next" title="java/Vue">
-      java/Vue <i class="fa fa-chevron-right"></i>
+    <a href="/java/StringBuffer%E5%92%8CStringBuilder/" rel="next" title="java/StringBuffer和StringBuilder">
+      java/StringBuffer和StringBuilder <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -513,7 +513,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
